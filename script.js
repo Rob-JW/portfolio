@@ -1,11 +1,6 @@
-(function() {
-  const menuToggle = document.querySelector('#menuToggle');
-  const menu = document.querySelector('#menu');
-  menuToggle.addEventListener('click', function() {
-      if (menu.style.transform === "translate(-100%, 0)") {
-          menu.style.transform = "translate(0%, 0)";
-      } else {
-          menu.style.transform = "translate(-100%, 0)";
-      }
-  });
-})();
+const toggleButton = document.querySelector('.toggle-button');
+const nav = document.querySelector('nav');
+
+toggleButton.addEventListener('click', () => {
+    nav.classList.toggle('hidden');
+});

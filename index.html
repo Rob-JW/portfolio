@@ -3,57 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Robert Williams</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Robert Williams - Lead Engineer</title>
+    <link href="tailwind.css" rel="stylesheet">
 </head>
-<body>
-    <header>
-        <nav id="menuToggle">
-            <input type="checkbox" />
-            <span></span>
-            <span></span>
-            <span></span>
-            <ul id="menu">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="assets.html">Certificates</a></li>
-            </ul>
-        </nav>
-        <h1>Robert Williams</h1>
+<body class="bg-primary-lightest">
+    <header class="p-5 bg-primary-dark text-white">
+        <div class="flex items-center justify-between">
+            <h1 class="text-2xl font-semibold">Robert Williams</h1>
+            <div class="md:hidden">
+                <button type="button" class="toggle-button">
+                    <svg viewBox="0 0 20 20" fill="currentColor" class="menu w-6 h-6">
+                        <path fill-rule="evenodd" d="M2 4a1 1 0 011-1h14a1 1 0 110 2H3a1 1 0 01-1-1zm1 7a1 1 0 100 2h14a1 1 0 100-2H3zm1 7a1 1 0 100 2h14a1 1 0 100-2H4z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+            <nav class="hidden md:block">
+                <ul class="flex space-x-4">
+                    <li><a href="index.html" class="text-primary-light hover:text-white">Home</a></li>
+                    <li><a href="about.html" class="text-primary-light hover:text-white">About</a></li>
+                    <li><a href="blog.html" class="text-primary-light hover:text-white">Blog</a></li>
+                    <li><a href="contact.html" class="text-primary-light hover:text-white">Contact</a></li>
+                    <li><a href="assets.html" class="text-primary-light hover:text-white">Certificates</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
-    <main>
-        <!-- Your introduction here -->
-        <section id="introduction">
-            <h2>Introduction</h2>
-            <p>I am the Artificer Sergeant Major and lead engineer for 8 Parachute Filed Company, we provide high-level mechanical and engineering support to 16 Air Assult Brigade...</p>
-        </section>
-        <!-- Your skills and competencies here -->
-        <section id="skills">
-            <h2>Skills and Competencies</h2>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="certificates.html">Certificates</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+    <h1>John Doe</h1>
+</header>
+<main>
+    <section id="introduction">
+        <h2>Introduction</h2>
+        <p>I am a highly motivated and detail-oriented professional with over 5 years of experience in web development. I have a passion for creating elegant and functional websites that are easy to use and navigate.</p>
+    </section>
+    <section id="skills">
+        <h2>Skills and Competencies</h2>
+        <ul>
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>JavaScript</li>
+            <li>jQuery</li>
+            <li>React</li>
+        </ul>
+    </section>
+    <section id="education">
+        <h2>Education and Certifications</h2>
+        <ul>
+            <li>Bachelor's Degree in Computer Science, XYZ University</li>
+            <li>Microsoft Certified Solutions Developer (MCSD)</li>
+            <li>Google Analytics Certified</li>
+        </ul>
+    </section>
+    <section id="experience">
+        <h2>Work Experience and Achievements</h2>
+        <ul>
+            <li>Web Developer, ABC Company (2018-present)</li>
             <ul>
-                <li>...</li>
+                <li>Developed and maintained the company website using React</li>
+                <li>Improved website speed and performance by optimizing images and reducing page load times by 50%</li>
+                <li>Implemented a contact form that increased lead generation by 30%</li>
             </ul>
-        </section>
-        <!-- Your education and certifications here -->
-        <section id="education">
-            <h2>Education and Certifications</h2>
+            <li>Front-End Developer, XYZ Agency (2015-2018)</li>
             <ul>
-                <li>...</li>
+                <li>Designed and developed responsive websites using HTML, CSS, and jQuery</li>
+                <li>Collaborated with a team of designers and developers to create engaging web experiences for clients</li>
+                <li>Received the "Top Performer" award for delivering high-quality work and meeting project deadlines consistently</li>
             </ul>
-        </section>
-        <!-- Your work experience and achievements here -->
-        <section id="experience">
-            <h2>Work Experience and Achievements</h2>
-            <ul>
-                <li>...</li>
-            </ul>
-        </section>
-    </main>
-    <footer>
-        <p>Phone: Your phone number | Email: Your email address</p>
-    </footer>
-    <script src="script.js"></script>
+        </ul>
+    </section>
+</main>
+<footer>
+    <p>Phone: 123-456-7890 | Email: john.doe@email.com</p>
+</footer>
+<script src="script.js"></script>
 </body>
 </html>
