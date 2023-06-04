@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <title>Robert Williams - Lead Engineer</title>
-    <link href="tailwind.css" rel="stylesheet">
 </head>
-<body class="bg-primary-lightest">
+<body class="font-sans bg-primary-lightest">
     <header class="p-5 bg-primary-dark text-white">
         <div class="flex items-center justify-between">
             <h1 class="text-2xl font-semibold">Robert Williams</h1>
@@ -28,59 +29,59 @@
             </nav>
         </div>
     </header>
-    <nav>
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="certificates.html">Certificates</a></li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
-    </nav>
-    <h1>John Doe</h1>
-</header>
-<main>
-    <section id="introduction">
-        <h2>Introduction</h2>
-        <p>I am a highly motivated and detail-oriented professional with over 5 years of experience in web development. I have a passion for creating elegant and functional websites that are easy to use and navigate.</p>
-    </section>
-    <section id="skills">
-        <h2>Skills and Competencies</h2>
-        <ul>
-            <li>HTML</li>
-            <li>CSS</li>
-            <li>JavaScript</li>
-            <li>jQuery</li>
-            <li>React</li>
-        </ul>
-    </section>
-    <section id="education">
-        <h2>Education and Certifications</h2>
-        <ul>
-            <li>Bachelor's Degree in Computer Science, XYZ University</li>
-            <li>Microsoft Certified Solutions Developer (MCSD)</li>
-            <li>Google Analytics Certified</li>
-        </ul>
-    </section>
-    <section id="experience">
-        <h2>Work Experience and Achievements</h2>
-        <ul>
-            <li>Web Developer, ABC Company (2018-present)</li>
-            <ul>
-                <li>Developed and maintained the company website using React</li>
-                <li>Improved website speed and performance by optimizing images and reducing page load times by 50%</li>
-                <li>Implemented a contact form that increased lead generation by 30%</li>
-            </ul>
-            <li>Front-End Developer, XYZ Agency (2015-2018)</li>
-            <ul>
-                <li>Designed and developed responsive websites using HTML, CSS, and jQuery</li>
-                <li>Collaborated with a team of designers and developers to create engaging web experiences for clients</li>
-                <li>Received the "Top Performer" award for delivering high-quality work and meeting project deadlines consistently</li>
-            </ul>
-        </ul>
-    </section>
-</main>
-<footer>
-    <p>Phone: 123-456-7890 | Email: john.doe@email.com</p>
-</footer>
-<script src="script.js"></script>
+    <main class="text-center">
+        <section class="text-gray-600 body-font">
+            <div class="container px-5 py-24 mx-auto">
+                <h1 class="text-3xl font-semibold mb-4">John Doe</h1>
+                <section id="introduction" class="mb-8">
+                    <h2 class="text-2xl font-semibold mb-2">Introduction</h2>
+                    <p class="text-lg">I am a highly motivated and detail-oriented professional with over 5 years of experience in web development. I have a passion for creating elegant and functional websites that are easy to use and navigate.</p>
+                </section>
+                <section id="skills" class="mb-8">
+                    <h2 class="text-2xl font-semibold mb-2">Skills and Competencies</h2>
+                    <ul class="list-disc list-inside">
+                        <li>HTML</li>
+                        <li>CSS</li>
+                        <li>JavaScript</li>
+                        <li>jQuery</li>
+                        <li>React</li>
+                    </ul>
+                </section>
+                <section id="education" class="mb-8">
+                    <h2 class="text-2xl font-semibold mb-2">Education and Certifications</h2>
+                    <ul class="list-disc list-inside">
+                        <li>Bachelor's Degree in Computer Science, XYZ University</li>
+                        <li>Microsoft Certified Solutions Developer (MCSD)</li>
+                        <li>Google Analytics Certified</li>
+                    </ul>
+                </section>
+                <section id="experience" class="mb-8">
+                    <h2 class="text-2xl font-semibold mb-2">Work Experience and Achievements</h2>
+                    <ul class="list-disc list-inside">
+                        <li>
+                            Web Developer, ABC Company (2018-present)
+                            <ul class="list-disc list-inside ml-4">
+                                <li>Developed and maintained the company website using React</li>
+                                <li>Improved website speed and performance by optimizing images and reducing page load times by 50%</li>
+                                <li>Implemented a contact form that increased lead generation by 30%</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Front-End Developer, XYZ Agency (2015-2018)
+                            <ul class="list-disc list-inside ml-4">
+                                <li>Designed and developed responsive websites using HTML, CSS, and jQuery</li>
+                                <li>Collaborated with a team of designers and developers to create engaging web experiences for clients</li>
+                                <li>Received the "Top Performer" award for delivering high-quality work and meeting project deadlines consistently</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+        </section>
+    </main>
+    <footer class="bg-primary-dark text-white p-5 text-center">
+        <p>Phone: 123-456-7890 | Email: john.doe@email.com</p>
+    </footer>
+    <script src="script.js"></script>
 </body>
 </html>
