@@ -32,4 +32,4 @@ You can customize the website according to your needs. Add your information in t
 
 ## Contact
 
-For any inquiries or suggestions, please reach out to Robert Williams at [your-email@example.com].
+For any inquiries or suggestions, please reach out to Robert Williams via Git Hub.
