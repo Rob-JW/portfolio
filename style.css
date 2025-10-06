@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rob Williams — Profile</title>
+
+  <!-- Pixel/retro fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="description" content="Coder & cybersecurity profile page with retro pixel-art aesthetic." />
+</head>
+<body>
+  <div class="crt-overlay"></div>
+
+  <header class="site-header pixel-border">
+    <nav class="nav">
+      <a href="#" class="brand">[ RW ]</a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">≡</button>
+      <ul class="nav-list">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><button id="themeToggle" class="btn-ghost" aria-label="Toggle Theme">☾</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero pixel-border">
+      <div class="hero-inner">
+        <div class="avatar-frame">
+          <!-- Replace with your image -->
+          <img src="https://avatars.githubusercontent.com/u/9919?s=200" alt="Profile avatar" class="avatar" />
+        </div>
+        <div class="hero-copy">
+          <h1 class="glow">Rob Williams</h1>
+          <p id="typewriter" class="subtitle">_</p>
+          <div class="badges">
+            <span class="badge">Cybersecurity</span>
+            <span class="badge">Web Dev</span>
+            <span class="badge">Pixel Art</span>
+          </div>
+          <div class="hero-cta">
+            <a href="#projects" class="btn">View Projects ▸</a>
+            <a href="#contact" class="btn-ghost">Get in Touch</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section pixel-border">
+      <h2>About</h2>
+      <p>
+        Artificer-turned-cyber nerd. I build simple, fast, and secure web things.
+        I like clean code, colourful diff views, and green terminal prompts.
+      </p>
+      <pre class="ascii">
+      
+ ____       _               _       __        __ _ _ _ _                         
+|  _ \ ___ | |__   ___ _ __| |_     \ \      / /(_) | (_) ___   _    _ ___
+| |_) / _ \| '_ \ / _ \ '__| __/     \ \ /\ / / | | | | |/ _ \ | \  / | __|
+|  _ < (_) | |_) |  __/ |  | |_       \ V  V /  | | | | | (_) \|  \/  |__ \
+|_| \_\___/|_.__/ \___|_|   \__\       \_/\_/   |_|_|_|_|\___|_\__\/|_|___/
+
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="section pixel-border">
+      <h2>Skills</h2>
+      <ul class="skills">
+        <li>
+          <span>HTML/CSS</span>
+          <div class="meter" data-level="90"><span></span></div>
+        </li>
+        <li>
+          <span>JavaScript</span>
+          <div class="meter" data-level="80"><span></span></div>
+        </li>
+        <li>
+          <span>Security (Web/App)</span>
+          <div class="meter" data-level="75"><span></span></div>
+        </li>
+        <li>
+          <span>Linux & Tooling</span>
+          <div class="meter" data-level="70"><span></span></div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="section pixel-border">
+      <h2>Projects</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>MD2PDF Audit</h3>
+          <p>Security test harness for a Markdown → PDF converter. Fuzz inputs, sandbox, and report.</p>
+          <a class="link" href="#" target="_blank" rel="noopener">Repo ↗</a>
+        </article>
+        <article class="card">
+          <h3>FDC Planner</h3>
+          <p>Minimal productivity SPA: Focus • Discipline • Consistency. Offline first.</p>
+          <a class="link" href="#" target="_blank" rel="noopener">Live Demo ↗</a>
+        </article>
+        <article class="card">
+          <h3>Pixel-CRT Theme</h3>
+          <p>Theme pack with scanlines, glow, and pixel borders for CSS nerds.</p>
+          <a class="link" href="#" target="_blank" rel="noopener">Docs ↗</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section pixel-border">
+      <h2>Contact</h2>
+      <form class="contact-form" netlify>
+        <label>
+          <span>Name</span>
+          <input type="text" name="name" required>
+        </label>
+        <label>
+          <span>Email</span>
+          <input type="email" name="email" required>
+        </label>
+        <label class="full">
+          <span>Message</span>
+          <textarea name="message" rows="5" required></textarea>
+        </label>
+        <button type="submit" class="btn">Send ▸</button>
+      </form>
+      <div class="social">
+        <a href="#" aria-label="GitHub">GH</a>
+        <a href="#" aria-label="LinkedIn">IN</a>
+        <a href="#" aria-label="X/Twitter">X</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer pixel-border">
+    <small>© <span id="year"></span> Rob Williams · Built with HTML/CSS/JS</small>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
