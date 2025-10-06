@@ -19,7 +19,7 @@ This is the codebase for the portfolio website of Robert Williams, a Senior Engi
 
 1. just click the link.
 
-`https://rob-jw.github.io/portfolio/#projects`
+<link=https://rob-jw.github.io/portfolio/#projects/>
 
 ## Structure
 
