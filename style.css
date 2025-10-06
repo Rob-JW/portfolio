@@ -1,149 +1,191 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Rob Williams — Profile</title>
+:root{
+  --bg: #0a0f0a;
+  --bg-soft: #0f1510;
+  --fg: #c7ffbe;
+  --muted: #8bcf99;
+  --accent: #39ff14;   /* hacker green */
+  --accent-2: #33cfff; /* neon cyan */
+  --danger: #ff4d6d;
+  --shadow: rgba(0,0,0,.6);
+  --font-ui: "Press Start 2P", system-ui, sans-serif;
+  --font-body: "VT323", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
 
-  <!-- Pixel/retro fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+* { box-sizing: border-box; }
+html, body { height: 100%; scroll-behavior: smooth; }
+body{
+  margin:0;
+  color:var(--fg);
+  background:
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.15) 0, rgba(0,0,0,0.15) 1px, transparent 2px, transparent 4px),
+    radial-gradient(1200px 600px at 50% -10%, rgba(51,255,255,.12), transparent 50%),
+    var(--bg);
+  font-family: var(--font-body);
+  letter-spacing: 0.4px;
+  line-height: 1.5;
+  image-rendering: pixelated;
+  cursor: crosshair;
+}
 
-  <link rel="stylesheet" href="styles.css" />
-  <meta name="description" content="Coder & cybersecurity profile page with retro pixel-art aesthetic." />
-</head>
-<body>
-  <div class="crt-overlay"></div>
+/* CRT overlay */
+.crt-overlay{
+  pointer-events: none;
+  position: fixed; inset:0;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,.3) 100%);
+  mix-blend-mode: multiply;
+  opacity: .6;
+}
 
-  <header class="site-header pixel-border">
-    <nav class="nav">
-      <a href="#" class="brand">[ RW ]</a>
-      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">≡</button>
-      <ul class="nav-list">
-        <li><a href="#about">About</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
-        <li><button id="themeToggle" class="btn-ghost" aria-label="Toggle Theme">☾</button></li>
-      </ul>
-    </nav>
-  </header>
+/* Pixel border utility */
+.pixel-border{
+  position: relative;
+  border: 4px solid var(--accent);
+  box-shadow:
+    0 0 0 4px var(--bg),
+    inset -6px -6px 0 0 var(--bg),
+    8px 8px 0 0 var(--accent),
+    8px 8px 0 4px var(--bg);
+  border-radius: 0; /* crisp pixels */
+}
 
-  <main>
-    <!-- HERO -->
-    <section class="hero pixel-border">
-      <div class="hero-inner">
-        <div class="avatar-frame">
-          <!-- Replace with your image -->
-          <img src="https://avatars.githubusercontent.com/u/9919?s=200" alt="Profile avatar" class="avatar" />
-        </div>
-        <div class="hero-copy">
-          <h1 class="glow">Rob Williams</h1>
-          <p id="typewriter" class="subtitle">_</p>
-          <div class="badges">
-            <span class="badge">Cybersecurity</span>
-            <span class="badge">Web Dev</span>
-            <span class="badge">Pixel Art</span>
-          </div>
-          <div class="hero-cta">
-            <a href="#projects" class="btn">View Projects ▸</a>
-            <a href="#contact" class="btn-ghost">Get in Touch</a>
-          </div>
-        </div>
-      </div>
-    </section>
+/* Header / Nav */
+.site-header{
+  margin: 16px;
+  background: var(--bg-soft);
+}
+.nav{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 16px;
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+}
+.brand{ color:var(--accent); text-decoration:none; }
+.nav-toggle{
+  display:none; background:none; border:none; color:var(--fg); font-size: 22px; cursor:pointer;
+}
+.nav-list{
+  display:flex; gap:18px; list-style:none; padding:0; margin:0;
+}
+.nav-list a, .btn-ghost{
+  color:var(--fg); text-decoration:none; font-size:12px; letter-spacing:1px;
+}
+.btn-ghost{
+  border:2px solid var(--muted); background:transparent; padding:6px 10px; font-family: var(--font-ui);
+}
+.btn-ghost:hover{ border-color: var(--accent-2); color: var(--accent-2); }
 
-    <!-- ABOUT -->
-    <section id="about" class="section pixel-border">
-      <h2>About</h2>
-      <p>
-        Artificer-turned-cyber nerd. I build simple, fast, and secure web things.
-        I like clean code, colourful diff views, and green terminal prompts.
-      </p>
-      <pre class="ascii">
-      
- ____       _               _       __        __ _ _ _ _                         
-|  _ \ ___ | |__   ___ _ __| |_     \ \      / /(_) | (_) ___   _    _ ___
-| |_) / _ \| '_ \ / _ \ '__| __/     \ \ /\ / / | | | | |/ _ \ | \  / | __|
-|  _ < (_) | |_) |  __/ |  | |_       \ V  V /  | | | | | (_) \|  \/  |__ \
-|_| \_\___/|_.__/ \___|_|   \__\       \_/\_/   |_|_|_|_|\___|_\__\/|_|___/
+/* Hero */
+.hero{
+  margin: 16px;
+  padding: 24px;
+  background: linear-gradient(180deg, rgba(57,255,20,.06), transparent 40%) var(--bg-soft);
+}
+.hero-inner{
+  display:grid; grid-template-columns: 120px 1fr; gap: 20px; align-items:center;
+}
+.avatar-frame{
+  width:120px; height:120px; padding:8px; background: var(--bg); box-shadow: inset 0 0 0 4px var(--accent-2);
+}
+.avatar{ width:100%; height:100%; object-fit: cover; image-rendering: pixelated; filter: contrast(1.1) saturate(1.2); }
+.hero-copy h1{ margin:0 0 8px; font-family: var(--font-ui); font-size: 28px; }
+.subtitle{ margin: 0 0 12px; font-size: 22px; color: var(--muted); min-height: 1.2em; }
+.glow{ text-shadow: 0 0 6px rgba(57,255,20,.9), 0 0 18px rgba(57,255,20,.4); }
 
-    </section>
+.badges{ display:flex; gap:8px; flex-wrap: wrap; margin-bottom: 12px; }
+.badge{
+  padding:4px 8px; border:2px solid var(--accent-2); font-family: var(--font-ui);
+  font-size:10px; letter-spacing:1px; text-transform: uppercase;
+}
 
-    <!-- SKILLS -->
-    <section id="skills" class="section pixel-border">
-      <h2>Skills</h2>
-      <ul class="skills">
-        <li>
-          <span>HTML/CSS</span>
-          <div class="meter" data-level="90"><span></span></div>
-        </li>
-        <li>
-          <span>JavaScript</span>
-          <div class="meter" data-level="80"><span></span></div>
-        </li>
-        <li>
-          <span>Security (Web/App)</span>
-          <div class="meter" data-level="75"><span></span></div>
-        </li>
-        <li>
-          <span>Linux & Tooling</span>
-          <div class="meter" data-level="70"><span></span></div>
-        </li>
-      </ul>
-    </section>
+.btn, .link{
+  display:inline-block; text-decoration:none; color: var(--bg); background: var(--accent);
+  padding:10px 14px; border:3px solid var(--bg); font-family: var(--font-ui); font-size:12px;
+  box-shadow: 4px 4px 0 0 var(--accent-2);
+}
+.btn:hover{ transform: translate(-1px,-1px); box-shadow: 6px 6px 0 0 var(--accent-2); }
+.btn-ghost, .link{ background: transparent; color: var(--accent-2); border-color: var(--accent-2); }
 
-    <!-- PROJECTS -->
-    <section id="projects" class="section pixel-border">
-      <h2>Projects</h2>
-      <div class="grid">
-        <article class="card">
-          <h3>MD2PDF Audit</h3>
-          <p>Security test harness for a Markdown → PDF converter. Fuzz inputs, sandbox, and report.</p>
-          <a class="link" href="#" target="_blank" rel="noopener">Repo ↗</a>
-        </article>
-        <article class="card">
-          <h3>FDC Planner</h3>
-          <p>Minimal productivity SPA: Focus • Discipline • Consistency. Offline first.</p>
-          <a class="link" href="#" target="_blank" rel="noopener">Live Demo ↗</a>
-        </article>
-        <article class="card">
-          <h3>Pixel-CRT Theme</h3>
-          <p>Theme pack with scanlines, glow, and pixel borders for CSS nerds.</p>
-          <a class="link" href="#" target="_blank" rel="noopener">Docs ↗</a>
-        </article>
-      </div>
-    </section>
+/* Sections */
+.section{
+  margin:16px; padding: 20px; background: var(--bg-soft);
+}
+.section h2{
+  margin-top:0; font-family: var(--font-ui); text-transform: uppercase; letter-spacing:1px; font-size:16px;
+  border-bottom: 2px solid var(--accent); display:inline-block; padding-bottom:6px;
+}
+.section p{ font-size: 20px; }
 
-    <!-- CONTACT -->
-    <section id="contact" class="section pixel-border">
-      <h2>Contact</h2>
-      <form class="contact-form" netlify>
-        <label>
-          <span>Name</span>
-          <input type="text" name="name" required>
-        </label>
-        <label>
-          <span>Email</span>
-          <input type="email" name="email" required>
-        </label>
-        <label class="full">
-          <span>Message</span>
-          <textarea name="message" rows="5" required></textarea>
-        </label>
-        <button type="submit" class="btn">Send ▸</button>
-      </form>
-      <div class="social">
-        <a href="#" aria-label="GitHub">GH</a>
-        <a href="#" aria-label="LinkedIn">IN</a>
-        <a href="#" aria-label="X/Twitter">X</a>
-      </div>
-    </section>
-  </main>
+/* ASCII block */
+.ascii{
+  overflow:auto; background: #050805; padding: 14px; border: 2px dashed var(--muted);
+  color: var(--accent); font-size: 14px; line-height: 1.2;
+}
 
-  <footer class="site-footer pixel-border">
-    <small>© <span id="year"></span> Rob Williams · Built with HTML/CSS/JS</small>
-  </footer>
+/* Skills */
+.skills{ list-style:none; padding:0; margin:0; display:grid; gap:14px; }
+.skills li{ display:grid; grid-template-columns: 160px 1fr; align-items:center; gap:16px; }
+.skills span{ font-family: var(--font-ui); font-size:12px; letter-spacing:1px; }
+.meter{ height: 12px; background: #071307; border: 2px solid var(--accent); position: relative; }
+.meter > span{
+  position:absolute; inset:0; width:0%;
+  background: linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 100%);
+  box-shadow: inset 0 0 8px rgba(57,255,20,.6);
+}
 
-  <script src="script.js"></script>
-</body>
-</html>
+/* Projects grid */
+.grid{
+  display:grid; gap:16px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+.card{
+  padding:16px; background:#071307; border:2px solid var(--muted); box-shadow: 6px 6px 0 0 var(--shadow);
+}
+.card h3{ margin:0 0 8px; font-family: var(--font-ui); }
+.card p{ margin:0 0 12px; }
+.link{ padding:8px 10px; }
+
+/* Contact */
+.contact-form{
+  display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; margin-bottom: 12px;
+}
+.contact-form label{ display:grid; gap:6px; font-family: var(--font-ui); font-size: 12px; letter-spacing:1px; }
+.contact-form .full{ grid-column: 1 / -1; }
+input, textarea{
+  background:#050b05; border:2px solid var(--muted); color:var(--fg); padding:10px; font-family: var(--font-body);
+}
+input:focus, textarea:focus{ outline:none; border-color: var(--accent-2); box-shadow: 0 0 0 3px rgba(51,207,255,.2); }
+
+.social{ display:flex; gap:10px; }
+.social a{ border:2px solid var(--accent); padding:6px 10px; text-decoration:none; color: var(--accent); }
+
+/* Footer */
+.site-footer{
+  margin:16px; padding:14px; text-align:center; background: var(--bg-soft);
+}
+
+/* Responsive nav */
+@media (max-width: 800px){
+  .nav-toggle{ display:block; }
+  .nav-list{ display:none; position:absolute; right:16px; top:70px; flex-direction:column; background:var(--bg-soft); padding:12px; }
+  .nav-list.show{ display:flex; }
+  .hero-inner{ grid-template-columns: 1fr; }
+  .skills li{ grid-template-columns: 1fr; }
+}
+
+/* Fun flicker for headings */
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 80%, 100% { text-shadow: 0 0 6px rgba(57,255,20,.9), 0 0 18px rgba(57,255,20,.4); }
+  20%, 22% { text-shadow: none; }
+}
+h1.glow, h2 { animation: flicker 4s infinite; }
+
+/* Light theme (toggle) */
+.light{
+  --bg: #f7fff7;
+  --bg-soft: #e9ffee;
+  --fg: #0b2a12;
+  --muted: #2e7d32;
+  --accent: #0aa60a;
+  --accent-2: #0081b9;
+  --shadow: rgba(0,0,0,.2);
+}
