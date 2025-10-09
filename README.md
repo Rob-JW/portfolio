@@ -1,12 +1,10 @@
-# Portfolio Website for Robert Williams
+# Portfolio Website
 
-This is the codebase for the portfolio website of Robert Williams, a Senior Engineering Manager at HM Forces. The website was designed with the aim of providing a succinct overview of my work, achievements, and professional experiences.
+This is the codebase for the portfolio website of Robert Williams, a Senior Engineering Manager at HM Forces. The website was designed with the aim of providing a succinct overview of my qualifications and professional experience.
 
 ## Features
 
 - Professional and clean design
-- Hamburger menu for easy navigation
-- Different sections like Home, About Me, Blog, and Contact
 - A page for displaying certificates and achievements (Site Assets)
 
 ## Technologies Used
@@ -23,9 +21,9 @@ This is the codebase for the portfolio website of Robert Williams, a Senior Engi
 
 ## Structure
 
-- `index.html`: This file contains the main HTML for the website. It has different sections, including Home, About Me, Blog, Contact, and Site Assets.
+- `index.html`: This file contains the main HTML for the website.
 - `style.css`: This is the main CSS file for styling the website.
-- `index.js`: This JavaScript file is used for the hamburger menu functionality.
+- `index.js`: This JavaScript file is used for the auto type function.
 
 ## Customization
 
