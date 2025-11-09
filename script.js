@@ -1,8 +1,8 @@
 // Typewriter effect for hero subtitle
 const lines = [
-  "building fast, secure web things…",
-  "cybersecurity & pixel-art aesthetics.",
-  "available for collabs — say hi."
+  "Building secure applications.",
+  "Cybersecurity: plan, build, test, attack",
+  "Available for collaboration — say."
 ];
 const el = document.getElementById("typewriter");
 let li = 0,
@@ -83,3 +83,4 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
     }
   });
 });
+
