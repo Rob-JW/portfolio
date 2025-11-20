@@ -1,165 +1,132 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Rob Williams | Engineering & Cyber</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- For CodePen:
-       - Put this HTML into the HTML panel.
-       - In Settings → JavaScript, add external script:
-         https://cdn.jsdelivr.net/npm/chart.js -->
-</head>
-<body>
-  <div class="page">
-    <header class="site-header">
-      <div class="brand">
-        <div class="brand-icon"></div>
-        <span class="brand-text">Rob Williams</span>
-      </div>
-      <nav class="main-nav">
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </header>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Rob Williams | Cyber & Engineering</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <main>
-      <!-- HERO SECTION -->
-      <section class="hero" id="top">
-        <div class="hero-content">
-          <p class="hero-kicker">Engineer · Cyber Security · Problem Solver</p>
-          <h1>
-            Hybrid engineer with<br />
-            a focus on cyber & code
-          </h1>
-          <p class="hero-subtitle">
-            I’m Rob, a UK-based engineer with a background in complex
-            equipment support and a growing focus on cyber security and
-            software development. I like turning messy systems into
-            something reliable, clear and secure.
-          </p>
+    <!-- Pixel / clean fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
 
-          <div class="hero-cta">
-            <a href="#projects" class="btn primary-btn">View projects</a>
-            <a href="#contact" class="btn ghost-btn">Get in touch</a>
-          </div>
-
-          <div class="hero-meta">
-            <span class="pill">UK English</span>
-            <span class="pill">Cyber & Engineering</span>
-            <span class="pill">Pixel-art inspired</span>
-          </div>
+    <!-- Chart.js for the radar chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="page">
+      <header class="site-header">
+        <div class="logo">
+          RW<span>_</span>
         </div>
 
-        <!-- HERO SKILLS: RADAR ON RIGHT -->
-        <aside class="hero-skills">
-          <div class="pixel-card">
-            <div class="skills-header">
-              <h2>Skills Matrix</h2>
-              <div class="skills-toggle">
-                <button class="toggle-btn active" data-mode="code">
-                  Code
-                </button>
-                <button class="toggle-btn" data-mode="cyber">
+        <nav class="main-nav">
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#projects">Projects</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </header>
+
+      <main>
+        <!-- HERO + SKILLS (radar on the right) -->
+        <section class="hero" id="top">
+          <div class="hero-text">
+            <p class="hero-kicker">Cyber security & engineering</p>
+            <h1 class="hero-title">Rob Williams</h1>
+
+            <p class="hero-subtitle">
+              British Army engineer leaning hard into cyber. I keep complex
+              systems alive in the field and break them (legally) in the lab.
+            </p>
+
+            <div class="hero-actions">
+              <a href="#projects" class="btn primary">View projects</a>
+              <a href="#contact" class="btn ghost">Contact me</a>
+            </div>
+
+            <p class="hero-meta">
+              Focus: Security+ &amp; CREST CPSA · MRO &amp; reliability ·
+              automation &amp; tooling
+            </p>
+          </div>
+
+          <aside class="hero-skills" id="skills">
+            <div class="skills-card pixel-panel">
+              <div class="skills-header">
+                <h2 class="skills-title">Skills matrix</h2>
+                <span class="skills-beta">beta</span>
+              </div>
+
+              <!-- CODE / CYBER SELECTORS -->
+              <div
+                class="skills-toggle"
+                role="tablist"
+                aria-label="Skill profiles"
+              >
+                <button
+                  class="skills-tab active"
+                  type="button"
+                  data-mode="cyber"
+                  role="tab"
+                  aria-selected="true"
+                >
                   Cyber
                 </button>
+                <button
+                  class="skills-tab"
+                  type="button"
+                  data-mode="code"
+                  role="tab"
+                  aria-selected="false"
+                >
+                  Code
+                </button>
               </div>
+
+              <!-- RADAR CHART -->
+              <div class="skills-chart-wrapper">
+                <canvas
+                  id="skillsRadar"
+                  aria-label="Skills radar chart"
+                  role="img"
+                ></canvas>
+              </div>
+
+              <!-- SIMPLE LEGEND -->
+              <ul class="skills-legend">
+                <li><span class="dot neon"></span>Current level</li>
+                <li><span class="dot ghost"></span>Target (next 12 months)</li>
+              </ul>
             </div>
+          </aside>
+        </section>
 
-            <p class="skills-mode-label">Mode: Coding</p>
+        <!-- Stub sections so nav works in preview; swap for real content later -->
+        <section id="about" class="stub-section">
+          <h2>About</h2>
+          <p>
+            Placeholder section – expand this into a full bio when you move the
+            layout into your Next.js repo.
+          </p>
+        </section>
 
-            <div class="skills-chart-wrapper">
-              <canvas id="skillsRadar"></canvas>
-            </div>
+        <section id="projects" class="stub-section">
+          <h2>Projects</h2>
+          <p>
+            Add featured cyber labs, Hack The Box / TryHackMe write-ups, and
+            engineering tooling here.
+          </p>
+        </section>
 
-            <ul class="skills-legend">
-              <li><span class="legend-swatch legend-code"></span>Code stack</li>
-              <li><span class="legend-swatch legend-cyber"></span>Cyber stack</li>
-            </ul>
-          </div>
-        </aside>
-      </section>
-
-      <!-- ABOUT SECTION -->
-      <section class="section" id="about">
-        <h2>About</h2>
-        <p>
-          I combine a deep engineering background with a growing portfolio in
-          cyber security and software development. I’m comfortable translating
-          complex technical issues into clear actions, whether that’s
-          maintaining critical equipment, hardening systems, or building tools
-          that make people’s work easier.
-        </p>
-        <p>
-          My interests include secure systems design, threat modelling,
-          automation, and building small utilities that reduce friction in
-          day-to-day engineering and operations.
-        </p>
-      </section>
-
-      <!-- PROJECTS SECTION -->
-      <section class="section" id="projects">
-        <h2>Projects</h2>
-        <div class="projects-grid">
-          <article class="project-card">
-            <h3>Cyber Lab Notebook</h3>
-            <p>
-              A structured note-taking and lab template system for tracking
-              exercises, tools, and findings while studying for cyber
-              certifications.
-            </p>
-            <p class="project-meta">Focus: Cyber · Study tooling</p>
-          </article>
-
-          <article class="project-card">
-            <h3>Maintenance Insights Dashboard</h3>
-            <p>
-              Concept design for a dashboard to track equipment status,
-              downtime, and repair trends, helping teams prioritise work and
-              improve availability.
-            </p>
-            <p class="project-meta">Focus: Engineering · Data & UX</p>
-          </article>
-
-          <article class="project-card">
-            <h3>Personal Training Ground</h3>
-            <p>
-              A sandbox of small scripts and experiments in networking,
-              security, and automation, used to reinforce concepts and
-              accelerate learning.
-            </p>
-            <p class="project-meta">Focus: Code · Automation</p>
-          </article>
-        </div>
-      </section>
-
-      <!-- CONTACT SECTION -->
-      <section class="section" id="contact">
-        <h2>Contact</h2>
-        <p>
-          If you’d like to talk about engineering, cyber security, or
-          potential collaboration, feel free to reach out.
-        </p>
-        <div class="contact-grid">
-          <div class="contact-card">
-            <h3>Email</h3>
-            <p><a href="mailto:rob@example.com">rob@example.com</a></p>
-          </div>
-          <div class="contact-card">
-            <h3>LinkedIn</h3>
-            <p><a href="#" target="_blank" rel="noreferrer">/in/rob-williams</a></p>
-          </div>
-          <div class="contact-card">
-            <h3>Location</h3>
-            <p>United Kingdom</p>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="site-footer">
-      <p>© <span id="year"></span> Rob Williams. Built with clean code & pixel vibes.</p>
-    </footer>
-  </div>
-</body>
+        <section id="contact" class="stub-section">
+          <h2>Contact</h2>
+          <p>Drop your preferred contact details or a form here.</p>
+        </section>
+      </main>
+    </div>
+  </body>
 </html>
