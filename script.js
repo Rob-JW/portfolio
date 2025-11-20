@@ -1,86 +1,120 @@
-// Typewriter effect for hero subtitle
-const lines = [
-  "Building secure applications.",
-  "Cybersecurity: plan, build, test, attack",
-  "Available for collaboration — say."
-];
-const el = document.getElementById("typewriter");
-let li = 0,
-  ci = 0,
-  deleting = false;
+// Requires Chart.js
+// In CodePen: Settings → JavaScript → add external:
+// https://cdn.jsdelivr.net/npm/chart.js
 
-function typeLoop() {
-  const current = lines[li];
-  if (!deleting) {
-    el.textContent = current.slice(0, ++ci) + "▋";
-    if (ci === current.length) {
-      deleting = true;
-      setTimeout(typeLoop, 900);
-      return;
-    }
-  } else {
-    el.textContent = current.slice(0, --ci) + "▋";
-    if (ci === 0) {
-      deleting = false;
-      li = (li + 1) % lines.length;
-    }
+window.addEventListener("DOMContentLoaded", () => {
+  const yearEl = document.getElementById("year");
+  if (yearEl) {
+    yearEl.textContent = new Date().getFullYear();
   }
-  setTimeout(typeLoop, deleting ? 35 : 45);
-}
-typeLoop();
 
-// Animate skill meters on load
-document.querySelectorAll(".meter").forEach((m) => {
-  const level = parseInt(m.dataset.level || "0", 10);
-  requestAnimationFrame(() => {
-    m.querySelector("span").style.width = level + "%";
-  });
-});
+  const ctx = document.getElementById("skillsRadar");
+  if (!ctx) return;
 
-// Theme toggle (dark/light neon)
-const themeToggle = document.getElementById("themeToggle");
-themeToggle.addEventListener("click", () => {
-  document.body.classList.toggle("light");
-  themeToggle.textContent = document.body.classList.contains("light")
-    ? "☀"
-    : "☾";
-  localStorage.setItem(
-    "theme",
-    document.body.classList.contains("light") ? "light" : "dark"
-  );
-});
+  const labels = [
+    "Problem solving",
+    "Systems thinking",
+    "Automation",
+    "Security mindset",
+    "Documentation",
+    "Collaboration"
+  ];
 
-// Persist theme between visits
-(function initTheme() {
-  const saved = localStorage.getItem("theme");
-  if (saved === "light") {
-    document.body.classList.add("light");
-    themeToggle.textContent = "☀";
-  }
-})();
+  const datasetsByMode = {
+    code: {
+      label: "Code",
+      data: [8, 7, 8, 6, 7, 8],
+      borderColor: "#ffa7c4",
+      backgroundColor: "rgba(255, 167, 196, 0.25)",
+      pointBackgroundColor: "#ffa7c4",
+      pointRadius: 3,
+      borderWidth: 2
+    },
+    cyber: {
+      label: "Cyber",
+      data: [7, 8, 6, 8, 7, 7],
+      borderColor: "#57f9ff",
+      backgroundColor: "rgba(87, 249, 255, 0.22)",
+      pointBackgroundColor: "#57f9ff",
+      pointRadius: 3,
+      borderWidth: 2
+    }
+  };
 
-// Mobile nav toggle
-const navToggle = document.querySelector(".nav-toggle");
-const navList = document.querySelector(".nav-list");
-navToggle.addEventListener("click", () => {
-  const open = navList.classList.toggle("show");
-  navToggle.setAttribute("aria-expanded", open ? "true" : "false");
-});
-
-// Footer year
-document.getElementById("year").textContent = new Date().getFullYear();
-
-// Accessible smooth-scroll (native smooth via CSS; add focus management)
-document.querySelectorAll('a[href^="#"]').forEach((a) => {
-  a.addEventListener("click", (e) => {
-    const id = a.getAttribute("href").slice(1);
-    const target = document.getElementById(id);
-    if (target) {
-      e.preventDefault();
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-      setTimeout(() => target.setAttribute("tabindex", "-1"), 0);
-      setTimeout(() => target.focus({ preventScroll: true }), 600);
+  const chart = new Chart(ctx, {
+    type: "radar",
+    data: {
+      labels,
+      datasets: [datasetsByMode.code]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          backgroundColor: "#050816",
+          borderColor: "#1f233b",
+          borderWidth: 1,
+          titleColor: "#f4f4ff",
+          bodyColor: "#f4f4ff",
+          padding: 8
+        }
+      },
+      scales: {
+        r: {
+          angleLines: {
+            colour: "#1f233b"
+          },
+          grid: {
+            colour: "#1f233b"
+          },
+          suggestedMin: 0,
+          suggestedMax: 10,
+          ticks: {
+            display: false,
+            stepSize: 2
+          },
+          pointLabels: {
+            colour: "#a6a7c4",
+            font: {
+              size: 10
+            }
+          }
+        }
+      }
     }
   });
-});
 
+  const modeLabel = document.querySelector(".skills-mode-label");
+  const toggleButtons = document.querySelectorAll(".toggle-btn");
+
+  function setMode(mode) {
+    const dataset = datasetsByMode[mode];
+    if (!dataset) return;
+
+    chart.data.datasets = [dataset];
+    chart.update();
+
+    if (modeLabel) {
+      modeLabel.textContent =
+        mode === "code" ? "Mode: Coding" : "Mode: Cyber";
+    }
+
+    toggleButtons.forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.mode === mode);
+    });
+  }
+
+  toggleButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const mode = btn.dataset.mode;
+      setMode(mode);
+    });
+  });
+
+  // Ensure initial state is consistent
+  setMode("code");
+});
