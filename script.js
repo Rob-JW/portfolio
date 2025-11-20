@@ -1,53 +1,78 @@
-// Requires Chart.js
-// In CodePen: Settings → JavaScript → add external:
-// https://cdn.jsdelivr.net/npm/chart.js
-
-window.addEventListener("DOMContentLoaded", () => {
-  const yearEl = document.getElementById("year");
-  if (yearEl) {
-    yearEl.textContent = new Date().getFullYear();
+// Ensure the footer year stays current
+document.addEventListener("DOMContentLoaded", () => {
+  const yearSpan = document.getElementById("year");
+  if (yearSpan) {
+    yearSpan.textContent = new Date().getFullYear();
   }
+});
 
-  const ctx = document.getElementById("skillsRadar");
-  if (!ctx) return;
+const ctx = document.getElementById("skillsRadar");
 
-  const labels = [
-    "Problem solving",
-    "Systems thinking",
-    "Automation",
-    "Security mindset",
-    "Documentation",
-    "Collaboration"
-  ];
-
-  const datasetsByMode = {
-    code: {
-      label: "Code",
-      data: [8, 7, 8, 6, 7, 8],
-      borderColor: "#ffa7c4",
-      backgroundColor: "rgba(255, 167, 196, 0.25)",
-      pointBackgroundColor: "#ffa7c4",
-      pointRadius: 3,
-      borderWidth: 2
-    },
+if (ctx) {
+  const modes = {
     cyber: {
-      label: "Cyber",
-      data: [7, 8, 6, 8, 7, 7],
-      borderColor: "#57f9ff",
-      backgroundColor: "rgba(87, 249, 255, 0.22)",
-      pointBackgroundColor: "#57f9ff",
-      pointRadius: 3,
-      borderWidth: 2
+      labels: [
+        "Network fundamentals",
+        "Linux / CLI",
+        "Windows / AD basics",
+        "Web security",
+        "Scripting (Python/Bash)",
+        "DFIR & logging"
+      ],
+      current: [3, 2, 2, 2, 2, 1],
+      target: [4, 4, 4, 3, 3, 3]
+    },
+    code: {
+      labels: [
+        "HTML / CSS",
+        "JavaScript",
+        "TypeScript / React",
+        "APIs & HTTP",
+        "Automation scripts",
+        "Git & workflow"
+      ],
+      current: [3, 2, 2, 2, 2, 3],
+      target: [4, 3, 3, 3, 3, 4]
     }
   };
 
-  const chart = new Chart(ctx, {
-    type: "radar",
-    data: {
-      labels,
-      datasets: [datasetsByMode.code]
-    },
-    options: {
+  let currentMode = "cyber";
+  let radarChart = null;
+
+  function buildRadar(modeKey) {
+    const mode = modes[modeKey];
+
+    if (!mode) return;
+
+    const data = {
+      labels: mode.labels,
+      datasets: [
+        {
+          label: "Current level",
+          data: mode.current,
+          fill: true,
+          backgroundColor: "rgba(74, 222, 128, 0.25)",
+          borderColor: "rgba(74, 222, 128, 1)",
+          pointBackgroundColor: "rgba(74, 222, 128, 1)",
+          pointBorderColor: "#020617",
+          pointRadius: 3,
+          borderWidth: 2
+        },
+        {
+          label: "Target (12 months)",
+          data: mode.target,
+          fill: true,
+          backgroundColor: "rgba(56, 189, 248, 0.18)",
+          borderColor: "rgba(56, 189, 248, 1)",
+          pointBackgroundColor: "rgba(56, 189, 248, 1)",
+          pointBorderColor: "#020617",
+          pointRadius: 3,
+          borderWidth: 2
+        }
+      ]
+    };
+
+    const options = {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
@@ -55,66 +80,66 @@ window.addEventListener("DOMContentLoaded", () => {
           display: false
         },
         tooltip: {
-          backgroundColor: "#050816",
-          borderColor: "#1f233b",
-          borderWidth: 1,
-          titleColor: "#f4f4ff",
-          bodyColor: "#f4f4ff",
-          padding: 8
+          callbacks: {
+            label: function (ctx) {
+              return `${ctx.dataset.label}: ${ctx.formattedValue}/5`;
+            }
+          }
         }
       },
       scales: {
         r: {
-          angleLines: {
-            colour: "#1f233b"
+          suggestedMin: 0,
+          suggestedMax: 5,
+          ticks: {
+            stepSize: 1,
+            showLabelBackdrop: false,
+            color: "rgba(148, 163, 184, 0.9)"
           },
           grid: {
-            colour: "#1f233b"
+            color: "rgba(51, 65, 85, 0.7)"
           },
-          suggestedMin: 0,
-          suggestedMax: 10,
-          ticks: {
-            display: false,
-            stepSize: 2
+          angleLines: {
+            color: "rgba(51, 65, 85, 0.9)"
           },
           pointLabels: {
-            colour: "#a6a7c4",
+            color: "rgba(226, 232, 240, 0.95)",
             font: {
-              size: 10
+              size: 11
             }
           }
         }
       }
-    }
-  });
+    };
 
-  const modeLabel = document.querySelector(".skills-mode-label");
-  const toggleButtons = document.querySelectorAll(".toggle-btn");
-
-  function setMode(mode) {
-    const dataset = datasetsByMode[mode];
-    if (!dataset) return;
-
-    chart.data.datasets = [dataset];
-    chart.update();
-
-    if (modeLabel) {
-      modeLabel.textContent =
-        mode === "code" ? "Mode: Coding" : "Mode: Cyber";
+    if (radarChart) {
+      radarChart.destroy();
     }
 
-    toggleButtons.forEach((btn) => {
-      btn.classList.toggle("active", btn.dataset.mode === mode);
+    radarChart = new Chart(ctx, {
+      type: "radar",
+      data,
+      options
     });
   }
 
+  // Build initial chart
+  buildRadar(currentMode);
+
+  // Toggle buttons
+  const toggleButtons = document.querySelectorAll(".toggle-button");
+
   toggleButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
-      const mode = btn.dataset.mode;
-      setMode(mode);
+      const mode = btn.getAttribute("data-mode");
+      if (!mode || mode === currentMode) return;
+
+      currentMode = mode;
+
+      toggleButtons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      buildRadar(currentMode);
     });
   });
-
-  // Ensure initial state is consistent
-  setMode("code");
-});
+}
