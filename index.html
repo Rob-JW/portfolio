@@ -1,132 +1,154 @@
 <!DOCTYPE html>
-<html lang="en-GB">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Rob Williams | Cyber & Engineering</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Rob Williams | Cyber & Engineering</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Pixel / clean fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="style.css" />
 
-    <!-- Chart.js for the radar chart -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  </head>
-  <body>
-    <div class="page">
-      <header class="site-header">
-        <div class="logo">
-          RW<span>_</span>
+  <!-- Chart.js for the radar chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="logo">
+      RW <span class="logo-dot">_</span>
+    </div>
+    <nav class="main-nav">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div class="hero-text">
+        <p class="eyebrow">Cyber security &amp; engineering</p>
+        <h1>Rob Williams</h1>
+        <p class="hero-subtitle">
+          British Army engineer leaning hard into cyber. I keep complex systems alive in the field
+          and break them (legally) in the lab.
+        </p>
+        <p class="hero-focus">
+          Focus: Security+ &amp; CREST CPSA · MRO &amp; reliability · automation &amp; tooling
+        </p>
+
+        <div class="hero-actions">
+          <a href="#projects" class="btn primary">View projects</a>
+          <a href="#contact" class="btn ghost">Contact me</a>
         </div>
+      </div>
 
-        <nav class="main-nav">
-          <a href="#about">About</a>
-          <a href="#skills">Skills</a>
-          <a href="#projects">Projects</a>
-          <a href="#contact">Contact</a>
-        </nav>
-      </header>
-
-      <main>
-        <!-- HERO + SKILLS (radar on the right) -->
-        <section class="hero" id="top">
-          <div class="hero-text">
-            <p class="hero-kicker">Cyber security & engineering</p>
-            <h1 class="hero-title">Rob Williams</h1>
-
-            <p class="hero-subtitle">
-              British Army engineer leaning hard into cyber. I keep complex
-              systems alive in the field and break them (legally) in the lab.
-            </p>
-
-            <div class="hero-actions">
-              <a href="#projects" class="btn primary">View projects</a>
-              <a href="#contact" class="btn ghost">Contact me</a>
-            </div>
-
-            <p class="hero-meta">
-              Focus: Security+ &amp; CREST CPSA · MRO &amp; reliability ·
-              automation &amp; tooling
-            </p>
+      <div class="hero-chart">
+        <div class="card pixel-card">
+          <div class="card-header">
+            <span class="card-title">Skills matrix</span>
+            <span class="card-badge">beta</span>
           </div>
 
-          <aside class="hero-skills" id="skills">
-            <div class="skills-card pixel-panel">
-              <div class="skills-header">
-                <h2 class="skills-title">Skills matrix</h2>
-                <span class="skills-beta">beta</span>
-              </div>
+          <div class="toggle-row">
+            <button class="toggle-button active" data-mode="cyber">Cyber</button>
+            <button class="toggle-button" data-mode="code">Code</button>
+          </div>
 
-              <!-- CODE / CYBER SELECTORS -->
-              <div
-                class="skills-toggle"
-                role="tablist"
-                aria-label="Skill profiles"
-              >
-                <button
-                  class="skills-tab active"
-                  type="button"
-                  data-mode="cyber"
-                  role="tab"
-                  aria-selected="true"
-                >
-                  Cyber
-                </button>
-                <button
-                  class="skills-tab"
-                  type="button"
-                  data-mode="code"
-                  role="tab"
-                  aria-selected="false"
-                >
-                  Code
-                </button>
-              </div>
+          <div class="chart-wrapper">
+            <canvas id="skillsRadar" width="320" height="320"></canvas>
+          </div>
 
-              <!-- RADAR CHART -->
-              <div class="skills-chart-wrapper">
-                <canvas
-                  id="skillsRadar"
-                  aria-label="Skills radar chart"
-                  role="img"
-                ></canvas>
-              </div>
+          <div class="legend">
+            <span class="legend-item current"></span><span>Current level</span>
+            <span class="legend-item target"></span><span>Target (12 months)</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-              <!-- SIMPLE LEGEND -->
-              <ul class="skills-legend">
-                <li><span class="dot neon"></span>Current level</li>
-                <li><span class="dot ghost"></span>Target (next 12 months)</li>
-              </ul>
-            </div>
-          </aside>
-        </section>
+    <!-- SKILLS SECTION (anchor only, main visual is the hero) -->
+    <section id="skills" class="section">
+      <h2>Skills</h2>
+      <p>
+        The radar chart above tracks two profiles:
+        <strong>Cyber</strong> (defensive/offensive fundamentals, platforms, DFIR) and
+        <strong>Code</strong> (web, scripting, automation). Current levels reflect where I am today;
+        target levels are goals for the next 12 months.
+      </p>
+    </section>
 
-        <!-- Stub sections so nav works in preview; swap for real content later -->
-        <section id="about" class="stub-section">
-          <h2>About</h2>
+    <!-- ABOUT -->
+    <section id="about" class="section">
+      <h2>About</h2>
+      <p>
+        I’m a British Army engineer with 20+ years of experience keeping complex systems alive under
+        pressure. I’m now leaning hard into cyber security – applying engineering discipline,
+        reliability thinking, and hands-on experimentation to blue-team and offensive security.
+      </p>
+      <p>
+        I’m actively studying for CompTIA Security+ and CREST CPSA while building a portfolio of
+        labs, write-ups, and small tools that bridge the gap between engineering MRO and cyber.
+      </p>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="section">
+      <h2>Projects</h2>
+
+      <div class="cards-grid">
+        <article class="card project-card">
+          <h3>Security+ lab notebook</h3>
           <p>
-            Placeholder section – expand this into a full bio when you move the
-            layout into your Next.js repo.
+            A growing collection of labs, notes, and diagrams covering Security+ objectives –
+            networking, identity, secure design, and incident response – written for practitioners
+            coming from an engineering background.
           </p>
-        </section>
+        </article>
 
-        <section id="projects" class="stub-section">
-          <h2>Projects</h2>
+        <article class="card project-card">
+          <h3>TryHackMe &amp; Hack The Box path</h3>
           <p>
-            Add featured cyber labs, Hack The Box / TryHackMe write-ups, and
-            engineering tooling here.
+            Structured progression through beginner and intermediate rooms/machines with
+            write-ups focused on repeatable process, checklists, and troubleshooting under time
+            pressure.
           </p>
-        </section>
+        </article>
 
-        <section id="contact" class="stub-section">
-          <h2>Contact</h2>
-          <p>Drop your preferred contact details or a form here.</p>
-        </section>
-      </main>
-    </div>
-  </body>
+        <article class="card project-card">
+          <h3>MRO to Cyber automations</h3>
+          <p>
+            Small scripts and tools that borrow from maintenance engineering – health checks,
+            status dashboards, and triage flows – and apply them to lab environments and home
+            infrastructure.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <h2>Contact</h2>
+      <p>
+        Best point of contact is via LinkedIn or e-mail. I’m open to conversations around junior
+        cyber roles, SOC work, and roles that blend engineering reliability with security.
+      </p>
+
+      <ul class="contact-list">
+        <li><span class="contact-label">LinkedIn:</span> <a href="https://linkedin.com/in/rob-jw" target="_blank" rel="noreferrer">linkedin.com/in/rob-jw</a></li>
+        <li><span class="contact-label">GitHub:</span> <a href="https://github.com/Rob-JW" target="_blank" rel="noreferrer">github.com/Rob-JW</a></li>
+        <li><span class="contact-label">E-mail:</span> <a href="mailto:williams5886@gmail.com">williams5886@gmail.com</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>© <span id="year"></span> Rob Williams</span>
+    <span class="footer-dot">Built with pixels &amp; packets.</span>
+  </footer>
+
+  <!-- Main script -->
+  <script src="script.js"></script>
+</body>
 </html>
