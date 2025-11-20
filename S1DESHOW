@@ -11,6 +11,9 @@
 
   <link rel="stylesheet" href="style.css" />
   <meta name="description" content="Coder & cybersecurity profile page with retro pixel-art aesthetic." />
+
+  <!-- Chart.js (for radar charts) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
 </head>
 
 <body>
@@ -31,26 +34,36 @@
   </header>
 
   <main>
-    <!-- HERO -->
+    <!-- HERO (with compact radar on the right) -->
     <section class="hero pixel-border">
-      <div class="hero-inner">
-        <div class="avatar-frame">
-          <!-- Replace with your image -->
-          <img src="https://avatars.githubusercontent.com/u/9919?s=200" alt="Profile avatar" class="avatar" />
-        </div>
-        <div class="hero-copy">
-          <h1 class="glow">Rob Williams</h1>
-          <p id="typewriter" class="subtitle">_</p>
-          <div class="badges">
-            <span class="badge">Cybersecurity</span>
-            <span class="badge">Web Dev</span>
-            <span class="badge">Pixel Art</span>
+      <div class="hero-layout">
+        <!-- Left: avatar + intro -->
+        <div class="hero-left">
+          <div class="avatar-frame">
+            <!-- Replace with your image -->
+            <img src="https://avatars.githubusercontent.com/u/9919?s=200" alt="Profile avatar" class="avatar" />
           </div>
-          <div class="hero-cta">
-            <a href="#projects" class="btn">View Projects ▸</a>
-            <a href="#contact" class="btn-ghost">Get in Touch</a>
+
+          <div class="hero-copy">
+            <h1 class="glow">Rob Williams</h1>
+            <p id="typewriter" class="subtitle">_</p>
+            <div class="badges">
+              <span class="badge">Cybersecurity</span>
+              <span class="badge">Web Dev</span>
+              <span class="badge">Pixel Art</span>
+            </div>
+            <div class="hero-cta">
+              <a href="#projects" class="btn">View Projects ▸</a>
+              <a href="#contact" class="btn-ghost">Get in Touch</a>
+            </div>
           </div>
         </div>
+
+        <!-- Right: compact radar -->
+        <aside class="hero-radar" aria-label="Mini skills radar">
+          <canvas id="heroRadar" width="280" height="280" role="img" aria-label="Compact skills radar chart"></canvas>
+          <small class="hero-radar-note">Live view of current skills selection</small>
+        </aside>
       </div>
     </section>
 
@@ -70,27 +83,68 @@
       </pre>
     </section>
 
-    <!-- SKILLS -->
+    <!-- SKILLS MATRIX (with Category: Code / Cybersecurity) -->
     <section id="skills" class="section pixel-border">
-      <h2>Skills</h2>
-      <ul class="skills">
-        <li>
-          <span>HTML/CSS</span>
-          <div class="meter" data-level="90"><span></span></div>
-        </li>
-        <li>
-          <span>JavaScript</span>
-          <div class="meter" data-level="80"><span></span></div>
-        </li>
-        <li>
-          <span>Security (Web/App)</span>
-          <div class="meter" data-level="75"><span></span></div>
-        </li>
-        <li>
-          <span>Linux & Tooling</span>
-          <div class="meter" data-level="70"><span></span></div>
-        </li>
-      </ul>
+      <h2>Skills Matrix</h2>
+
+      <!-- Controls -->
+      <div class="sm-controls">
+        <div class="sm-row">
+          <label class="sm-label" for="smCategory">Category</label>
+          <select id="smCategory" aria-label="Select category">
+            <option value="cyber" selected>Cybersecurity</option>
+            <option value="code">Coding</option>
+          </select>
+        </div>
+
+        <div class="sm-row">
+          <label class="sm-label" for="smRole">Role / Track</label>
+          <select id="smRole" aria-label="Select role or track">
+            <!-- Populated by JS based on category -->
+          </select>
+        </div>
+
+        <div class="sm-row">
+          <label class="sm-label" for="smFilterLevel">Level</label>
+          <select id="smFilterLevel">
+            <option value="all" selected>All</option>
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+        </div>
+
+        <div class="sm-row">
+          <label class="sm-label" for="smSort">Sort</label>
+          <select id="smSort">
+            <option value="name" selected>Name (A–Z)</option>
+            <option value="progress">Progress (High → Low)</option>
+          </select>
+        </div>
+
+        <div class="sm-row sm-view-toggle" role="group" aria-label="View toggle">
+          <button class="sm-toggle is-active" data-view="matrix" aria-pressed="true">Matrix</button>
+          <button class="sm-toggle" data-view="radar" aria-pressed="false">Radar</button>
+        </div>
+
+        <div class="sm-row sm-actions">
+          <button id="smExportCSV" class="btn-ghost">Export CSV</button>
+          <button id="smExportPNG" class="btn-ghost">Export PNG</button>
+        </div>
+      </div>
+
+      <!-- Matrix Grid -->
+      <div id="smGrid" class="sm-grid" aria-live="polite"></div>
+
+      <!-- Radar View -->
+      <div id="smRadarWrap" class="sm-radar-wrap" hidden>
+        <canvas id="skillsRadar" aria-label="Skills radar chart" role="img"></canvas>
+        <p class="sm-hint">Tip: the radar reflects the filtered & sorted skills currently visible.</p>
+      </div>
+
+      <noscript>
+        <p>JavaScript is required to display the interactive skills matrix.</p>
+      </noscript>
     </section>
 
     <!-- PROJECTS -->
