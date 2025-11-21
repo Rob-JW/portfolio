@@ -248,6 +248,8 @@ body {
   position: relative;
   margin: 0 auto;
   max-width: 320px;
+  /* Fix the chart container height so the radar stays consistent */
+  height: 320px;
 }
 
 .legend {
@@ -293,16 +295,124 @@ body {
   line-height: 1.7;
 }
 
+/* Grid for cards in projects section */
+
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.25rem;
   margin-top: 1.25rem;
 }
 
+/* Legacy project-card (kept in case you reuse it) */
 .project-card {
   font-size: 0.9rem;
   box-shadow: var(--shadow-pixel);
+}
+
+/* --- Hover effect cards (Linear-style) --- */
+
+#cards:hover > .grid-card::after {
+  opacity: 1;
+}
+
+.grid-card {
+  position: relative;
+  background-color: rgba(15, 23, 42, 0.85);
+  border-radius: 10px;
+  cursor: pointer;
+  height: 260px;
+  overflow: hidden;
+}
+
+/* Glow layers */
+.grid-card::before,
+.grid-card::after {
+  border-radius: inherit;
+  content: "";
+  height: 100%;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  transition: opacity 500ms;
+  width: 100%;
+}
+
+.grid-card::before {
+  background: radial-gradient(
+    800px circle at var(--mouse-x) var(--mouse-y),
+    rgba(255, 255, 255, 0.08),
+    transparent 40%
+  );
+  z-index: 1;
+}
+
+.grid-card::after {
+  background: radial-gradient(
+    600px circle at var(--mouse-x) var(--mouse-y),
+    rgba(56, 189, 248, 0.3),
+    transparent 40%
+  );
+  z-index: 0;
+}
+
+.grid-card:hover::before {
+  opacity: 1;
+}
+
+/* Card content */
+.grid-card > .grid-card-content {
+  background-color: rgba(15, 23, 42, 0.98);
+  border-radius: inherit;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  inset: 1px;
+  padding: 10px;
+  position: absolute;
+  z-index: 2;
+}
+
+.grid-card-image {
+  align-items: center;
+  display: flex;
+  height: 120px;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.grid-card-icon {
+  font-size: 3rem;
+  opacity: 0.7;
+}
+
+.grid-card-info-wrapper {
+  align-items: center;
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-start;
+  padding: 0 16px;
+}
+
+.grid-card-info {
+  display: flex;
+}
+
+.grid-card-info-title h3,
+.grid-card-info-title h4 {
+  margin: 0;
+}
+
+.grid-card-info-title h3 {
+  font-size: 1.05rem;
+  margin-bottom: 0.35rem;
+}
+
+.grid-card-info-title h4 {
+  font-size: 0.85rem;
+  color: rgba(226, 232, 240, 0.7);
+  line-height: 1.4;
 }
 
 /* Contact */
@@ -331,16 +441,18 @@ body {
   text-decoration: underline;
 }
 
-/* href link */
+/* href link under chart */
+
 .link-style {
   color: var(--accent-2);
   text-decoration: none;
-  font-size: 0.5rem; /* optional, change as needed */
+  font-size: 0.5rem;
 }
 
 .link-style:hover {
   text-decoration: underline;
 }
+
 .link-wrapper {
   text-align: right;
 }
@@ -393,5 +505,17 @@ body {
 
   .pixel-card {
     width: 100%;
+  }
+
+  .grid-card {
+    height: 220px;
+  }
+
+  .grid-card-image {
+    height: 90px;
+  }
+
+  .grid-card-icon {
+    font-size: 2.4rem;
   }
 }
