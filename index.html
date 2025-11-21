@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Rob Williams | Cyber & Engineering</title>
@@ -8,9 +9,8 @@
   <!-- Main stylesheet -->
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Chart.js for the radar chart -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
   <header class="site-header">
     <div class="logo">
@@ -28,14 +28,13 @@
     <!-- HERO -->
     <section class="hero" id="top">
       <div class="hero-text">
-        <p class="eyebrow">Cyber security &amp; engineering</p>
+        <p class="eyebrow">Cyber security &amp; software development</p>
         <h1>Rob Williams</h1>
         <p class="hero-subtitle">
-          British Army engineer leaning hard into cyber. I keep complex systems alive in the field
-          and break them (legally) in the lab.
+          This is the portfolio website of Robert Williams, a Senior Engineering Officer HM Armed Forces. The website was designed with the aim of providing a succinct overview of qualifications and professional experience.
         </p>
         <p class="hero-focus">
-          Focus: Security+ &amp; CREST CPSA · MRO &amp; reliability · automation &amp; tooling
+          Focus: Education · Security · Reliability · Scalability
         </p>
 
         <div class="hero-actions">
@@ -59,16 +58,20 @@
           <div class="chart-wrapper">
             <canvas id="skillsRadar" width="320" height="320"></canvas>
           </div>
-
           <div class="legend">
             <span class="legend-item current"></span><span>Current level</span>
             <span class="legend-item target"></span><span>Target (12 months)</span>
+          </div>
+          <div class="link-wrapper">
+            <a href="https://cdn.jsdelivr.net" class="link-style" target="_blank" rel="noreferrer">
+              JS Delivr
+            </a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- SKILLS SECTION (anchor only, main visual is the hero) -->
+    <!-- SKILLS SECTION -->
     <section id="skills" class="section">
       <h2>Skills</h2>
       <p>
@@ -83,13 +86,10 @@
     <section id="about" class="section">
       <h2>About</h2>
       <p>
-        I’m a British Army engineer with 20+ years of experience keeping complex systems alive under
-        pressure. I’m now leaning hard into cyber security – applying engineering discipline,
-        reliability thinking, and hands-on experimentation to blue-team and offensive security.
+        I’m a British Army Warrant Officer with 20+ years of experience in defence. I’m now learning cyber security – applying engineering discipline, reliability fundamentals, and hands-on experimentation to blue-team and offensive security.
       </p>
       <p>
-        I’m actively studying for CompTIA Security+ and CREST CPSA while building a portfolio of
-        labs, write-ups, and small tools that bridge the gap between engineering MRO and cyber.
+        I have recently gained the CompTIA Security+ and ISO 9001 qualifications and I’m actively studying for the CREST Practitioner Security Analyst (CPSA). This website is my first project in building a portfolio of labs, write-ups, and small tools that bridge the gap between my engineering background and my future career in cyber security.
       </p>
     </section>
 
@@ -99,29 +99,23 @@
 
       <div class="cards-grid">
         <article class="card project-card">
-          <h3>Security+ lab notebook</h3>
+          <h3>Security+ Lab Notebook</h3>
           <p>
-            A growing collection of labs, notes, and diagrams covering Security+ objectives –
-            networking, identity, secure design, and incident response – written for practitioners
-            coming from an engineering background.
+            A growing collection of labs, notes, and diagrams covering Security+ objectives – networking, identity, secure design, and incident response – written for practitioners coming from an engineering background.
           </p>
         </article>
 
         <article class="card project-card">
-          <h3>TryHackMe &amp; Hack The Box path</h3>
+          <h3>Try Hack Me &amp; Hack The Box Path</h3>
           <p>
-            Structured progression through beginner and intermediate rooms/machines with
-            write-ups focused on repeatable process, checklists, and troubleshooting under time
-            pressure.
+            Structured progression through beginner and intermediate rooms/machines with write-ups focused on repeatable process, checklists, and troubleshooting.
           </p>
         </article>
 
         <article class="card project-card">
-          <h3>MRO to Cyber automations</h3>
+          <h3>Cyber / Automation</h3>
           <p>
-            Small scripts and tools that borrow from maintenance engineering – health checks,
-            status dashboards, and triage flows – and apply them to lab environments and home
-            infrastructure.
+            Small scripts and tools that borrow from maintenance engineering – health checks, status dashboards, and triage flows – and apply them to lab environments.
           </p>
         </article>
       </div>
@@ -131,8 +125,7 @@
     <section id="contact" class="section">
       <h2>Contact</h2>
       <p>
-        Best point of contact is via LinkedIn or e-mail. I’m open to conversations around junior
-        cyber roles, SOC work, and roles that blend engineering reliability with security.
+        Best point of contact is via LinkedIn or e-mail. I’m open to conversations around junior cyber roles, SOC work, and roles that blend engineering reliability with security operations.
       </p>
 
       <ul class="contact-list">
@@ -148,7 +141,10 @@
     <span class="footer-dot">Built with pixels &amp; packets.</span>
   </footer>
 
+  <!-- Chart.js for the radar chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- Main script -->
   <script src="script.js"></script>
 </body>
+
 </html>
