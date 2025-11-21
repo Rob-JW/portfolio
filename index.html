@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme>
 
 <head>
   <meta charset="UTF-8" />
@@ -15,12 +15,33 @@
     <div class="logo">
       RW <span class="logo-dot">_</span>
     </div>
-    <nav class="main-nav">
-      <a href="#about">About</a>
-      <a href="#skills">Skills</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
-    </nav>
+
+    <div class="header-controls">
+      <!-- Theme selector -->
+      <div class="theme-switcher">
+        <label for="theme-select" class="visually-hidden">Colour theme</label>
+        <select id="theme-select" class="theme-select" aria-label="Colour theme">
+          <option value="system">System</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </div>
+
+      <!-- Hamburger button for mobile -->
+      <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="site-nav">
+        <span class="menu-toggle-bar"></span>
+        <span class="menu-toggle-bar"></span>
+        <span class="menu-toggle-bar"></span>
+      </button>
+
+      <!-- Main nav -->
+      <nav class="main-nav" id="site-nav">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
   </header>
 
   <main>
@@ -30,12 +51,10 @@
         <p class="eyebrow">Cyber security &amp; software development</p>
         <h1>Rob Williams</h1>
         <p class="hero-subtitle">
-          This is the portfolio website of Robert Williams, a Senior Engineering Officer HM Armed Forces.
-          The website was designed with the aim of providing a succinct overview of qualifications and
-          professional experience.
+          This is the portfolio website of Robert Williams, a Senior Engineering Officer with HM Armed Forces. The website was designed with the aim of providing a succinct overview of qualifications and professional experience.
         </p>
         <p class="hero-focus">
-          Focus: Education · Security · Reliability · Scalability
+          Core Loop: Learn · Build · Deploy
         </p>
 
         <div class="hero-actions">
@@ -57,7 +76,7 @@
           </div>
 
           <div class="chart-wrapper">
-            <canvas id="skillsRadar" width="320" height="320"></canvas>
+            <canvas id="skillsRadar"></canvas>
           </div>
 
           <div class="legend">
@@ -89,39 +108,32 @@
     <section id="about" class="section">
       <h2>About</h2>
       <p>
-        I’m a British Army Warrant Officer with 20+ years of experience in defence. I’m now learning cyber security –
-        applying engineering discipline, reliability fundamentals, and hands-on experimentation to blue-team and
-        offensive security.
+        I’m a British Army Warrant Officer with 20+ years of experience in defence. I’m now learning cyber security – applying engineering discipline, reliability fundamentals, and hands-on experimentation to blue-team and offensive security.
       </p>
       <p>
-        I have recently gained the CompTIA Security+ and ISO 9001 qualifications and I’m actively studying for the CREST
-        Practitioner Security Analyst (CPSA). This website is my first project in building a portfolio of labs, write-ups,
-        and small tools that bridge the gap between my engineering background and my future career in cyber security.
+        I have recently gained the CompTIA Security+ and ISO 9001 qualifications and I’m actively studying for the CREST Practitioner Security Analyst (CPSA). This website is my first project in building a portfolio of labs, write-ups, and small tools that bridge the gap between my engineering background and my future career in cyber security.
       </p>
     </section>
 
-    <!-- PROJECTS & PLANNING BOARD -->
+    <!-- PROJECT / OVERVIEW CARDS -->
     <section id="projects" class="section">
-      <h2>Projects &amp; planning</h2>
+      <h2>Overview</h2>
       <p>
-        A simple board view of where things are: current qualifications, write-ups, resources, active projects,
-        the roadmap ahead, and backlog ideas.
+        A snapshot of where I’m focusing my effort right now – from qualifications and write-ups through to future projects and backlog.
       </p>
 
-      <div id="cards" class="cards-grid">
+      <div id="cards-matrix" class="cards-matrix">
         <!-- 1. Qualifications -->
-        <article class="grid-card">
-          <div class="grid-card-content">
-            <div class="grid-card-image">
-              <span class="grid-card-icon">🎓</span>
+        <article class="hover-card">
+          <div class="hover-card-content">
+            <div class="hover-card-image">
+              <span class="hover-card-icon">🎓</span>
             </div>
-            <div class="grid-card-info-wrapper">
-              <div class="grid-card-info">
-                <div class="grid-card-info-title">
+            <div class="hover-card-info-wrapper">
+              <div class="hover-card-info">
+                <div class="hover-card-info-title">
                   <h3>Qualifications</h3>
-                  <h4>
-                    CompTIA Security+, ISO 9001, engineering trade training and ongoing CREST CPSA preparation.
-                  </h4>
+                  <h4>Security+, ISO 9001, CPSA (in progress).</h4>
                 </div>
               </div>
             </div>
@@ -129,18 +141,16 @@
         </article>
 
         <!-- 2. Write Ups -->
-        <article class="grid-card">
-          <div class="grid-card-content">
-            <div class="grid-card-image">
-              <span class="grid-card-icon">✍️</span>
+        <article class="hover-card">
+          <div class="hover-card-content">
+            <div class="hover-card-image">
+              <span class="hover-card-icon">📝</span>
             </div>
-            <div class="grid-card-info-wrapper">
-              <div class="grid-card-info">
-                <div class="grid-card-info-title">
+            <div class="hover-card-info-wrapper">
+              <div class="hover-card-info">
+                <div class="hover-card-info-title">
                   <h3>Write Ups</h3>
-                  <h4>
-                    Lab notes and room/machine write-ups focused on repeatable process and clear troubleshooting steps.
-                  </h4>
+                  <h4>Lab notes, room walkthroughs, and lessons learned.</h4>
                 </div>
               </div>
             </div>
@@ -148,18 +158,16 @@
         </article>
 
         <!-- 3. Learning Resources -->
-        <article class="grid-card">
-          <div class="grid-card-content">
-            <div class="grid-card-image">
-              <span class="grid-card-icon">📚</span>
+        <article class="hover-card">
+          <div class="hover-card-content">
+            <div class="hover-card-image">
+              <span class="hover-card-icon">📚</span>
             </div>
-            <div class="grid-card-info-wrapper">
-              <div class="grid-card-info">
-                <div class="grid-card-info-title">
+            <div class="hover-card-info-wrapper">
+              <div class="hover-card-info">
+                <div class="hover-card-info-title">
                   <h3>Learning Resources</h3>
-                  <h4>
-                    Curated courses, rooms, labs and references that support a structured path into cyber security.
-                  </h4>
+                  <h4>Curated links that bridge engineering and cyber.</h4>
                 </div>
               </div>
             </div>
@@ -167,18 +175,16 @@
         </article>
 
         <!-- 4. Projects -->
-        <article class="grid-card">
-          <div class="grid-card-content">
-            <div class="grid-card-image">
-              <span class="grid-card-icon">🛠️</span>
+        <article class="hover-card">
+          <div class="hover-card-content">
+            <div class="hover-card-image">
+              <span class="hover-card-icon">🛠️</span>
             </div>
-            <div class="grid-card-info-wrapper">
-              <div class="grid-card-info">
-                <div class="grid-card-info-title">
+            <div class="hover-card-info-wrapper">
+              <div class="hover-card-info">
+                <div class="hover-card-info-title">
                   <h3>Projects</h3>
-                  <h4>
-                    Small tools and automation that borrow from maintenance engineering and apply it to lab environments.
-                  </h4>
+                  <h4>Automation, dashboards, and lab tooling.</h4>
                 </div>
               </div>
             </div>
@@ -186,18 +192,16 @@
         </article>
 
         <!-- 5. Road Map -->
-        <article class="grid-card">
-          <div class="grid-card-content">
-            <div class="grid-card-image">
-              <span class="grid-card-icon">🧭</span>
+        <article class="hover-card">
+          <div class="hover-card-content">
+            <div class="hover-card-image">
+              <span class="hover-card-icon">🧭</span>
             </div>
-            <div class="grid-card-info-wrapper">
-              <div class="grid-card-info">
-                <div class="grid-card-info-title">
+            <div class="hover-card-info-wrapper">
+              <div class="hover-card-info">
+                <div class="hover-card-info-title">
                   <h3>Road Map</h3>
-                  <h4>
-                    Planned certifications, milestones and learning goals across the next 12–24 months.
-                  </h4>
+                  <h4>Next certifications, skills, and milestones.</h4>
                 </div>
               </div>
             </div>
@@ -205,18 +209,16 @@
         </article>
 
         <!-- 6. Backlog -->
-        <article class="grid-card">
-          <div class="grid-card-content">
-            <div class="grid-card-image">
-              <span class="grid-card-icon">📥</span>
+        <article class="hover-card">
+          <div class="hover-card-content">
+            <div class="hover-card-image">
+              <span class="hover-card-icon">📦</span>
             </div>
-            <div class="grid-card-info-wrapper">
-              <div class="grid-card-info">
-                <div class="grid-card-info-title">
+            <div class="hover-card-info-wrapper">
+              <div class="hover-card-info">
+                <div class="hover-card-info-title">
                   <h3>Backlog</h3>
-                  <h4>
-                    Future ideas: lab themes, write-ups, tooling experiments and stretch projects to pick up later.
-                  </h4>
+                  <h4>Ideas parked for future cycles.</h4>
                 </div>
               </div>
             </div>
@@ -229,14 +231,22 @@
     <section id="contact" class="section">
       <h2>Contact</h2>
       <p>
-        Best point of contact is via LinkedIn or e-mail. I’m open to conversations around junior cyber roles, SOC work,
-        and roles that blend engineering reliability with security operations.
+        Best point of contact is via LinkedIn or e-mail. I’m open to conversations around junior cyber roles, SOC work, and roles that blend engineering reliability with security operations.
       </p>
 
       <ul class="contact-list">
-        <li><span class="contact-label">LinkedIn:</span> <a href="https://linkedin.com/in/rob-jw" target="_blank" rel="noreferrer">linkedin.com/in/rob-jw</a></li>
-        <li><span class="contact-label">GitHub:</span> <a href="https://github.com/Rob-JW" target="_blank" rel="noreferrer">github.com/Rob-JW</a></li>
-        <li><span class="contact-label">E-mail:</span> <a href="mailto:williams5886@gmail.com">williams5886@gmail.com</a></li>
+        <li>
+          <span class="contact-label">LinkedIn:</span>
+          <a href="https://linkedin.com/in/rob-jw" target="_blank" rel="noreferrer">linkedin.com/in/rob-jw</a>
+        </li>
+        <li>
+          <span class="contact-label">GitHub:</span>
+          <a href="https://github.com/Rob-JW" target="_blank" rel="noreferrer">github.com/Rob-JW</a>
+        </li>
+        <li>
+          <span class="contact-label">E-mail:</span>
+          <a href="mailto:williams5886@gmail.com">williams5886@gmail.com</a>
+        </li>
       </ul>
     </section>
   </main>
