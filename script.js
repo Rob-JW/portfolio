@@ -4,12 +4,75 @@ document.addEventListener("DOMContentLoaded", () => {
   if (yearSpan) {
     yearSpan.textContent = new Date().getFullYear();
   }
+
+  initThemeSelector();
+  initMobileNav();
+  initRadarChart();
+  initHoverCards();
 });
 
-// Radar chart
-const canvas = document.getElementById("skillsRadar");
+/**
+ * THEME SELECTOR (light / dark / system)
+ */
+function initThemeSelector() {
+  const select = document.getElementById("theme-select");
+  if (!select) return;
 
-if (canvas) {
+  const root = document.documentElement;
+  const stored = localStorage.getItem("theme-preference");
+
+  function applyTheme(theme) {
+    if (theme === "light") {
+      root.setAttribute("data-theme", "light");
+    } else if (theme === "dark") {
+      root.setAttribute("data-theme", "dark");
+    } else {
+      // system: remove explicit theme and rely on prefers-color-scheme
+      root.removeAttribute("data-theme");
+    }
+    localStorage.setItem("theme-preference", theme);
+  }
+
+  // On load: apply stored preference or default to system
+  const initialTheme = stored || "system";
+  applyTheme(initialTheme);
+  select.value = initialTheme;
+
+  select.addEventListener("change", (e) => {
+    const value = e.target.value;
+    applyTheme(value);
+  });
+}
+
+/**
+ * MOBILE NAV / HAMBURGER
+ */
+function initMobileNav() {
+  const menuToggle = document.querySelector(".menu-toggle");
+  const mainNav = document.querySelector(".main-nav");
+  if (!menuToggle || !mainNav) return;
+
+  menuToggle.addEventListener("click", () => {
+    const isOpen = mainNav.classList.toggle("open");
+    menuToggle.setAttribute("aria-expanded", String(isOpen));
+  });
+
+  // Close menu when resizing back to desktop width
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 768) {
+      mainNav.classList.remove("open");
+      menuToggle.setAttribute("aria-expanded", "false");
+    }
+  });
+}
+
+/**
+ * RADAR CHART
+ */
+function initRadarChart() {
+  const canvas = document.getElementById("skillsRadar");
+  if (!canvas || typeof Chart === "undefined") return;
+
   const ctx = canvas.getContext("2d");
 
   const modes = {
@@ -32,7 +95,7 @@ if (canvas) {
         "JavaScript",
         "TypeScript / React",
         "APIs & HTTP",
-        "Automation Scripts",
+        "Scripts",
         "Git & Workflow"
       ],
       current: [30, 10, 10, 10, 20, 30],
@@ -77,23 +140,23 @@ if (canvas) {
 
     const options = {
       responsive: true,
-      maintainAspectRatio: false,
+      maintainAspectRatio: false, // use chart-wrapper height
       plugins: {
         legend: {
           display: false
         },
         tooltip: {
           callbacks: {
-            label: function (context) {
-              return `${context.dataset.label}: ${context.formattedValue}/100`;
+            label: function (ctx) {
+              return `${ctx.dataset.label}: ${ctx.raw}/100`;
             }
           }
         }
       },
       scales: {
         r: {
-          min: 0,
-          max: 100,
+          suggestedMin: 0,
+          suggestedMax: 100,
           ticks: {
             stepSize: 20,
             showLabelBackdrop: false,
@@ -131,7 +194,6 @@ if (canvas) {
 
   // Toggle buttons
   const toggleButtons = document.querySelectorAll(".toggle-button");
-
   toggleButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
       const mode = btn.getAttribute("data-mode");
@@ -147,17 +209,19 @@ if (canvas) {
   });
 }
 
-// Hover effect for project cards
-const cardsContainer = document.getElementById("cards");
+/**
+ * HOVER CARD MOUSE-EFFECT
+ */
+function initHoverCards() {
+  const container = document.getElementById("cards-matrix");
+  if (!container) return;
 
-if (cardsContainer) {
-  cardsContainer.addEventListener("mousemove", (e) => {
-    const cards = cardsContainer.getElementsByClassName("grid-card");
+  container.addEventListener("mousemove", (e) => {
+    const cards = container.getElementsByClassName("hover-card");
     for (const card of cards) {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-
       card.style.setProperty("--mouse-x", `${x}px`);
       card.style.setProperty("--mouse-y", `${y}px`);
     }
