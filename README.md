@@ -23,7 +23,7 @@ This is the codebase for the portfolio website of Robert Williams, a Senior Engi
 
 - `index.html`: This file contains the main HTML for the website.
 - `style.css`: This is the main CSS file for styling the website.
-- `index.js`: This JavaScript file is used for the auto type function.
+- `script.js`: This JavaScript file is used for the auto type function.
 
 ## Customization
 
