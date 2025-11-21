@@ -27,7 +27,8 @@ body {
   padding: 0;
   background: radial-gradient(circle at top, #0b1120 0, #020617 55%, #000 100%);
   color: var(--text-main);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
 }
 
 body {
@@ -47,7 +48,11 @@ body {
   top: 0;
   z-index: 10;
   backdrop-filter: blur(12px);
-  background: linear-gradient(to bottom, rgba(2, 6, 23, 0.95), rgba(2, 6, 23, 0.75));
+  background: linear-gradient(
+    to bottom,
+    rgba(2, 6, 23, 0.95),
+    rgba(2, 6, 23, 0.75)
+  );
   border-bottom: 1px solid rgba(148, 163, 184, 0.15);
 }
 
@@ -73,7 +78,7 @@ body {
   color: var(--text-muted);
   text-decoration: none;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   font-size: 0.75rem;
   padding-bottom: 0.25rem;
   border-bottom: 1px solid transparent;
@@ -324,6 +329,20 @@ body {
 
 .contact-list a:hover {
   text-decoration: underline;
+}
+
+/* href link */
+.link-style {
+  color: var(--accent-2);
+  text-decoration: none;
+  font-size: 0.5rem; /* optional, change as needed */
+}
+
+.link-style:hover {
+  text-decoration: underline;
+}
+.link-wrapper {
+  text-align: right;
 }
 
 /* Footer */
