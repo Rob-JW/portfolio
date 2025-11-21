@@ -60,9 +60,19 @@
         <div class="hero-actions">
           <a href="#projects" class="btn primary">View projects</a>
           <a href="#contact" class="btn ghost">Contact me</a>
+          <div>
+            <!-- SKILLS SECTION -->
+            <section id="skills" class="section1">
+              <h2>Skills</h2>
+              <p>
+                The radar chart tracks two profiles:
+                <strong>Cyber</strong> (defensive/offensive fundamentals, platforms, DFIR) and
+                <strong>Code</strong> (web, scripting, automation). Current levels reflect where I am today;
+                target levels are goals for the next 12 months.
+              </p>
+          </div>
         </div>
       </div>
-
       <div class="hero-chart">
         <div class="card pixel-card">
           <div class="card-header">
@@ -73,6 +83,7 @@
           <div class="toggle-row">
             <button class="toggle-button active" data-mode="cyber">Cyber</button>
             <button class="toggle-button" data-mode="code">Code</button>
+
           </div>
 
           <div class="chart-wrapper">
@@ -91,17 +102,6 @@
           </div>
         </div>
       </div>
-    </section>
-
-    <!-- SKILLS SECTION -->
-    <section id="skills" class="section">
-      <h2>Skills</h2>
-      <p>
-        The radar chart above tracks two profiles:
-        <strong>Cyber</strong> (defensive/offensive fundamentals, platforms, DFIR) and
-        <strong>Code</strong> (web, scripting, automation). Current levels reflect where I am today;
-        target levels are goals for the next 12 months.
-      </p>
     </section>
 
     <!-- ABOUT -->
@@ -255,11 +255,11 @@
     <span>© <span id="year"></span> Rob Williams</span>
     <span class="footer-dot">Built with pixels &amp; packets.</span>
   </footer>
-  
+
   <!-- Chart.js for the radar chart -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
   <!-- Main script -->
   <script src="script.js"></script>
 </body>
+
 </html>
