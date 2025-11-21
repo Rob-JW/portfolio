@@ -1,165 +1,255 @@
-// Ensure the footer year stays current
-document.addEventListener("DOMContentLoaded", () => {
-  const yearSpan = document.getElementById("year");
-  if (yearSpan) {
-    yearSpan.textContent = new Date().getFullYear();
-  }
-});
+<!DOCTYPE html>
+<html lang="en">
 
-// Radar chart
-const canvas = document.getElementById("skillsRadar");
+<head>
+  <meta charset="UTF-8" />
+  <title>Rob Williams | Cyber & Engineering</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-if (canvas) {
-  const ctx = canvas.getContext("2d");
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
 
-  const modes = {
-    cyber: {
-      labels: [
-        "Network Fundamentals",
-        "Linux / CLI",
-        "Windows / AD",
-        "Web Security",
-        "Scripting",
-        "DFIR & Logging"
-      ],
-      // Values are out of 100 to reflect low current competence
-      current: [10, 20, 20, 20, 20, 10],
-      target: [40, 40, 40, 30, 30, 30]
-    },
-    code: {
-      labels: [
-        "HTML / CSS",
-        "JavaScript",
-        "TypeScript / React",
-        "APIs & HTTP",
-        "Automation Scripts",
-        "Git & Workflow"
-      ],
-      current: [30, 10, 10, 10, 20, 30],
-      target: [40, 30, 30, 30, 30, 40]
-    }
-  };
+<body>
+  <header class="site-header">
+    <div class="logo">
+      RW <span class="logo-dot">_</span>
+    </div>
+    <nav class="main-nav">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
 
-  let currentMode = "cyber";
-  let radarChart = null;
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div class="hero-text">
+        <p class="eyebrow">Cyber security &amp; software development</p>
+        <h1>Rob Williams</h1>
+        <p class="hero-subtitle">
+          This is the portfolio website of Robert Williams, a Senior Engineering Officer HM Armed Forces.
+          The website was designed with the aim of providing a succinct overview of qualifications and
+          professional experience.
+        </p>
+        <p class="hero-focus">
+          Focus: Education · Security · Reliability · Scalability
+        </p>
 
-  function buildRadar(modeKey) {
-    const mode = modes[modeKey];
-    if (!mode) return;
+        <div class="hero-actions">
+          <a href="#projects" class="btn primary">View projects</a>
+          <a href="#contact" class="btn ghost">Contact me</a>
+        </div>
+      </div>
 
-    const data = {
-      labels: mode.labels,
-      datasets: [
-        {
-          label: "Current level",
-          data: mode.current,
-          fill: true,
-          backgroundColor: "rgba(74, 222, 128, 0.25)",
-          borderColor: "rgba(74, 222, 128, 1)",
-          pointBackgroundColor: "rgba(74, 222, 128, 1)",
-          pointBorderColor: "#020617",
-          pointRadius: 2,
-          borderWidth: 1
-        },
-        {
-          label: "Target (12 months)",
-          data: mode.target,
-          fill: true,
-          backgroundColor: "rgba(56, 189, 248, 0.18)",
-          borderColor: "rgba(56, 189, 248, 1)",
-          pointBackgroundColor: "rgba(56, 189, 248, 1)",
-          pointBorderColor: "#020617",
-          pointRadius: 3,
-          borderWidth: 2
-        }
-      ]
-    };
+      <div class="hero-chart">
+        <div class="card pixel-card">
+          <div class="card-header">
+            <span class="card-title">Skills matrix</span>
+            <span class="card-badge">beta</span>
+          </div>
 
-    const options = {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          display: false
-        },
-        tooltip: {
-          callbacks: {
-            label: function (context) {
-              return `${context.dataset.label}: ${context.formattedValue}/100`;
-            }
-          }
-        }
-      },
-      scales: {
-        r: {
-          min: 0,
-          max: 100,
-          ticks: {
-            stepSize: 20,
-            showLabelBackdrop: false,
-            color: "rgba(148, 163, 184, 0.0)"
-          },
-          grid: {
-            color: "rgba(51, 65, 85, 0.7)"
-          },
-          angleLines: {
-            color: "rgba(51, 65, 85, 0.9)"
-          },
-          pointLabels: {
-            color: "rgba(226, 232, 240, 0.95)",
-            font: {
-              size: 10
-            }
-          }
-        }
-      }
-    };
+          <div class="toggle-row">
+            <button class="toggle-button active" data-mode="cyber">Cyber</button>
+            <button class="toggle-button" data-mode="code">Code</button>
+          </div>
 
-    if (radarChart) {
-      radarChart.destroy();
-    }
+          <div class="chart-wrapper">
+            <canvas id="skillsRadar" width="320" height="320"></canvas>
+          </div>
 
-    radarChart = new Chart(ctx, {
-      type: "radar",
-      data,
-      options
-    });
-  }
+          <div class="legend">
+            <span class="legend-item current"></span><span>Current level</span>
+            <span class="legend-item target"></span><span>Target (12 months)</span>
+          </div>
 
-  // Build initial chart
-  buildRadar(currentMode);
+          <div class="link-wrapper">
+            <a href="https://cdn.jsdelivr.net" class="link-style" target="_blank" rel="noreferrer">
+              JS Delivr
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  // Toggle buttons
-  const toggleButtons = document.querySelectorAll(".toggle-button");
+    <!-- SKILLS SECTION -->
+    <section id="skills" class="section">
+      <h2>Skills</h2>
+      <p>
+        The radar chart above tracks two profiles:
+        <strong>Cyber</strong> (defensive/offensive fundamentals, platforms, DFIR) and
+        <strong>Code</strong> (web, scripting, automation). Current levels reflect where I am today;
+        target levels are goals for the next 12 months.
+      </p>
+    </section>
 
-  toggleButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const mode = btn.getAttribute("data-mode");
-      if (!mode || mode === currentMode) return;
+    <!-- ABOUT -->
+    <section id="about" class="section">
+      <h2>About</h2>
+      <p>
+        I’m a British Army Warrant Officer with 20+ years of experience in defence. I’m now learning cyber security –
+        applying engineering discipline, reliability fundamentals, and hands-on experimentation to blue-team and
+        offensive security.
+      </p>
+      <p>
+        I have recently gained the CompTIA Security+ and ISO 9001 qualifications and I’m actively studying for the CREST
+        Practitioner Security Analyst (CPSA). This website is my first project in building a portfolio of labs, write-ups,
+        and small tools that bridge the gap between my engineering background and my future career in cyber security.
+      </p>
+    </section>
 
-      currentMode = mode;
+    <!-- PROJECTS & PLANNING BOARD -->
+    <section id="projects" class="section">
+      <h2>Projects &amp; planning</h2>
+      <p>
+        A simple board view of where things are: current qualifications, write-ups, resources, active projects,
+        the roadmap ahead, and backlog ideas.
+      </p>
 
-      toggleButtons.forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
+      <div id="cards" class="cards-grid">
+        <!-- 1. Qualifications -->
+        <article class="grid-card">
+          <div class="grid-card-content">
+            <div class="grid-card-image">
+              <span class="grid-card-icon">🎓</span>
+            </div>
+            <div class="grid-card-info-wrapper">
+              <div class="grid-card-info">
+                <div class="grid-card-info-title">
+                  <h3>Qualifications</h3>
+                  <h4>
+                    CompTIA Security+, ISO 9001, engineering trade training and ongoing CREST CPSA preparation.
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
 
-      buildRadar(currentMode);
-    });
-  });
-}
+        <!-- 2. Write Ups -->
+        <article class="grid-card">
+          <div class="grid-card-content">
+            <div class="grid-card-image">
+              <span class="grid-card-icon">✍️</span>
+            </div>
+            <div class="grid-card-info-wrapper">
+              <div class="grid-card-info">
+                <div class="grid-card-info-title">
+                  <h3>Write Ups</h3>
+                  <h4>
+                    Lab notes and room/machine write-ups focused on repeatable process and clear troubleshooting steps.
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
 
-// Hover effect for project cards
-const cardsContainer = document.getElementById("cards");
+        <!-- 3. Learning Resources -->
+        <article class="grid-card">
+          <div class="grid-card-content">
+            <div class="grid-card-image">
+              <span class="grid-card-icon">📚</span>
+            </div>
+            <div class="grid-card-info-wrapper">
+              <div class="grid-card-info">
+                <div class="grid-card-info-title">
+                  <h3>Learning Resources</h3>
+                  <h4>
+                    Curated courses, rooms, labs and references that support a structured path into cyber security.
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
 
-if (cardsContainer) {
-  cardsContainer.addEventListener("mousemove", (e) => {
-    const cards = cardsContainer.getElementsByClassName("grid-card");
-    for (const card of cards) {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+        <!-- 4. Projects -->
+        <article class="grid-card">
+          <div class="grid-card-content">
+            <div class="grid-card-image">
+              <span class="grid-card-icon">🛠️</span>
+            </div>
+            <div class="grid-card-info-wrapper">
+              <div class="grid-card-info">
+                <div class="grid-card-info-title">
+                  <h3>Projects</h3>
+                  <h4>
+                    Small tools and automation that borrow from maintenance engineering and apply it to lab environments.
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
 
-      card.style.setProperty("--mouse-x", `${x}px`);
-      card.style.setProperty("--mouse-y", `${y}px`);
-    }
-  });
-}
+        <!-- 5. Road Map -->
+        <article class="grid-card">
+          <div class="grid-card-content">
+            <div class="grid-card-image">
+              <span class="grid-card-icon">🧭</span>
+            </div>
+            <div class="grid-card-info-wrapper">
+              <div class="grid-card-info">
+                <div class="grid-card-info-title">
+                  <h3>Road Map</h3>
+                  <h4>
+                    Planned certifications, milestones and learning goals across the next 12–24 months.
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 6. Backlog -->
+        <article class="grid-card">
+          <div class="grid-card-content">
+            <div class="grid-card-image">
+              <span class="grid-card-icon">📥</span>
+            </div>
+            <div class="grid-card-info-wrapper">
+              <div class="grid-card-info">
+                <div class="grid-card-info-title">
+                  <h3>Backlog</h3>
+                  <h4>
+                    Future ideas: lab themes, write-ups, tooling experiments and stretch projects to pick up later.
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <h2>Contact</h2>
+      <p>
+        Best point of contact is via LinkedIn or e-mail. I’m open to conversations around junior cyber roles, SOC work,
+        and roles that blend engineering reliability with security operations.
+      </p>
+
+      <ul class="contact-list">
+        <li><span class="contact-label">LinkedIn:</span> <a href="https://linkedin.com/in/rob-jw" target="_blank" rel="noreferrer">linkedin.com/in/rob-jw</a></li>
+        <li><span class="contact-label">GitHub:</span> <a href="https://github.com/Rob-JW" target="_blank" rel="noreferrer">github.com/Rob-JW</a></li>
+        <li><span class="contact-label">E-mail:</span> <a href="mailto:williams5886@gmail.com">williams5886@gmail.com</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>© <span id="year"></span> Rob Williams</span>
+    <span class="footer-dot">Built with pixels &amp; packets.</span>
+  </footer>
+
+  <!-- Chart.js for the radar chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Main script -->
+  <script src="script.js"></script>
+</body>
+
+</html>
