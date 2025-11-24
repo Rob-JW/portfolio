@@ -94,33 +94,34 @@ function initRadarChart() {
 
 	const ctx = canvas.getContext("2d");
 
-	const modes = {
-		cyber: {
-			labels: [
-				"Network Fundamentals",
-				"Linux\nCLI",
-				"Windows /\nActive Directory",
-				"Web\nSecurity",
-				"Scripting\n(Bash/Python)",
-				"DFIR &\nLogging"
-			],
-			current: [10, 20, 20, 20, 20, 10],
-			target: [40, 40, 40, 30, 30, 30]
-		},
+const modes = {
+  cyber: {
+    labels: [
+      ["Network", "Fundamentals"],
+      ["Linux", "CLI"],
+      ["Windows /", "Active Directory"],
+      ["Web", "Security"],
+      ["Scripting", "(Bash/Python)"],
+      ["DFIR &", "Logging"]
+    ],
+    current: [10, 20, 20, 20, 20, 10],
+    target: [40, 40, 40, 30, 30, 30]
+  },
 
-		code: {
-			labels: [
-				"HTML /\nCSS",
-				"JavaScript",
-				"TypeScript /\nReact",
-				"APIs &\nHTTP",
-				"Automation\nScripts",
-				"Git &\nWorkflow"
-			],
-			current: [30, 10, 10, 10, 20, 30],
-			target: [40, 30, 30, 30, 30, 40]
-		}
-	};
+  code: {
+    labels: [
+      ["HTML /", "CSS"],
+      ["JavaScript"],
+      ["TypeScript /", "React"],
+      ["APIs &", "HTTP"],
+      ["Automation", "Scripts"],
+      ["Git &", "Workflow"]
+    ],
+    current: [30, 10, 10, 10, 20, 30],
+    target: [40, 30, 30, 30, 30, 40]
+  }
+};
+
 
 	let currentMode = "cyber";
 	let radarChart = null;
