@@ -6,6 +6,19 @@
 
 ---
 
+## Outstanding — Next Session (first thing 2026-04-11)
+
+Six items requested by Rob at end of 2026-04-10 session. All are polish — none require structural changes.
+
+1. **Add personal link to contact methods.** `https://robwilliams.link/` should appear alongside LinkedIn, GitHub, and email in the contact block at the bottom of every page (index.html + 6 sub-pages).
+2. **Populate sub-page content.** Replace boilerplate on `projects.html`, `roadmap.html`, `backlog.html`, `write-ups.html`, `learning-resources.html` with real content drawn from Rob's CPSA study, CV, and HTB/THM lab work. Qualifications page already has real content.
+3. **About section — reduce word count.** Current two-paragraph block is too long. Tighten to ~2 concise sentences per paragraph while preserving the rank, KSE framing, qualifications, and CPSA booking.
+4. **Hero button hover effect.** The current hover on `.btn.primary` / `.btn.ghost` feels slightly off. Revisit — maybe a stronger colour swap, cleaner translate, or a pixel bevel pulse. Both buttons should feel consistent.
+5. **Reduce hero bottom padding.** Currently the hero's bottom padding (matching top, `clamp(1.5rem, 3vw + 0.5rem, 2.5rem)`) creates too much space between the buttons and the About section below. Pull it back — target around half the current value. *Note: earlier in this session Rob said it was too tight, so I bumped it. He's now saying I overshot. Don't take it to zero.*
+6. **Increase hero-actions top padding.** Space between the "Core-Loop: Focused Learning · Discipline · Consistency" line and the buttons needs more breathing room. Currently `margin-top: 1rem` on `.hero-actions` — bump to ~1.5–2rem.
+
+---
+
 ## Context
 
 Portfolio site lives at `Rob-JW/portfolio` on GitHub, served via GitHub Pages at https://rob-jw.github.io/portfolio/. Current skills matrix uses Chart.js radar with two modes (Cyber / Code) but has multiple issues: chart too small, labels too small, unused scale range, destroy/rebuild on mode switch, stale content in Code mode, leftover debug elements.
