@@ -85,29 +85,24 @@
 				<div class="card pixel-card">
 					<div class="card-header">
 						<span class="card-title">Skills matrix</span>
-						<span class="card-badge">beta</span>
 					</div>
 
-					<div class="toggle-row">
-						<button class="toggle-button active" data-mode="cyber">
+					<div class="toggle-row" role="tablist" aria-label="Skills profile">
+						<button class="toggle-button active" data-mode="cyber" role="tab" aria-selected="true" aria-controls="skillsRadar" tabindex="0">
 							Cyber
 						</button>
-						<button class="toggle-button" data-mode="code">Code</button>
+						<button class="toggle-button" data-mode="general" role="tab" aria-selected="false" aria-controls="skillsRadar" tabindex="-1">
+							General
+						</button>
 					</div>
 
 					<div class="chart-wrapper">
-						<canvas id="skillsRadar"></canvas>
+						<canvas id="skillsRadar" role="img" aria-label="Cyber skills radar chart showing current levels and 12-month targets across six axes"></canvas>
 					</div>
 
 					<div class="legend">
 						<span class="legend-item current"></span><span>Current level</span>
 						<span class="legend-item target"></span><span>Target (12 months)</span>
-					</div>
-
-					<div class="link-wrapper">
-						<a href="https://cdn.jsdelivr.net" class="link-style" target="_blank" rel="noreferrer">
-							JS Delivr
-						</a>
 					</div>
 				</div>
 			</div>

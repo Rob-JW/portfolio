@@ -87,145 +87,262 @@ function initMobileNav() {
 
 /**
  * RADAR CHART
+ *
+ * Two profiles (Cyber / General), smooth data transitions on mode switch,
+ * theme-reactive colours, combined tooltip, keyboard-navigable tablist.
+ * Respects prefers-reduced-motion.
  */
 function initRadarChart() {
 	const canvas = document.getElementById("skillsRadar");
 	if (!canvas || typeof Chart === "undefined") return;
 
 	const ctx = canvas.getContext("2d");
+	const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-const modes = {
-  cyber: {
-    labels: [
-      ["Network", "Fundamentals"],
-      ["Linux", "CLI"],
-      ["Windows /", "Active Directory"],
-      ["Web", "Security"],
-      ["Scripting", "(Bash/Python)"],
-      ["DFIR &", "Logging"]
-    ],
-    current: [10, 20, 20, 20, 20, 10],
-    target: [40, 40, 40, 30, 30, 30]
-  },
+	const modes = {
+		cyber: {
+			title: "Cyber",
+			labels: [
+				["Network", "Fundamentals"],
+				["Linux", "CLI"],
+				["Windows /", "Active Directory"],
+				["Web", "Security"],
+				["Scripting", "(Bash/Python)"],
+				["DFIR &", "Logging"]
+			],
+			current: [40, 25, 30, 30, 25, 20],
+			target: [65, 60, 60, 55, 50, 55]
+		},
 
-  code: {
-    labels: [
-      ["HTML /", "CSS"],
-      ["JavaScript"],
-      ["TypeScript /", "React"],
-      ["APIs &", "HTTP"],
-      ["Automation", "Scripts"],
-      ["Git &", "Workflow"]
-    ],
-    current: [30, 10, 10, 10, 20, 30],
-    target: [40, 30, 30, 30, 30, 40]
-  }
-};
+		general: {
+			title: "General",
+			labels: [
+				["Leadership", " "],
+				["Engineering", "Governance"],
+				["Quality", "& Audit"],
+				["Process", "Transformation"],
+				["Defence", "Acquisition"],
+				["Operational", "Delivery"]
+			],
+			current: [88, 88, 75, 82, 80, 85],
+			target: [90, 88, 88, 85, 80, 85]
+		}
+	};
 
+	// Read live theme colours from CSS custom properties so the chart
+	// follows the active light / dark theme.
+	function getThemeColors() {
+		const styles = getComputedStyle(document.documentElement);
+		const read = (name, fallback) =>
+			(styles.getPropertyValue(name) || "").trim() || fallback;
+		return {
+			accent: read("--accent", "#4ade80"),
+			accent2: read("--accent-2", "#38bdf8"),
+			textMain: read("--text-main", "#e5e7eb"),
+			textMuted: read("--text-muted", "#9ca3af")
+		};
+	}
+
+	// Convert a hex colour string to rgba() with the given alpha. Any value
+	// that isn't a valid hex is returned untouched.
+	function hexToRgba(hex, alpha) {
+		if (typeof hex !== "string" || !hex.startsWith("#")) return hex;
+		const h = hex.replace("#", "");
+		const full =
+			h.length === 3
+				? h
+						.split("")
+						.map((c) => c + c)
+						.join("")
+				: h;
+		if (full.length !== 6) return hex;
+		const r = parseInt(full.slice(0, 2), 16);
+		const g = parseInt(full.slice(2, 4), 16);
+		const b = parseInt(full.slice(4, 6), 16);
+		return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+	}
+
+	function updateCanvasLabel(modeKey) {
+		const title = modes[modeKey].title;
+		canvas.setAttribute(
+			"aria-label",
+			`${title} skills radar chart showing current levels and 12-month targets across six axes`
+		);
+	}
 
 	let currentMode = "cyber";
 	let radarChart = null;
 
-	function buildRadar(modeKey) {
-		const mode = modes[modeKey];
-		if (!mode) return;
-
-		const data = {
-			labels: mode.labels,
-			datasets: [
-				{
-					label: "Current level",
-					data: mode.current,
-					fill: true,
-					backgroundColor: "rgba(74, 222, 128, 0.25)",
-					borderColor: "rgba(74, 222, 128, 1)",
-					pointBackgroundColor: "rgba(74, 222, 128, 1)",
-					pointBorderColor: "#020617",
-					pointRadius: 2,
-					borderWidth: 1
+	function buildConfig() {
+		const mode = modes[currentMode];
+		const colors = getThemeColors();
+		return {
+			type: "radar",
+			data: {
+				labels: mode.labels,
+				datasets: [
+					{
+						label: "Current level",
+						data: mode.current,
+						fill: true,
+						backgroundColor: hexToRgba(colors.accent, 0.25),
+						borderColor: colors.accent,
+						pointBackgroundColor: colors.accent,
+						pointRadius: 3,
+						borderWidth: 2
+					},
+					{
+						label: "Target (12 months)",
+						data: mode.target,
+						fill: true,
+						backgroundColor: hexToRgba(colors.accent2, 0.18),
+						borderColor: colors.accent2,
+						pointBackgroundColor: colors.accent2,
+						pointRadius: 3,
+						borderWidth: 2
+					}
+				]
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				// Fixed padding keeps the plot area the same size regardless of
+				// label text length — prevents jump on mode switch.
+				layout: {
+					padding: { top: 20, right: 40, bottom: 20, left: 40 }
 				},
-				{
-					label: "Target (12 months)",
-					data: mode.target,
-					fill: true,
-					backgroundColor: "rgba(56, 189, 248, 0.18)",
-					borderColor: "rgba(56, 189, 248, 1)",
-					pointBackgroundColor: "rgba(56, 189, 248, 1)",
-					pointBorderColor: "#020617",
-					pointRadius: 2,
-					borderWidth: 1
-				}
-			]
-		};
-
-		const options = {
-			responsive: true,
-			maintainAspectRatio: false, // use chart-wrapper height
-			plugins: {
-				legend: {
-					display: false
+				animation: {
+					duration: reducedMotionQuery.matches ? 0 : 600,
+					easing: "easeOutQuart"
 				},
-				tooltip: {
-					callbacks: {
-						label: function (ctx) {
-							return `${ctx.dataset.label}: ${ctx.raw}/100`;
+				plugins: {
+					legend: { display: false },
+					tooltip: {
+						mode: "index",
+						intersect: false,
+						callbacks: {
+							label: (item) => `${item.dataset.label}: ${item.raw}/100`
 						}
 					}
-				}
-			},
-			scales: {
-				r: {
-					suggestedMin: 0,
-					suggestedMax: 100,
-					ticks: {
-						stepSize: 20,
-						showLabelBackdrop: false,
-						color: "rgba(148, 163, 184, 0.0)"
-					},
-					grid: {
-						color: "rgba(51, 65, 85, 0.7)"
-					},
-					angleLines: {
-						color: "rgba(51, 65, 85, 0.9)"
-					},
-					pointLabels: {
-						color: "rgba(226, 232, 240, 0.95)",
-						font: {
-							size: 8
+				},
+				scales: {
+					r: {
+						// Hard min/max so scale is identical across modes —
+						// no visual resize when switching Cyber / General.
+						min: 0,
+						max: 95,
+						ticks: {
+							stepSize: 25,
+							showLabelBackdrop: false,
+							color: "rgba(0, 0, 0, 0)"
+						},
+						grid: { color: colors.textMuted, lineWidth: 1 },
+						angleLines: { color: colors.textMuted, lineWidth: 1 },
+						pointLabels: {
+							color: colors.textMain,
+							padding: 12,
+							font: {
+								size: 11,
+								family: "system-ui, -apple-system, sans-serif"
+							}
 						}
 					}
 				}
 			}
 		};
+	}
 
-		if (radarChart) {
-			radarChart.destroy();
-		}
+	// Update the chart data + theme colours in place. Chart.js animates
+	// between states natively, giving a smooth morph between Cyber / General
+	// and when the user switches theme.
+	function updateRadar() {
+		if (!radarChart) return;
+		const mode = modes[currentMode];
+		const colors = getThemeColors();
 
-		radarChart = new Chart(ctx, {
-			type: "radar",
-			data,
-			options
+		radarChart.data.labels = mode.labels;
+
+		const [currentDs, targetDs] = radarChart.data.datasets;
+		currentDs.data = mode.current;
+		currentDs.backgroundColor = hexToRgba(colors.accent, 0.25);
+		currentDs.borderColor = colors.accent;
+		currentDs.pointBackgroundColor = colors.accent;
+
+		targetDs.data = mode.target;
+		targetDs.backgroundColor = hexToRgba(colors.accent2, 0.18);
+		targetDs.borderColor = colors.accent2;
+		targetDs.pointBackgroundColor = colors.accent2;
+
+		const r = radarChart.options.scales.r;
+		r.grid.color = colors.textMuted;
+		r.angleLines.color = colors.textMuted;
+		r.pointLabels.color = colors.textMain;
+
+		radarChart.update();
+		updateCanvasLabel(currentMode);
+	}
+
+	function setMode(modeKey, focusButton) {
+		if (!modes[modeKey]) return;
+
+		currentMode = modeKey;
+
+		const toggleButtons = document.querySelectorAll(".toggle-button");
+		toggleButtons.forEach((btn) => {
+			const isActive = btn.getAttribute("data-mode") === modeKey;
+			btn.classList.toggle("active", isActive);
+			btn.setAttribute("aria-selected", String(isActive));
+			btn.setAttribute("tabindex", isActive ? "0" : "-1");
+		});
+
+		if (focusButton) focusButton.focus();
+		updateRadar();
+	}
+
+	// Initial render
+	radarChart = new Chart(ctx, buildConfig());
+	updateCanvasLabel(currentMode);
+
+	// Toggle buttons: click + keyboard arrow navigation (WAI-ARIA tab pattern)
+	const toggleButtons = Array.from(document.querySelectorAll(".toggle-button"));
+	toggleButtons.forEach((btn, index) => {
+		btn.addEventListener("click", () => {
+			const mode = btn.getAttribute("data-mode");
+			if (mode && mode !== currentMode) setMode(mode);
+		});
+
+		btn.addEventListener("keydown", (e) => {
+			let nextIndex = null;
+			if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+				nextIndex = (index + 1) % toggleButtons.length;
+			} else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+				nextIndex = (index - 1 + toggleButtons.length) % toggleButtons.length;
+			} else if (e.key === "Home") {
+				nextIndex = 0;
+			} else if (e.key === "End") {
+				nextIndex = toggleButtons.length - 1;
+			}
+			if (nextIndex !== null) {
+				e.preventDefault();
+				const targetBtn = toggleButtons[nextIndex];
+				const targetMode = targetBtn.getAttribute("data-mode");
+				setMode(targetMode, targetBtn);
+			}
+		});
+	});
+
+	// Re-sync chart colours when the user switches theme
+	const themeSelect = document.getElementById("theme-select");
+	if (themeSelect) {
+		themeSelect.addEventListener("change", () => {
+			requestAnimationFrame(updateRadar);
 		});
 	}
 
-	// Build initial chart
-	buildRadar(currentMode);
-
-	// Toggle buttons
-	const toggleButtons = document.querySelectorAll(".toggle-button");
-	toggleButtons.forEach((btn) => {
-		btn.addEventListener("click", () => {
-			const mode = btn.getAttribute("data-mode");
-			if (!mode || mode === currentMode) return;
-
-			currentMode = mode;
-
-			toggleButtons.forEach((b) => b.classList.remove("active"));
-			btn.classList.add("active");
-
-			buildRadar(currentMode);
-		});
+	// Re-sync chart when OS theme changes (relevant when "System" is selected)
+	const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+	prefersDark.addEventListener("change", () => {
+		requestAnimationFrame(updateRadar);
 	});
 }
 

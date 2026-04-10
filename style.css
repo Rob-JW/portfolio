@@ -435,7 +435,8 @@ body {
 
 .pixel-card {
 	min-width: 280px;
-	max-width: 360px;
+	max-width: 440px;
+	width: 100%;
 	box-shadow: var(--shadow-pixel);
 	position: relative;
 }
@@ -493,8 +494,8 @@ body {
 .chart-wrapper {
 	position: relative;
 	margin: 0 auto;
-	max-width: 320px;
-	height: 320px; /* locks chart size when switching labels */
+	max-width: 400px;
+	height: 400px; /* locks chart size when switching labels */
 }
 
 .legend {
@@ -520,23 +521,6 @@ body {
 
 .legend-item.target {
 	background: rgba(56, 189, 248, 0.8);
-}
-
-/* JS Delivr link */
-
-.link-style {
-	color: var(--accent-2);
-	text-decoration: none;
-	font-size: 0.7rem;
-}
-
-.link-style:hover {
-	text-decoration: underline;
-}
-
-.link-wrapper {
-	text-align: right;
-	margin-top: 0.5rem;
 }
 
 /* Sections */
