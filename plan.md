@@ -120,6 +120,91 @@ Push to `origin/main`.
 
 ---
 
+## Content Audit Pass (Active — 2026-04-10)
+
+First of the six overhaul passes defined in `CLAUDE.md`. Scope: fix factual inaccuracies, typos, stale references, and weak positioning in the existing page content. No structural HTML / CSS / JS changes.
+
+### Issues identified
+
+1. **Hero subtitle — factually wrong.** Says "Senior Engineering Officer with HM Armed Forces". Rob is a Warrant Officer Class 1 (non-commissioned, not commissioned). Must be corrected.
+2. **Skills paragraph — stale.** Still references "Code" mode after the radar was reworked to "General".
+3. **About section — multiple typos + stale numbers.** "20+ years" (actually 24), "outsode" → "outside", "fundemental" → "fundamental", "Consistancy" → "Consistency", "KSE" jargon unexplained.
+4. **About section — qualifications stale.** Missing Lean Six Sigma Green Belt. CPSA no longer "in progress" — it is booked for 25 July 2026.
+5. **Contact positioning — undersells.** "Junior cyber roles, SOC work" significantly undersells a WO1 with SC clearance and 24 years of engineering leadership. Should position for security consulting and defence-sector roles.
+6. **Qualifications card — stale.** Same as #4.
+7. **No `<meta name="description">`.** Missing for SEO and social previews.
+
+### Verification
+
+- Refresh `index.html` in browser.
+- Read all visible copy through top to bottom — confirm no typos remain.
+- View page source — confirm meta description present.
+- Switch themes — copy should be legible in both.
+
+### Commit
+
+Commit this pass together with the Structure & Responsive Pass below, since both touch `index.html` and Rob wants a single reviewable state.
+
+---
+
+## Structure & Responsive Pass (Active — 2026-04-10)
+
+Triggered by the content audit review. Scope: reorder the page, move the radar out of the hero, size the radar properly, and modernise responsive scaling.
+
+### Issues identified
+
+1. **Semantic mess in hero.** The Skills `<section>` is nested inside `.hero-actions > div`, which is semantically wrong. Sections should not live inside button rows.
+2. **Section order.** Skills (inside hero) appears before About. About should come first — the reader meets the person before seeing the skills data.
+3. **Radar cramped.** Card max-width 440px, chart 400×400. Cramped because it's forced into a two-column hero layout sharing space with text.
+4. **"Overview" is the wrong heading.** The section contains six forward-looking cards — placeholders for future pages. "Overview" doesn't describe the intent.
+5. **Responsive scaling is partial.** Hero `h1` uses `clamp()` but section `h2`, padding, and spacing are fixed. Chart wrapper uses fixed pixel sizes instead of `aspect-ratio`. Toggle button touch target ~28px — below WCAG AA 44×44 recommendation.
+
+### Changes
+
+**HTML (`index.html`)**
+- Strip `<section id="skills">` out of `.hero-actions`.
+- Remove `.hero-chart` and its contents from the hero section.
+- Hero becomes text-only: eyebrow, h1, subtitle, focus, CTAs.
+- New dedicated `<section id="skills" class="section">` after About, containing the skills intro paragraph and the radar card at full width.
+- Rename the six-cards section: `id="projects"` → `id="building"`, `<h2>Overview</h2>` → `<h2>Building</h2>`.
+- Update nav link `<a href="#projects">Projects</a>` → `<a href="#building">Building</a>`.
+
+**CSS (`style.css`)**
+- `.hero`: remove flex layout, become single-column block with fluid vertical padding.
+- `.hero-text`: drop `flex: 1.1`, keep `max-width: 640px` for readable line length.
+- Delete `.hero-chart` rules (no longer used).
+- `.pixel-card`: `max-width: 440px` → `max-width: 640px`.
+- `.chart-wrapper`: `max-width: 400px; height: 400px` → `max-width: 560px; width: 100%; aspect-ratio: 1 / 1; height: auto`. Industry-standard fluid square.
+- `.toggle-button`: bump padding to ~44px touch target.
+- `.section h2`: fluid with `clamp(1.4rem, 1.6vw + 0.9rem, 1.9rem)` and slightly larger baseline for better hierarchy.
+- `.section`: fluid vertical padding with `clamp()`.
+- Remove `.section1` block — unused after the section is removed from the hero.
+- Remove `.card-badge` block — unused since the beta badge was removed.
+- Remove `.hero-chart` from the `@media (max-width: 900px)` responsive rules.
+
+### Rationale for "Building"
+
+Echoes the hero tagline `Core-Loop: Learn · Build · Deploy`. Honest about the current state (the cards point at work-in-progress areas). Alternatives considered: "In Progress" (honest but flat), "What's Next" (forward-looking), "Focus" (ties to Focus/Discipline/Consistency theme).
+
+### Verification
+
+- Refresh `index.html` in browser.
+- Confirm new page order: Hero → About → Skills (big radar) → Building → Contact.
+- Confirm "Overview" no longer appears; heading reads "Building".
+- Confirm nav link "Projects" is now "Building" and scrolls to the correct section.
+- Confirm radar is larger and square at all viewport widths.
+- Test at 1024, 768, 600, 375 widths — layout holds, no horizontal scroll, no clipping.
+- Tab through the page — no orphaned focus states, toggle buttons keyboard-reachable with correct touch size.
+- Switch themes — layout holds in both.
+
+### Commit
+
+Single combined commit covering both passes:
+> `Content audit and page restructure — correct rank, update quals, bigger radar, reorder sections`
+
+---
+
 ## Roadmap (Not This Session)
 
 - TryHackMe-style expansion: 4 career paths × 4 experience levels (Foundational / Security Analyst / Penetration Tester / Security Engineer × Entry / Junior / Mid / Senior). Adds a level dropdown overlaying a reference polygon for each level's expected skill profile. Significantly larger data model and UI work.
+- New pages: Qualifications, Projects, Write-ups, Blog, Roadmap, Resources (see `CLAUDE.md` → Vision).

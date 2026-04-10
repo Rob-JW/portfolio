@@ -5,12 +5,15 @@
 	<meta charset="UTF-8" />
 	<title>Rob Williams | Cyber & Engineering</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="description"
+		content="Portfolio of Rob Williams — British Army Warrant Officer (REME) transitioning into cyber security. Qualifications, projects, write-ups, and the road from engineering to cyber." />
 
 	<!-- Main stylesheet -->
 	<link rel="stylesheet" href="style.css" />
 
 	<!-- Font Awesome for official-style icons -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+		referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -32,7 +35,8 @@
 			</div>
 
 			<!-- Hamburger button for mobile -->
-			<button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="site-nav">
+			<button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false"
+				aria-controls="site-nav">
 				<span class="menu-toggle-bar"></span>
 				<span class="menu-toggle-bar"></span>
 				<span class="menu-toggle-bar"></span>
@@ -42,62 +46,85 @@
 			<nav class="main-nav" id="site-nav">
 				<a href="#about">About</a>
 				<a href="#skills">Skills</a>
-				<a href="#projects">Projects</a>
+				<a href="#building">Building</a>
 				<a href="#contact">Contact</a>
 			</nav>
 		</div>
 	</header>
 
 	<main>
-		<!-- HERO -->
+		<!-- HERO (text-only) -->
 		<section class="hero" id="top">
 			<div class="hero-text">
 				<p class="eyebrow">Cyber security &amp; software development</p>
 				<h1>Rob Williams</h1>
 				<p class="hero-subtitle">
-					This is the portfolio website of <strong>Robert Williams</strong>, a Senior
-					Engineering Officer with HM Armed Forces. The website was designed
-					with the aim of providing a succinct overview of qualifications and
-					professional experience.
+					I’m <strong>Rob Williams</strong> — a British Army Warrant Officer
+					Class 1 (REME) with 24 years of engineering leadership, now
+					transitioning into cyber security. This site documents my
+					qualifications, projects, and the path into the cyber field.
 				</p>
-				<p class="hero-focus">Core-Loop: Learn · Build · Deploy</p>
+				<p class="hero-focus">Core-Loop: Focused Learning · Discipline · Consistency</p>
 
 				<div class="hero-actions">
-					<a href="#projects" class="btn primary">View projects</a>
+					<a href="#building" class="btn primary">View projects</a>
 					<a href="#contact" class="btn ghost">Contact me</a>
-					<div>
-						<!-- SKILLS SECTION -->
-						<section id="skills" class="section1">
-							<h2>Skills</h2>
-							<p>
-								The radar chart tracks two profiles:
-								<strong>Cyber</strong> (defensive/offensive fundamentals,
-								platforms, DFIR) and <strong>Code</strong> (web, scripting,
-								automation). Current levels reflect where I am today; target
-								levels are goals for the next 12 months.
-							</p>
-						</section>
-					</div>
 				</div>
 			</div>
+		</section>
 
-			<div class="hero-chart">
+		<!-- ABOUT -->
+		<section id="about" class="section">
+			<h2>About</h2>
+			<p>
+				I’m a British Army Warrant Officer Class 1 (REME) with 24 years of
+				experience in defence engineering. I’m now re-training in cyber
+				security — a discipline that sits outside my core Knowledge, Skills
+				and Experience (KSE), which makes it both a challenge and an
+				opportunity. I’m approaching it with the same principles that have
+				served me through two decades of command:
+				<strong>Focus Learning, Discipline, and Consistency</strong>.
+			</p>
+			<p>
+				I hold CompTIA Security+, ISO 9001:2015 Lead Auditor, and Lean Six
+				Sigma Green Belt qualifications, and I’m booked to sit the CREST
+				Practitioner Security Analyst (CPSA) exam in July 2026. This site is
+				my first step in building a portfolio of labs, write-ups, and small
+				tools that bridge engineering and cyber security.
+			</p>
+		</section>
+
+		<!-- SKILLS -->
+		<section id="skills" class="section">
+			<h2>Skills</h2>
+			<p>
+				The radar chart tracks two profiles:
+				<strong>Cyber</strong> (defensive and offensive fundamentals,
+				platforms, DFIR) and <strong>General</strong> (leadership, governance,
+				and delivery). Current levels reflect where I am today; target levels
+				are goals for the next 12 months.
+			</p>
+
+			<div class="skills-card-wrap">
 				<div class="card pixel-card">
 					<div class="card-header">
 						<span class="card-title">Skills matrix</span>
 					</div>
 
 					<div class="toggle-row" role="tablist" aria-label="Skills profile">
-						<button class="toggle-button active" data-mode="cyber" role="tab" aria-selected="true" aria-controls="skillsRadar" tabindex="0">
+						<button class="toggle-button active" data-mode="cyber" role="tab" aria-selected="true"
+							aria-controls="skillsRadar" tabindex="0">
 							Cyber
 						</button>
-						<button class="toggle-button" data-mode="general" role="tab" aria-selected="false" aria-controls="skillsRadar" tabindex="-1">
+						<button class="toggle-button" data-mode="general" role="tab" aria-selected="false"
+							aria-controls="skillsRadar" tabindex="-1">
 							General
 						</button>
 					</div>
 
 					<div class="chart-wrapper">
-						<canvas id="skillsRadar" role="img" aria-label="Cyber skills radar chart showing current levels and 12-month targets across six axes"></canvas>
+						<canvas id="skillsRadar" role="img"
+							aria-label="Cyber skills radar chart showing current levels and 12-month targets across six axes"></canvas>
 					</div>
 
 					<div class="legend">
@@ -108,33 +135,16 @@
 			</div>
 		</section>
 
-		<!-- ABOUT -->
-		<section id="about" class="section">
-			<h2>About</h2>
+		<!-- BUILDING (future sections preview) -->
+		<section id="building" class="section">
+			<h2>Building</h2>
 			<p>
-				I’m a British Army Warrant Officer with 20+ years of experience in
-				defence. I’m now re-training in cyber security which holds many challenges as it is outsode of my core KSE. I hope to apply my fundemental approach of <strong>Focus, Discipline, and Consistancy</strong> to hands-on experience in both blue-team and offensive security.
-			</p>
-			<p>
-				I have recently gained the CompTIA Security+ and ISO 9001
-				qualifications and I’m actively studying for the CREST Practitioner
-				Security Analyst (CPSA). This website is my first project in building
-				a portfolio of labs, write-ups, and small tools that bridge the gap
-				between my engineering background and my future career in cyber
-				security.
-			</p>
-		</section>
-
-		<!-- PROJECT / OVERVIEW CARDS -->
-		<section id="projects" class="section">
-			<h2>Overview</h2>
-			<p>
-				A snapshot of where I’m focusing my effort right now – from
+				A snapshot of where I’m focusing my effort right now — from
 				qualifications and write-ups through to future projects and backlog.
 			</p>
 
 			<div id="cards-matrix" class="cards-matrix">
-		
+
 				<!-- 4. Projects -->
 				<article class="hover-card">
 					<div class="hover-card-content">
@@ -185,7 +195,7 @@
 						</div>
 					</div>
 				</article>
-				
+
 				<!-- 1. Qualifications -->
 				<article class="hover-card">
 					<div class="hover-card-content">
@@ -196,7 +206,7 @@
 							<div class="hover-card-info">
 								<div class="hover-card-info-title">
 									<h3>Qualifications</h3>
-									<h4>Security+, ISO 9001, CPSA (in progress).</h4>
+									<h4>Security+, ISO 9001 Lead Auditor, LSS Green Belt, CPSA (booked Jul 2026).</h4>
 								</div>
 							</div>
 						</div>
@@ -245,20 +255,24 @@
 		<section id="contact" class="section">
 			<h2>Contact</h2>
 			<p>
-				Best point of contact is via LinkedIn or e-mail. I’m open to
-				conversations around junior cyber roles, SOC work, and roles that
-				blend engineering reliability with security operations.
+				Best point of contact is via LinkedIn or email. I’m open to
+				conversations around cyber security consulting, SOC operations, and
+				defence-sector roles where engineering rigour, 24 years of command
+				experience, and the vetting that comes with the role are all assets
+				from day one.
 			</p>
 
 			<!-- Icon row (inline) -->
 			<ul class="contact-list contact-icons">
 				<li>
-					<a href="https://linkedin.com/in/rob-jw" target="_blank" rel="noreferrer" class="contact-icon-link" aria-label="LinkedIn profile">
+					<a href="https://linkedin.com/in/rob-jw" target="_blank" rel="noreferrer" class="contact-icon-link"
+						aria-label="LinkedIn profile">
 						<i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
 					</a>
 				</li>
 				<li>
-					<a href="https://github.com/Rob-JW" target="_blank" rel="noreferrer" class="contact-icon-link" aria-label="GitHub profile">
+					<a href="https://github.com/Rob-JW" target="_blank" rel="noreferrer" class="contact-icon-link"
+						aria-label="GitHub profile">
 						<i class="fa-brands fa-github" aria-hidden="true"></i>
 					</a>
 				</li>
