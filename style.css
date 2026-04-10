@@ -296,30 +296,17 @@ body {
 	box-shadow: 0 0 8px var(--accent-2);
 }
 
-/* Hero */
+/* Hero — single-column, text-only */
 
 .hero {
-	display: flex;
-	align-items: stretch;
-	justify-content: space-between;
-	padding: 3rem 5vw 2rem;
-	gap: 2rem;
-
-	/* bring hero width in line with sections for consistent layout */
+	display: block;
+	padding: clamp(2.5rem, 6vw + 1rem, 5rem) 5vw clamp(2rem, 4vw, 3rem);
 	max-width: 960px;
 	margin: 0 auto;
 }
 
 .hero-text {
-	flex: 1.1;
 	max-width: 640px;
-}
-
-.hero-chart {
-	flex: 1;
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
 }
 
 .eyebrow {
@@ -406,37 +393,25 @@ body {
 	animation: click-pulse 180ms ease-out;
 }
 
-/* Optional extra section style (if you use .section1 somewhere) */
-.section1 {
-	padding: 1rem 5vw;
-	max-width: 960px;
-	margin: 0 auto;
-}
-
-.section1 h2 {
-	font-size: 1.4rem;
-	margin-bottom: 0.75rem;
-}
-
-.section1 p {
-	color: var(--text-muted);
-	line-height: 1.7;
-}
-
 /* Pixel card around radar */
 
 .card {
 	background: var(--bg-elevated);
 	border-radius: var(--radius-pixel);
 	border: 2px solid var(--border-strong);
-	padding: 1rem;
+	padding: clamp(1rem, 2vw, 1.5rem);
 	color: var(--text-main);
 }
 
+.skills-card-wrap {
+	display: flex;
+	justify-content: center;
+	margin-top: clamp(1rem, 2vw, 1.75rem);
+}
+
 .pixel-card {
-	min-width: 280px;
-	max-width: 440px;
 	width: 100%;
+	max-width: 640px;
 	box-shadow: var(--shadow-pixel);
 	position: relative;
 }
@@ -455,16 +430,6 @@ body {
 	color: var(--text-muted);
 }
 
-.card-badge {
-	font-size: 0.7rem;
-	text-transform: uppercase;
-	padding: 0.2rem 0.5rem;
-	border-radius: var(--radius-pixel);
-	background: var(--accent-soft);
-	color: var(--accent);
-	border: 1px solid var(--accent);
-}
-
 .toggle-row {
 	display: flex;
 	gap: 0.5rem;
@@ -473,8 +438,9 @@ body {
 
 .toggle-button {
 	flex: 1;
-	padding: 0.35rem 0.75rem;
-	font-size: 0.75rem;
+	min-height: 44px; /* WCAG AA touch target */
+	padding: 0.65rem 1rem;
+	font-size: 0.85rem;
 	text-transform: uppercase;
 	letter-spacing: 0.12em;
 	border-radius: var(--radius-pixel);
@@ -483,6 +449,11 @@ body {
 	color: var(--text-muted);
 	cursor: pointer;
 	transition: background 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.toggle-button:focus-visible {
+	outline: 2px solid var(--accent-2);
+	outline-offset: 2px;
 }
 
 .toggle-button.active {
@@ -494,8 +465,9 @@ body {
 .chart-wrapper {
 	position: relative;
 	margin: 0 auto;
-	max-width: 400px;
-	height: 400px; /* locks chart size when switching labels */
+	width: 100%;
+	max-width: 560px;
+	aspect-ratio: 1 / 1; /* fluid square — scales with viewport */
 }
 
 .legend {
@@ -526,19 +498,21 @@ body {
 /* Sections */
 
 .section {
-	padding: 2.5rem 5vw;
+	padding: clamp(2rem, 5vw, 4rem) 5vw;
 	max-width: 960px;
 	margin: 0 auto;
 }
 
 .section h2 {
-	font-size: 1.4rem;
-	margin-bottom: 0.75rem;
+	font-size: clamp(1.4rem, 1.6vw + 0.9rem, 1.9rem);
+	margin-bottom: 1rem;
+	letter-spacing: -0.01em;
 }
 
 .section p {
 	color: var(--text-muted);
 	line-height: 1.7;
+	max-width: 70ch; /* readable body line length */
 }
 
 /* Hover card grid (3x2) */
@@ -722,13 +696,7 @@ body {
 
 @media (max-width: 900px) {
 	.hero {
-		flex-direction: column;
-		align-items: stretch;
 		padding-top: 2.5rem;
-	}
-
-	.hero-chart {
-		justify-content: flex-start;
 	}
 }
 
