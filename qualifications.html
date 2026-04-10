@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Qualifications — Rob Williams</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="description"
+		content="Rob Williams — qualifications and skills matrix. Cyber security, engineering, and leadership credentials." />
+
+	<link rel="stylesheet" href="style.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+		referrerpolicy="no-referrer" />
+</head>
+
+<body>
+	<header class="site-header">
+		<a href="index.html" class="logo">
+			RW <span class="logo-dot"></span>
+		</a>
+
+		<div class="header-controls">
+			<div class="theme-switcher">
+				<span class="theme-label">Theme</span>
+				<button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle colour theme">
+					<span class="theme-icon" aria-hidden="true">🌙</span>
+				</button>
+			</div>
+
+			<button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false"
+				aria-controls="site-nav">
+				<span class="menu-toggle-bar"></span>
+				<span class="menu-toggle-bar"></span>
+				<span class="menu-toggle-bar"></span>
+			</button>
+
+			<nav class="main-nav" id="site-nav">
+				<a href="index.html#about">About</a>
+				<a href="index.html#projects">Projects</a>
+				<a href="index.html#contact">Contact</a>
+			</nav>
+		</div>
+	</header>
+
+	<main>
+		<section class="page-header">
+			<p class="eyebrow"><a href="index.html#projects">← Back to Projects</a></p>
+			<h1>Qualifications</h1>
+		</section>
+
+		<section class="section">
+			<p>
+				A formal record of my academic, professional, and vocational credentials,
+				alongside a live skills matrix tracking my current level and 12-month targets
+				across both cyber and general competency areas.
+			</p>
+
+			<div class="quals-layout">
+				<div class="quals-list-wrap">
+					<h2>Credentials</h2>
+					<ul class="quals-list">
+						<li>
+							<strong>CREST CPSA</strong> — Practitioner Security Analyst
+							(booked: 25 July 2026)
+						</li>
+						<li>
+							<strong>Lean Six Sigma Green Belt</strong> — DMAIC methodology (2026)
+						</li>
+						<li>
+							<strong>ISO 9001:2015 QMS Lead Auditor</strong> — Quality management
+							audit standard (2025)
+						</li>
+						<li>
+							<strong>CompTIA Security+</strong> — Cyber security fundamentals (2025)
+						</li>
+						<li>
+							<strong>City &amp; Guilds Graduateship (GCGI)</strong> —
+							Level 6, degree-equivalent (2026)
+						</li>
+						<li>
+							<strong>BTEC Level 5 HND Diploma</strong> — Automotive Engineering,
+							Pearson (2015)
+						</li>
+						<li>
+							<strong>CMI Level 4 Diploma</strong> — Management and Leadership,
+							Chartered Management Institute (2016)
+						</li>
+						<li>
+							<strong>Advanced Apprenticeship in Engineering</strong> — Level 3,
+							SEMTA (2010)
+						</li>
+					</ul>
+
+					<h2>Professional Memberships</h2>
+					<ul class="quals-list">
+						<li>
+							<strong>Institution of Engineering and Technology (IET)</strong> —
+							Member No. 1101109171. IEng (Incorporated Engineer) registration in
+							progress.
+						</li>
+					</ul>
+				</div>
+
+				<div id="skills" class="skills-card-wrap">
+					<div class="card pixel-card">
+						<div class="card-header">
+							<h3 class="card-title">Skills Matrix</h3>
+						</div>
+
+						<div class="toggle-row" role="tablist" aria-label="Skills profile">
+							<button class="toggle-button active" data-mode="cyber" role="tab" aria-selected="true"
+								aria-controls="skillsRadar" tabindex="0">
+								Cyber
+							</button>
+							<button class="toggle-button" data-mode="general" role="tab" aria-selected="false"
+								aria-controls="skillsRadar" tabindex="-1">
+								General
+							</button>
+						</div>
+
+						<div class="chart-wrapper">
+							<canvas id="skillsRadar" role="img"
+								aria-label="Skills radar chart showing current levels and 12-month targets across six axes"></canvas>
+						</div>
+
+						<div class="legend">
+							<span class="legend-item current"></span><span>Current level</span>
+							<span class="legend-item target"></span><span>Target (12 months)</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<footer class="site-footer">
+		<span>© <span id="year"></span> Rob Williams</span>
+		<span class="footer-dot">Built with pixels &amp; packets.</span>
+	</footer>
+
+	<!-- Chart.js for the radar chart -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<!-- Main script -->
+	<script src="script.js"></script>
+</body>
+
+</html>

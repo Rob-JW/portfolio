@@ -5,42 +5,49 @@ document.addEventListener("DOMContentLoaded", () => {
 		yearSpan.textContent = new Date().getFullYear();
 	}
 
-	initThemeSelector();
+	initThemeToggle();
 	initMobileNav();
 	initRadarChart();
 	initHoverCards();
 });
 
 /**
- * THEME SELECTOR (light / dark / system)
+ * THEME TOGGLE — cycles between light and dark.
+ *
+ * Shows the current state as an emoji (🌙 for dark, ☀️ for light).
+ * Clicking toggles. The chosen theme is stored in localStorage and
+ * applied to <html data-theme=...>. Chart.js re-syncs via a
+ * MutationObserver on the data-theme attribute.
  */
-function initThemeSelector() {
-	const select = document.getElementById("theme-select");
-	if (!select) return;
+function initThemeToggle() {
+	const button = document.getElementById("theme-toggle");
+	if (!button) return;
 
 	const root = document.documentElement;
+	const icon = button.querySelector(".theme-icon");
 	const stored = localStorage.getItem("theme-preference");
 
 	function applyTheme(theme) {
-		if (theme === "light") {
-			root.setAttribute("data-theme", "light");
-		} else if (theme === "dark") {
-			root.setAttribute("data-theme", "dark");
-		} else {
-			// system: remove explicit theme and rely on prefers-color-scheme
-			root.removeAttribute("data-theme");
-		}
+		root.setAttribute("data-theme", theme);
 		localStorage.setItem("theme-preference", theme);
+		if (icon) {
+			icon.textContent = theme === "dark" ? "🌙" : "☀️";
+		}
+		button.setAttribute(
+			"aria-label",
+			`Toggle colour theme — currently ${theme} mode`
+		);
 	}
 
-	// On load: apply stored preference or default to system
-	const initialTheme = stored || "system";
+	// On load: apply stored preference or default to dark.
+	// Normalise any legacy "system" value to "dark".
+	const initialTheme = stored === "light" ? "light" : "dark";
 	applyTheme(initialTheme);
-	select.value = initialTheme;
 
-	select.addEventListener("change", (e) => {
-		const value = e.target.value;
-		applyTheme(value);
+	button.addEventListener("click", () => {
+		const current = root.getAttribute("data-theme");
+		const next = current === "dark" ? "light" : "dark";
+		applyTheme(next);
 	});
 }
 
@@ -103,15 +110,15 @@ function initRadarChart() {
 		cyber: {
 			title: "Cyber",
 			labels: [
-				["Network", "Fundamentals"],
-				["Linux", "CLI"],
-				["Windows /", "Active Directory"],
-				["Web", "Security"],
-				["Scripting", "(Bash/Python)"],
-				["DFIR &", "Logging"]
+				["Core", "Technical"],
+				["OSINT &", "Recon"],
+				["Network", "Assessment"],
+				["Windows", "Assessment"],
+				["Unix", "Assessment"],
+				["Web App", "Testing"]
 			],
-			current: [40, 25, 30, 30, 25, 20],
-			target: [65, 60, 60, 55, 50, 55]
+			current: [40, 25, 20, 30, 20, 25],
+			target: [75, 65, 60, 65, 60, 60]
 		},
 
 		general: {
@@ -206,10 +213,10 @@ function initRadarChart() {
 			options: {
 				responsive: true,
 				maintainAspectRatio: false,
-				// Fixed padding keeps the plot area the same size regardless of
-				// label text length — prevents jump on mode switch.
+				// Tight padding so the polygon fills the available wrapper.
+				// Sized for the compact 280px chart wrapper.
 				layout: {
-					padding: { top: 20, right: 40, bottom: 20, left: 40 }
+					padding: { top: 5, right: 10, bottom: 5, left: 10 }
 				},
 				animation: {
 					duration: reducedMotionQuery.matches ? 0 : 600,
@@ -217,13 +224,7 @@ function initRadarChart() {
 				},
 				plugins: {
 					legend: { display: false },
-					tooltip: {
-						mode: "index",
-						intersect: false,
-						callbacks: {
-							label: (item) => `${item.dataset.label}: ${item.raw}/100`
-						}
-					}
+					tooltip: { enabled: false }
 				},
 				scales: {
 					r: {
@@ -240,9 +241,9 @@ function initRadarChart() {
 						angleLines: { color: colors.textMuted, lineWidth: 1 },
 						pointLabels: {
 							color: colors.textMain,
-							padding: 12,
+							padding: 6,
 							font: {
-								size: 11,
+								size: 10,
 								family: "system-ui, -apple-system, sans-serif"
 							}
 						}
@@ -331,18 +332,16 @@ function initRadarChart() {
 		});
 	});
 
-	// Re-sync chart colours when the user switches theme
-	const themeSelect = document.getElementById("theme-select");
-	if (themeSelect) {
-		themeSelect.addEventListener("change", () => {
-			requestAnimationFrame(updateRadar);
-		});
-	}
-
-	// Re-sync chart when OS theme changes (relevant when "System" is selected)
-	const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
-	prefersDark.addEventListener("change", () => {
+	// Re-sync chart colours whenever <html data-theme> changes.
+	// MutationObserver covers every possible trigger (toggle button click,
+	// DevTools edit, future programmatic changes) without coupling the chart
+	// to any specific control.
+	const themeObserver = new MutationObserver(() => {
 		requestAnimationFrame(updateRadar);
+	});
+	themeObserver.observe(document.documentElement, {
+		attributes: true,
+		attributeFilter: ["data-theme"]
 	});
 }
 
