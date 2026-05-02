@@ -6,16 +6,24 @@
 
 ---
 
-## Outstanding — Next Session (first thing 2026-04-11)
+## Outstanding — Updated 2026-05-02
 
-Six items requested by Rob at end of 2026-04-10 session. All are polish — none require structural changes.
+**Status as of 2026-05-02 (pre-publish site refresh session):** Items 1, 3, 4, 5, 6 resolved. Item 2 partially resolved (roadmap populated; 4 placeholder sub-pages remain).
 
-1. **Add personal link to contact methods.** `https://robwilliams.link/` should appear alongside LinkedIn, GitHub, and email in the contact block at the bottom of every page (index.html + 6 sub-pages).
-2. **Populate sub-page content.** Replace boilerplate on `projects.html`, `roadmap.html`, `backlog.html`, `write-ups.html`, `learning-resources.html` with real content drawn from Rob's CPSA study, CV, and HTB/THM lab work. Qualifications page already has real content.
-3. **About section — reduce word count.** Current two-paragraph block is too long. Tighten to ~2 concise sentences per paragraph while preserving the rank, KSE framing, qualifications, and CPSA booking.
-4. **Hero button hover effect.** The current hover on `.btn.primary` / `.btn.ghost` feels slightly off. Revisit — maybe a stronger colour swap, cleaner translate, or a pixel bevel pulse. Both buttons should feel consistent.
-5. **Reduce hero bottom padding.** Currently the hero's bottom padding (matching top, `clamp(1.5rem, 3vw + 0.5rem, 2.5rem)`) creates too much space between the buttons and the About section below. Pull it back — target around half the current value. *Note: earlier in this session Rob said it was too tight, so I bumped it. He's now saying I overshot. Don't take it to zero.*
-6. **Increase hero-actions top padding.** Space between the "Core-Loop: Focused Learning · Discipline · Consistency" line and the buttons needs more breathing room. Currently `margin-top: 1rem` on `.hero-actions` — bump to ~1.5–2rem.
+1. ~~Add personal link to contact methods~~ — **DONE 2026-05-02.** `https://robwilliams.link/` added as fourth contact icon (`fa-globe`, between GitHub and email) on index.html. Contact section rolled out to all 6 sub-pages with the same 4-icon list.
+2. **Populate sub-page content.** Real content needed on `projects.html`, `backlog.html`, `write-ups.html`, `learning-resources.html`. *Roadmap.html populated 2026-05-02 with vertical zigzag certification path (8 stations, status-driven rails, hover/tap popups). Qualifications already has real content. 4 placeholder pages remain.*
+3. ~~About section — reduce word count~~ — **DONE 2026-05-02.** Tightened to 2 sentences per paragraph. Rank corrected to include ASM. KSE framing, qualifications, and CPSA booking preserved.
+4. ~~Hero button hover effect~~ — **DONE 2026-05-02.** Both `.btn.primary` and `.btn.ghost` now resolve to the same hover state — cyan fill (`var(--accent-2)`), `#022c22` text, `var(--shadow-pixel)` lift, `translateY(-1px)`. Consistent across both buttons.
+5. ~~Reduce hero bottom padding~~ — **DONE 2026-05-02.** Padding split into 3-value shorthand; bottom halved to `clamp(0.75rem, 1.5vw + 0.25rem, 1.25rem)`. Top breathing room preserved.
+6. ~~Increase hero-actions top padding~~ — **DONE 2026-05-02.** `margin-top: 1.75rem` (up from `1rem`).
+
+### Also resolved this session
+- New page: roadmap.html (vertical zigzag, status rails, popups, glow pulse)
+- Cleanup: deleted unreferenced `assests.asci`, removed orphan `.section1` CSS selector
+- Project CLAUDE.md file layout refreshed to reflect current sub-page count and add `qbank/` analogue (n/a here — that's CPSA project)
+
+### Still outstanding (next session)
+- Item 2 remainder: real content for `projects.html`, `backlog.html`, `write-ups.html`, `learning-resources.html`
 
 ---
 

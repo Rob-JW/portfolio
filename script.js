@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	initMobileNav();
 	initRadarChart();
 	initHoverCards();
+	initRoadmap();
 });
 
 /**
@@ -342,6 +343,55 @@ function initRadarChart() {
 	themeObserver.observe(document.documentElement, {
 		attributes: true,
 		attributeFilter: ["data-theme"]
+	});
+}
+
+/**
+ * ROADMAP — node card popup tap-toggle.
+ *
+ * Desktop hover/focus is handled in CSS (`:hover ~ .node-popup`, `:focus-visible ~`).
+ * This function adds explicit click/tap toggling so:
+ *  - touch users can open popups (no hover state),
+ *  - any user can pin a popup open by clicking,
+ *  - only one popup is open at a time,
+ *  - clicking outside or pressing Escape closes any open popup.
+ */
+function initRoadmap() {
+	const cards = document.querySelectorAll(".roadmap-track .node-card");
+	if (!cards.length) return;
+
+	function closeAll(except) {
+		cards.forEach((c) => {
+			if (c !== except) c.setAttribute("aria-expanded", "false");
+		});
+	}
+
+	cards.forEach((card) => {
+		card.addEventListener("click", (e) => {
+			e.stopPropagation();
+			const isOpen = card.getAttribute("aria-expanded") === "true";
+			closeAll(card);
+			card.setAttribute("aria-expanded", isOpen ? "false" : "true");
+		});
+	});
+
+	// Click outside any node-card closes all
+	document.addEventListener("click", (e) => {
+		if (!e.target.closest(".roadmap-track .node-card")) {
+			closeAll(null);
+		}
+	});
+
+	// Escape closes all and restores focus to the active card if any
+	document.addEventListener("keydown", (e) => {
+		if (e.key !== "Escape") return;
+		const open = document.querySelector(
+			'.roadmap-track .node-card[aria-expanded="true"]'
+		);
+		if (open) {
+			closeAll(null);
+			open.focus();
+		}
 	});
 }
 

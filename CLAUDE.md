@@ -149,15 +149,16 @@ DEV–Portfolio_Website/
 ├── plan.md             Current work plan and roadmap
 ├── README.md           Public-facing repo README (GitHub)
 ├── index.html          Single-page site markup
+├── qualifications.html Sub-page — credentials and skills matrix
+├── roadmap.html        Sub-page — vertical zigzag certification path
+├── projects.html       Sub-page — labs and personal builds (placeholder)
+├── backlog.html        Sub-page — to-do / future scope (placeholder)
+├── write-ups.html      Sub-page — HTB / THM walkthroughs (placeholder)
+├── learning-resources.html Sub-page — curated links (placeholder)
 ├── style.css           All styling, theme variables, responsive rules
-├── script.js           Theme, nav, radar chart, hover cards
-├── assests.asci        [Typo — rename to assets.txt or remove, unused]
+├── script.js           Theme, nav, radar chart, hover cards, roadmap popups
 └── .git/               Git repo — remote origin/main → github.com/Rob-JW/portfolio
 ```
-
-Known naming issues to fix during the review:
-- `assests.asci` — misspelled and unreferenced. Delete or rename.
-- `section1` CSS class — meaningless generic name, likely needs renaming by purpose.
 
 ---
 
