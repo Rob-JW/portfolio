@@ -72,8 +72,7 @@ body {
 
 /* Improve anchor link behaviour with sticky header */
 .hero,
-.section,
-.section1 {
+.section {
 	scroll-margin-top: 5rem;
 }
 
@@ -324,7 +323,9 @@ body {
 
 .hero {
 	display: block;
-	padding: clamp(1.5rem, 3vw + 0.5rem, 2.5rem) clamp(1rem, 2vw, 1.5rem);
+	/* top | left+right | bottom — bottom halved to tighten the gap into
+	 * the About section while preserving generous top breathing room. */
+	padding: clamp(1.5rem, 3vw + 0.5rem, 2.5rem) clamp(1rem, 2vw, 1.5rem) clamp(0.75rem, 1.5vw + 0.25rem, 1.25rem);
 	max-width: 1280px;
 	margin: 0 auto;
 }
@@ -363,7 +364,8 @@ body {
 	flex-direction: row;
 	flex-wrap: wrap;
 	gap: 0.75rem;
-	margin-top: 1rem;
+	/* More breathing room beneath the Core-Loop tagline. */
+	margin-top: 1.75rem;
 }
 
 /* Buttons */
@@ -393,11 +395,11 @@ body {
 }
 
 .btn.primary:hover {
-	background: transparent;
-	color: var(--accent-2);
+	background: var(--accent-2);
+	color: #022c22;
 	border-color: var(--accent-2);
 	transform: translateY(-1px);
-	background: var(--accent-soft);
+	box-shadow: var(--shadow-pixel);
 }
 
 /* GHOST BUTTON SWAP (BG ↔ TEXT) */
@@ -408,11 +410,14 @@ body {
 	transition: all 180ms ease;
 }
 
+/* Ghost mirrors primary's hover state — both end up cyan-filled with a
+ * pixel-shadow lift, giving a consistent feel across the two buttons. */
 .btn.ghost:hover {
-	color: var(--accent-2);
+	background: var(--accent-2);
+	color: #022c22;
 	border-color: var(--accent-2);
 	transform: translateY(-1px);
-	background: var(--accent-soft);
+	box-shadow: var(--shadow-pixel);
 }
 
 .btn:active {
@@ -935,5 +940,368 @@ body {
 	100% {
 		transform: scale(1);
 		box-shadow: var(--shadow-pixel);
+	}
+}
+
+/* ============================================================
+ * Roadmap page — vertical zigzag certification path.
+ * Reuses --accent / --accent-2 / --shadow-pixel / --accent-soft
+ * for theme + motion consistency with the rest of the site.
+ * ============================================================ */
+
+.roadmap-intro {
+	max-width: 60ch;
+	margin: 0 0 1rem;
+	color: var(--text-muted);
+	line-height: 1.55;
+}
+
+.roadmap-track-section {
+	padding-top: clamp(0.5rem, 1.5vw, 1rem);
+	padding-bottom: clamp(0.5rem, 1.5vw, 1rem);
+}
+
+.roadmap-track {
+	list-style: none;
+	margin: 0 auto;
+	padding: 0;
+	max-width: 880px;
+	position: relative;
+}
+
+.roadmap-node {
+	display: grid;
+	grid-template-columns: 1fr auto 1fr;
+	column-gap: clamp(1rem, 2vw + 0.25rem, 1.75rem);
+	align-items: center;
+	position: relative;
+	padding-block: clamp(1rem, 2vw, 1.5rem);
+}
+
+/* Vertical rail connecting this node down to the next.
+ * Status drives colour: achieved = solid accent (path built),
+ * in-progress = gradient (work flowing), planned = dashed muted. */
+.roadmap-node:not(:last-child)::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	top: calc(50% + 1.6rem);
+	bottom: 0;
+	width: 3px;
+	transform: translateX(-50%);
+	background: var(--border-strong);
+	z-index: 0;
+}
+
+.roadmap-node[data-status="achieved"]:not(:last-child)::after {
+	background: var(--accent);
+}
+
+.roadmap-node[data-status="in-progress"]:not(:last-child)::after {
+	background: linear-gradient(to bottom, var(--accent), var(--border-strong));
+}
+
+.roadmap-node[data-status="planned"]:not(:last-child)::after {
+	background: repeating-linear-gradient(to bottom,
+			var(--border-strong) 0,
+			var(--border-strong) 6px,
+			transparent 6px,
+			transparent 12px);
+}
+
+/* Zigzag layout — odd nodes left, even nodes right. */
+.roadmap-node:nth-child(odd) .node-card-wrap {
+	grid-column: 1;
+	justify-self: end;
+}
+
+.roadmap-node:nth-child(odd) .node-marker {
+	grid-column: 2;
+}
+
+.roadmap-node:nth-child(even) .node-card-wrap {
+	grid-column: 3;
+	justify-self: start;
+}
+
+.roadmap-node:nth-child(even) .node-marker {
+	grid-column: 2;
+}
+
+/* Node card wrapper — anchors the popup positioning. */
+.node-card-wrap {
+	position: relative;
+	max-width: 360px;
+	width: 100%;
+}
+
+/* Node card — same hover language as .btn (180ms ease, lift, soft fill). */
+.node-card {
+	display: block;
+	width: 100%;
+	text-align: left;
+	background: var(--bg-elevated);
+	border: 2px solid var(--border-strong);
+	color: var(--text-main);
+	padding: 0.85rem 1rem;
+	cursor: pointer;
+	box-shadow: var(--shadow-pixel);
+	transition: transform 180ms ease, border-color 180ms ease,
+		background 180ms ease, box-shadow 180ms ease;
+	font: inherit;
+}
+
+.node-card:hover {
+	transform: translateY(-1px);
+	background: var(--accent-soft);
+	border-color: var(--accent-2);
+}
+
+.node-card:focus-visible {
+	outline: 2px solid var(--accent-2);
+	outline-offset: 4px;
+}
+
+.node-card:active {
+	animation: click-pulse 180ms ease-out;
+}
+
+.roadmap-node:nth-child(odd) .node-card {
+	text-align: right;
+}
+
+.node-title {
+	margin: 0 0 0.2rem;
+	font-size: 1rem;
+	color: var(--text-main);
+	line-height: 1.3;
+}
+
+.node-meta {
+	margin: 0;
+	font-size: 0.82rem;
+	color: var(--text-muted);
+	line-height: 1.4;
+}
+
+/* Status accents on the card border for at-a-glance reading. */
+.roadmap-node[data-status="achieved"] .node-card {
+	border-color: var(--accent);
+}
+
+.roadmap-node[data-status="in-progress"] .node-card {
+	border-color: var(--accent-2);
+}
+
+/* Marker — circular badge sitting on the rail. */
+.node-marker {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.4rem;
+	height: 2.4rem;
+	border-radius: 50%;
+	border: 2px solid var(--border-strong);
+	background: var(--bg-elevated);
+	color: var(--text-muted);
+	font-size: 0.95rem;
+	z-index: 1;
+	box-shadow: var(--shadow-pixel);
+	transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.roadmap-node[data-status="achieved"] .node-marker {
+	background: var(--accent);
+	border-color: var(--accent);
+	color: #022c22;
+}
+
+.roadmap-node[data-status="in-progress"] .node-marker {
+	border-color: var(--accent-2);
+	color: var(--accent-2);
+	background: var(--bg-elevated);
+	animation: node-pulse 2.2s ease-in-out infinite;
+}
+
+.roadmap-node[data-status="planned"] .node-marker {
+	border-color: var(--border-strong);
+	color: var(--text-muted);
+	border-style: dashed;
+}
+
+.node-card:hover ~ .node-marker {
+	transform: translateY(-1px);
+}
+
+/* Popup — visible on hover (desktop), keyboard focus, or aria-expanded (tap). */
+.node-popup {
+	position: absolute;
+	top: calc(100% + 0.5rem);
+	right: 0;
+	width: max-content;
+	max-width: min(320px, 80vw);
+	background: var(--bg-elevated);
+	border: 2px solid var(--accent-2);
+	box-shadow: var(--shadow-pixel);
+	padding: 0.75rem 0.9rem;
+	z-index: 5;
+	opacity: 0;
+	pointer-events: none;
+	transform: translateY(-4px);
+	transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.roadmap-node:nth-child(even) .node-popup {
+	left: 0;
+	right: auto;
+}
+
+.node-card:hover ~ .node-popup,
+.node-card:focus-visible ~ .node-popup,
+.node-card[aria-expanded="true"] ~ .node-popup {
+	opacity: 1;
+	transform: translateY(0);
+	pointer-events: auto;
+}
+
+.popup-title {
+	margin: 0 0 0.35rem;
+	font-size: 0.7rem;
+	text-transform: uppercase;
+	letter-spacing: 0.18em;
+	color: var(--accent-2);
+}
+
+.popup-list {
+	margin: 0;
+	padding: 0 0 0 1.1rem;
+	color: var(--text-muted);
+	font-size: 0.85rem;
+	line-height: 1.5;
+}
+
+.popup-list li {
+	padding: 0.1rem 0;
+}
+
+/* Endpoint — distinct diamond marker, no popup. */
+.roadmap-endpoint {
+	margin-top: 0.5rem;
+}
+
+.roadmap-endpoint .endpoint-content {
+	grid-column: 1;
+	justify-self: end;
+	text-align: right;
+}
+
+.roadmap-endpoint:nth-child(even) .endpoint-content {
+	grid-column: 3;
+	justify-self: start;
+	text-align: left;
+}
+
+.endpoint-title {
+	margin: 0;
+	font-size: 1.05rem;
+	color: var(--accent-2);
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.endpoint-date {
+	margin: 0.15rem 0 0;
+	font-size: 0.85rem;
+	color: var(--text-muted);
+}
+
+.endpoint-marker {
+	width: 2.6rem;
+	height: 2.6rem;
+	border-radius: 0;
+	transform: rotate(45deg);
+	background: var(--accent-2);
+	border-color: var(--accent-2);
+	color: #022c22;
+}
+
+.endpoint-marker > i {
+	transform: rotate(-45deg);
+}
+
+/* In-progress glow pulse — only "progression-game" flair on this page,
+ * layered on top of the site's restrained motion language. */
+@keyframes node-pulse {
+
+	0%,
+	100% {
+		box-shadow: var(--shadow-pixel), 0 0 0 0 var(--accent-soft);
+	}
+
+	50% {
+		box-shadow: var(--shadow-pixel), 0 0 0 8px transparent;
+	}
+}
+
+/* Mobile — collapse zigzag to single column with marker rail on left.
+ * Popup expands inline below the card when tap-toggled. */
+@media (max-width: 700px) {
+	.roadmap-track {
+		max-width: 100%;
+	}
+
+	.roadmap-node,
+	.roadmap-node:nth-child(odd),
+	.roadmap-node:nth-child(even) {
+		grid-template-columns: 2.6rem 1fr;
+		column-gap: 1rem;
+	}
+
+	.roadmap-node .node-marker,
+	.roadmap-node:nth-child(odd) .node-marker,
+	.roadmap-node:nth-child(even) .node-marker {
+		grid-column: 1;
+		justify-self: center;
+	}
+
+	.roadmap-node .node-card-wrap,
+	.roadmap-node:nth-child(odd) .node-card-wrap,
+	.roadmap-node:nth-child(even) .node-card-wrap {
+		grid-column: 2;
+		justify-self: stretch;
+		max-width: 100%;
+	}
+
+	.roadmap-node .node-card,
+	.roadmap-node:nth-child(odd) .node-card {
+		text-align: left;
+	}
+
+	.roadmap-node:not(:last-child)::after {
+		left: 1.3rem;
+	}
+
+	.node-popup,
+	.roadmap-node:nth-child(even) .node-popup {
+		position: static;
+		width: 100%;
+		max-width: 100%;
+		margin-top: 0.5rem;
+		transform: none;
+		display: none;
+	}
+
+	.node-card[aria-expanded="true"] ~ .node-popup {
+		display: block;
+		opacity: 1;
+		transform: none;
+		pointer-events: auto;
+	}
+
+	.roadmap-endpoint .endpoint-content,
+	.roadmap-endpoint:nth-child(even) .endpoint-content {
+		grid-column: 2;
+		justify-self: start;
+		text-align: left;
 	}
 }
