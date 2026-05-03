@@ -24,6 +24,7 @@
 
 ### Still outstanding (next session)
 - Item 2 remainder: real content for `projects.html`, `backlog.html`, `write-ups.html`, `learning-resources.html`
+- **Roadmap page polish** (flagged by Rob 2026-05-02 post-publish): "needs some work" — specifics TBD next session. Likely candidates worth raising: spacing/rhythm between cards, popup positioning on edge nodes, mobile single-column rail offset, in-progress glow intensity, contrast of dashed planned segments in light mode. Wait for Rob's specifics before changing anything.
 
 ---
 
