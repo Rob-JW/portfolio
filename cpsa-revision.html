@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>CPSA Revision — Ports & Commands — Rob Williams</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="description"
+		content="CPSA (CREST Practitioner Security Analyst) revision sheet — top 50 ports and every Windows / Linux command tested in the question bank, with mnemonics and recall questions." />
+
+	<link rel="stylesheet" href="style.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+		referrerpolicy="no-referrer" />
+</head>
+
+<body>
+	<header class="site-header">
+		<a href="index.html" class="logo">
+			RW <span class="logo-dot"></span>
+		</a>
+
+		<div class="header-controls">
+			<div class="theme-switcher">
+				<span class="theme-label">Theme</span>
+				<button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle colour theme">
+					<span class="theme-icon" aria-hidden="true">🌙</span>
+				</button>
+			</div>
+
+			<button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false"
+				aria-controls="site-nav">
+				<span class="menu-toggle-bar"></span>
+				<span class="menu-toggle-bar"></span>
+				<span class="menu-toggle-bar"></span>
+			</button>
+
+			<nav class="main-nav" id="site-nav">
+				<a href="index.html#about">About</a>
+				<a href="index.html#projects">Projects</a>
+				<a href="index.html#contact">Contact</a>
+			</nav>
+		</div>
+	</header>
+
+	<main>
+		<section class="page-header">
+			<p class="eyebrow"><a href="learning-resources.html">← Back to Learning Resources</a></p>
+			<h1>CPSA Revision — Ports &amp; Commands</h1>
+		</section>
+
+		<section class="section">
+			<p class="rev-intro">
+				A single-page drill sheet for the CREST Practitioner Security Analyst
+				(CPSA) exam. Top 50 ports — first 20 are non-negotiable cold-recall —
+				followed by every Windows and Linux / Unix command that appears in the
+				693-question CPSA question bank. Each entry pairs a plain-English
+				explanation with a memory hook and a single-answer recall question.
+			</p>
+
+			<div class="rev-method">
+				<h3>How to use this sheet (science-backed recall)</h3>
+				<ul>
+					<li><strong>Active recall</strong> — every entry has a question. Cover the answer, attempt cold, then reveal. Re-reading is recognition, not recall — only the question forces retrieval.</li>
+					<li><strong>Dual coding</strong> — the <em>Memory hook</em> column gives a verbal+visual anchor (rhyme, image, pun) so the fact lands on two cognitive channels.</li>
+					<li><strong>Elaborative encoding</strong> — the <em>Use</em> and <em>CPSA angle</em> columns tie each item to <em>why</em> it is tested, not just <em>what</em> it is. Meaning beats rote.</li>
+					<li><strong>Retrieval practice with spacing</strong> — drill cold, sleep, re-test 24–48&nbsp;h later. A fact recalled correctly twice across separate sessions is locked in; one pass is not.</li>
+					<li><strong>Walk-the-wrongs</strong> — when an answer fails, identify the <em>pattern</em> of failure (e.g. defaulting to the most familiar tool name), not just the right answer.</li>
+				</ul>
+			</div>
+
+			<h3>Contents</h3>
+			<ul class="rev-toc">
+				<li><a href="#ports-top20">Ports 1–20 — must-know</a></li>
+				<li><a href="#ports-21-50">Ports 21–50 — supporting set</a></li>
+				<li><a href="#linux-commands">Linux / Unix commands</a></li>
+				<li><a href="#windows-commands">Windows commands</a></li>
+			</ul>
+		</section>
+
+		<section id="ports-top20" class="section">
+			<div class="rev-section-title">
+				<h2>Ports 1–20 — Must-Know</h2>
+				<span class="rev-tag">Cold recall, every session</span>
+			</div>
+			<p>These eighteen ports are mandated as the per-session port drill in your CPSA study setup; the additional two — File Transfer Protocol Data (port 20) and Kerberos (port 88) — are heavily tested in the Windows and IP Protocols domains.</p>
+
+			<div class="rev-table-wrap">
+				<table class="rev-table">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Port / Proto</th>
+							<th>Service</th>
+							<th>Use</th>
+							<th>Memory hook</th>
+							<th>CPSA angle</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr><td class="num">1</td><td class="num">20 / Transmission Control Protocol (TCP)</td><td class="svc">File Transfer Protocol — Data (FTP-Data)</td><td>Carries the file payload during active-mode FTP; server initiates the data connection back to the client from port 20.</td><td class="hook">"20 ferries the cargo, 21 takes the orders."</td><td>Active mode pierces outbound firewalls; payload is clear-text and sniffable.</td></tr>
+						<tr><td class="num">2</td><td class="num">21 / TCP</td><td class="svc">File Transfer Protocol (FTP) Control</td><td>Login and command channel for File Transfer Protocol; cleartext authentication.</td><td class="hook">"21 = the front desk; 20 = the loading bay."</td><td>Anonymous logins, banner-grab fingerprinting, brute-force credentials.</td></tr>
+						<tr><td class="num">3</td><td class="num">22 / TCP</td><td class="svc">Secure Shell (SSH)</td><td>Encrypted remote shell, file transfer (Secure Copy / SSH File Transfer Protocol — SCP / SFTP), and tunnelling.</td><td class="hook">"Two ducks side-by-side, both encrypted — 22."</td><td>Weak ciphers, key reuse, password brute-force, agent forwarding abuse.</td></tr>
+						<tr><td class="num">4</td><td class="num">23 / TCP</td><td class="svc">Telnet</td><td>Cleartext remote shell — predecessor of Secure Shell (SSH); credentials sent in the clear.</td><td class="hook">"23 = telnet, old and naked — wears no clothes."</td><td>Sniffable creds; flag any 23/TCP as legacy gear (printers, switches, IoT).</td></tr>
+						<tr><td class="num">5</td><td class="num">25 / TCP</td><td class="svc">Simple Mail Transfer Protocol (SMTP)</td><td>Server-to-server email relay; cleartext unless STARTTLS upgraded.</td><td class="hook">"Quarter-past the hour — post the mail."</td><td>Open relay testing, VRFY/EXPN user enumeration, banner version grab.</td></tr>
+						<tr><td class="num">6</td><td class="num">53 / User Datagram Protocol (UDP) + TCP</td><td class="svc">Domain Name System (DNS)</td><td>Hostname-to-Internet Protocol address resolution. UDP for queries; TCP for zone transfers and responses larger than 512 bytes.</td><td class="hook">"Gimme fifty-three names."</td><td>Zone-transfer (Asynchronous Full Transfer Zone — AXFR) leaks, subdomain enumeration, DNS recon, cache poisoning.</td></tr>
+						<tr><td class="num">7</td><td class="num">69 / UDP</td><td class="svc">Trivial File Transfer Protocol (TFTP)</td><td>UDP-based file transfer with no authentication; used by routers, switches, and Pre-Boot Execution Environment (PXE) boot.</td><td class="hook">"69 = tiny, two-way, trivial."</td><td>Router config exfiltration, PXE image theft, no auth boundary.</td></tr>
+						<tr><td class="num">8</td><td class="num">80 / TCP</td><td class="svc">Hypertext Transfer Protocol (HTTP)</td><td>Cleartext World Wide Web traffic.</td><td class="hook">"80 — eighty-percent of the web (cleartext)."</td><td>Every web vulnerability lives here — Cross-Site Scripting (XSS), Structured Query Language injection (SQLi), directory traversal, broken auth.</td></tr>
+						<tr><td class="num">9</td><td class="num">88 / TCP + UDP</td><td class="svc">Kerberos</td><td>Active Directory (AD) authentication: Authentication Service exchange and Ticket-Granting Service ticket issuance.</td><td class="hook">"Two K's stacked = 88 = Kerberos."</td><td>Kerberoasting (Service Principal Name — SPN — tickets), Authentication Service Response (AS-REP) roasting, Golden / Silver tickets.</td></tr>
+						<tr><td class="num">10</td><td class="num">110 / TCP</td><td class="svc">Post Office Protocol version 3 (POP3)</td><td>Email retrieval — downloads and (by default) deletes from server.</td><td class="hook">"110 — the postman delivers 110 letters."</td><td>Cleartext authentication; pivot to Post Office Protocol Secure (POP3S) on 995 if encryption mandated.</td></tr>
+						<tr><td class="num">11</td><td class="num">143 / TCP</td><td class="svc">Internet Message Access Protocol (IMAP)</td><td>Email server-side storage and folder synchronisation.</td><td class="hook">"143 = phone-pad I-LOVE-U → IMAP delivers love letters."</td><td>Cleartext authentication; secure variant on 993.</td></tr>
+						<tr><td class="num">12</td><td class="num">161 / UDP</td><td class="svc">Simple Network Management Protocol (SNMP)</td><td>Network-device monitoring and configuration via Management Information Base (MIB) queries.</td><td class="hook">"One-six-one — public is the password."</td><td>Default community strings (<code>public</code> read / <code>private</code> write), SNMPv1/v2c cleartext, full device enumeration (interfaces, routes, processes).</td></tr>
+						<tr><td class="num">13</td><td class="num">389 / TCP + UDP</td><td class="svc">Lightweight Directory Access Protocol (LDAP)</td><td>Directory queries — primary protocol for reading Active Directory user / group / computer objects.</td><td class="hook">"Three-eighty-nine — the directory door."</td><td>Anonymous binds, user enumeration, AD recon for downstream Kerberoasting.</td></tr>
+						<tr><td class="num">14</td><td class="num">443 / TCP</td><td class="svc">Hypertext Transfer Protocol Secure (HTTPS)</td><td>Encrypted World Wide Web — HTTP wrapped in Transport Layer Security (TLS) / Secure Sockets Layer (SSL).</td><td class="hook">"4-4-3 = three locks on the front door."</td><td>Certificate validation, weak cipher suites, certificate Subject Alternative Name (SAN) leakage; web vulnerabilities still apply behind the lock.</td></tr>
+						<tr><td class="num">15</td><td class="num">445 / TCP</td><td class="svc">Server Message Block (SMB)</td><td>Windows file and printer sharing, named pipes, and Microsoft Remote Procedure Call (MS-RPC) over SMB — directly over TCP, no NetBIOS layer.</td><td class="hook">"445 = five less than 450 — the SMB share door."</td><td>EternalBlue (MS17-010), null sessions, missing SMB signing, share enumeration.</td></tr>
+						<tr><td class="num">16</td><td class="num">514 / UDP</td><td class="svc">Syslog</td><td>Centralised system-log shipping — connectionless and unauthenticated by default.</td><td class="hook">"5-1-4 — phone the logs."</td><td>Spoofable log messages over UDP; tamper window during the gap to a Security Information and Event Management (SIEM) system.</td></tr>
+						<tr><td class="num">17</td><td class="num">636 / TCP</td><td class="svc">Lightweight Directory Access Protocol over Secure Sockets Layer (LDAPS)</td><td>LDAP wrapped in TLS / SSL — encrypted Active Directory queries.</td><td class="hook">"636 = the secure sandwich (6 — 3 — 6, certificate filling)."</td><td>Validates certificate chain; once authenticated, AD enumeration still possible.</td></tr>
+						<tr><td class="num">18</td><td class="num">3306 / TCP</td><td class="svc">MySQL</td><td>MySQL and MariaDB database server.</td><td class="hook">"3-3-0-6 = M-y-S-Q-L (4 chars, 4 digits, the zero is the gap)."</td><td>Weak / default credentials, unauthenticated SELECT, User-Defined Function (UDF) code execution.</td></tr>
+						<tr><td class="num">19</td><td class="num">3389 / TCP</td><td class="svc">Remote Desktop Protocol (RDP)</td><td>Microsoft graphical remote login.</td><td class="hook">"33-89 — RDP stays in the eighties."</td><td>BlueKeep (CVE-2019-0708), Network Level Authentication (NLA) bypass, brute-force, session-hijack via shadowing.</td></tr>
+						<tr><td class="num">20</td><td class="num">5900 / TCP</td><td class="svc">Virtual Network Computing (VNC)</td><td>Cross-platform graphical remote-control protocol.</td><td class="hook">"Five nines — five-nine-hundred — five eyes watching."</td><td>Weak / no authentication; legacy 8-character Data Encryption Standard (DES) password, often unencrypted on the wire.</td></tr>
+					</tbody>
+				</table>
+			</div>
+
+			<h3>Recall questions — Ports 1–20</h3>
+			<ol class="rev-q-list">
+				<li class="rev-q">
+					<p class="q-num">Q1 · FTP-Data</p>
+					<p class="q-prompt">In active-mode File Transfer Protocol (FTP), which port does the server use to initiate the data channel back to the client?</p>
+					<ol class="q-options" type="A"><li>20</li><li>21</li><li>22</li><li>69</li></ol>
+					<p class="q-answer"><strong>Answer:</strong> A — 20</p>
+				</li>
+				<li class="rev-q">
+					<p class="q-num">Q2 · FTP Control</p>
+					<p class="q-prompt">A banner reading <code>220 ProFTPD 1.3.5</code> is returned during a connection. Which Transmission Control Protocol (TCP) port is most likely listening?</p>
+					<ol class="q-options" type="A"><li>20</li><li>21</li><li>22</li><li>23</li></ol>
+					<p class="q-answer"><strong>Answer:</strong> B — 21</p>
+				</li>
+				<li class="rev-q">
+					<p class="q-num">Q3 · SSH</p>
+					<p class="q-prompt">Secure Shell (SSH) listens on which default port?</p>
+					<ol class="q-options" type="A"><li>21</li><li>22</li><li>23</li><li>25</li></ol>
+					<p class="q-answer"><strong>Answer:</strong> B — 22</p>
+				</li>
+				<li class="rev-q">
+					<p class="q-num">Q4 · Telnet</p>
+					<p class="q-prompt">A cleartext remote-shell protocol from the early Internet, still found on legacy network gear, listens on:</p>
+					<ol class="q-options" type="A"><li>22</li><li>23</li><li>25</li><li>110</li></ol>
+					<p class="q-answer"><strong>Answer:</strong> B — 23</p>
+				</li>
+				<li class="rev-q">
+					<p class="q-num">Q5 · SMTP</p>
+					<p class="q-prompt">Server-to-server email relay using Simple Mail Transfer Protocol (SMTP) defaults to which port?</p>
+					<ol class="q-options" type="A"><li>25</li><li>110</li><li>143</li><li>465</li></ol>
+					<p class="q-answer"><strong>Answer:</strong> A — 25</p>
+				</li>
+				<li class="rev-q">
+					<p class="q-num">Q6 · DNS</p>
+					<p class="q-prompt">Domain Name System (DNS) zone-transfer requests fall back from User Datagram Protocol (UDP) to which transport on port 53?</p>
+					<ol class="q-options" type="A"><li>Internet Control Message Protocol (ICMP)</li><li>Stream Control Transmission Protocol (SCTP)</li><li>Transmission Control Protocol (TCP)</li><li>Address Resolution Protocol (ARP)</li></ol>
+					<p class="q-answer"><strong>Answer:</strong> C — TCP</p>
+				</li>
+				<li class="rev-q">
+					<p class="q-num">Q7 · TFTP</p>
+					<p class="q-prompt">Which protocol uses User Datagram Protocol (UDP) port 69 with no authentication and is commonly used for router configuration and Pre-Boot Execution Environment (PXE) boot?</p>
+					<ol class="q-options" type="A"><li>File Transfer Protocol (FTP)</li><li>Trivial File Transfer Protocol (TFTP)</li><li>Secure Copy (SCP)</li><li>Hypertext Transfer Protocol (HTTP)</li></ol>
+					<p class="q-answer"><strong>Answer:</strong> B — TFTP</p>
+				</li>
+				<li class="rev-q">
+					<p class="q-num">Q8 · HTTP</p>
+					<p class="q-prompt">Cleartext Hypertext Transfer Protocol (HTTP) defaults to which port?</p>
+					<ol class="q-options" type="A"><li>53</li><li>80</li><li>443</li><li>8080</li></ol>
+					<p class="q-answer"><strong>Answer:</strong> B — 80</p>
+				</li>
+				<li class="rev-q">
+					<p class="q-num">Q9 · Kerberos</p>
+					<p class="q-prompt">Active Directory (AD) authentication via the Authentication Service and Ticket-Granting Service uses which port?</p>
+					<ol class="q-options" type="A"><li>53</li><li>88</li><li>389</li><li>445</li></ol>
+					<p class="q-answer"><strong>Answer:</strong> B — 88</p>
+				</li>
+				<li class="rev-q">
+					<p class="q-num">Q10 · POP3</p>
+					<p class="q-prompt">A user retrieves email by downloading messages and removing them from the server using the cleartext default port for the legacy retrieval protocol. Which port?</p>
+					<ol class="q-options" type="A"><li>25</li><li>110</li><li>143</li><li>995</li></ol>
+					<p class="q-answer"><strong>Answer:</strong> B — 110</p>
+				</li>
+				<li class="rev-q">
+					<p class="q-num">Q11 · IMAP</p>
+					<p class="q-prompt">Cleartext Internet Message Access Protocol (IMAP) listens on:</p>
+					<ol class="q-options" type="A"><li>110</li><li>143</li><li>993</li><li>995</li></ol>
+					<p class="q-answer"><strong>Answer:</strong> B — 143</p>
+				</li>
+				<li class="rev-q">
+					<p class="q-num">Q12 · SNMP</p>
+					<p class="q-prompt">Simple Network Management Protocol (SNMP) queries use which transport and port?</p>
+					<ol class="q-options" type="A"><li>Transmission Control Protocol (TCP) 161</li><li>User Datagram Protocol (UDP) 161</li><li>UDP 162</li><li>TCP 162</li></ol>
+					<p class="q-answer"><strong>Answer:</strong> B — UDP 161</p>
+				</li>
+				<li class="rev-q">
+					<p class="q-num">Q13 · LDAP</p>
+					<p class="q-prompt">Cleartext Lightweight Directory Access Protocol (LDAP) defaults to which port?</p>
+					<ol class="q-options" type="A"><li>88</li><li>389</li><li>636</li><li>3268</li></ol>
+					<p class="q-answer"><strong>Answer:</strong> B — 389</p>
+				</li>
+				<li class="rev-q">
+					<p class="q-num">Q14 · HTTPS</p>
+					<p class="q-prompt">Hypertext Transfer Protocol Secure (HTTPS) listens on which port?</p>
+					<ol class="q-options" type="A"><li>80</li><li>443</li><li>8080</li><li>4443</li></ol>
+					<p class="q-answer"><strong>Answer:</strong> B — 443</p>
+				</li>
+				<li class="rev-q">
+					<p class="q-num">Q15 · SMB</p>
+					<p class="q-prompt">On a modern Windows host, which port carries Server Message Block (SMB) directly over Transmission Control Protocol (TCP) without a NetBIOS layer?</p>
+					<ol class="q-options" type="A"><li>137</li><li>139</li><li>445</li><li>3389</li></ol>
+					<p class="q-answer"><strong>Answer:</strong> C — 445</p>
+				</li>
+				<li class="rev-q">
+					<p class="q-num">Q16 · Syslog</p>
+					<p class="q-prompt">Centralised log shipping via Syslog defaults to which port and transport?</p>
+					<ol class="q-options" type="A"><li>Transmission Control Protocol (TCP) 514</li><li>User Datagram Protocol (UDP) 514</li><li>TCP 515</li><li>UDP 162</li></ol>
+					<p class="q-answer"><strong>Answer:</strong> B — UDP 514</p>
+				</li>
+				<li class="rev-q">
+					<p class="q-num">Q17 · LDAPS</p>
+					<p class="q-prompt">Lightweight Directory Access Protocol over Secure Sockets Layer (LDAPS) listens on:</p>
+					<ol class="q-options" type="A"><li>389</li><li>443</li><li>636</li><li>3269</li></ol>
+					<p class="q-answer"><strong>Answer:</strong> C — 636</p>
+				</li>
+				<li class="rev-q">
+					<p class="q-num">Q18 · MySQL</p>
+					<p class="q-prompt">Default port for the MySQL database server is:</p>
+					<ol class="q-options" type="A"><li>1433</li><li>1521</li><li>3306</li><li>5432</li></ol>
+					<p class="q-answer"><strong>Answer:</strong> C — 3306</p>
+				</li>
+				<li class="rev-q">
+					<p class="q-num">Q19 · RDP</p>
+					<p class="q-prompt">Microsoft Remote Desktop Protocol (RDP) listens on which port?</p>
+					<ol class="q-options" type="A"><li>22</li><li>3306</li><li>3389</li><li>5900</li></ol>
+					<p class="q-answer"><strong>Answer:</strong> C — 3389</p>
+				</li>
+				<li class="rev-q">
+					<p class="q-num">Q20 · VNC</p>
+					<p class="q-prompt">Default port for Virtual Network Computing (VNC):</p>
+					<ol class="q-options" type="A"><li>3389</li><li>5800</li><li>5900</li><li>6000</li></ol>
+					<p class="q-answer"><strong>Answer:</strong> C — 5900</p>
+				</li>
+			</ol>
+		</section>
+
+		<section id="ports-21-50" class="section">
+			<div class="rev-section-title">
+				<h2>Ports 21–50 — Supporting Set</h2>
+				<span class="rev-tag">Frequent in qbank</span>
+			</div>
+			<p>Less drilled than the top twenty but every one appears in the question bank or the official CPSA port reference. Group them mentally by family — name services (135 / 137 / 138 / 139), secure-mail siblings (465 / 993 / 995), Virtual Private Network (VPN) cluster (500 / 1194 / 1701 / 1723), database row (1433 / 1521 / 3306 / 5432) — chunking is the cheapest mnemonic you have.</p>
+
+			<div class="rev-table-wrap">
+				<table class="rev-table">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Port / Proto</th>
+							<th>Service</th>
+							<th>Use</th>
+							<th>Memory hook</th>
+							<th>CPSA angle</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr><td class="num">21</td><td class="num">7 / TCP + UDP</td><td class="svc">Echo</td><td>Returns whatever data is sent to it — a debug protocol from the early Internet.</td><td class="hook">"Lucky 7 echoes back."</td><td>Amplification / Distributed Denial of Service (DDoS) reflection vector when reachable from the Internet.</td></tr>
+						<tr><td class="num">22</td><td class="num">43 / TCP</td><td class="svc">WHOIS</td><td>Domain registration lookup against a registrar database.</td><td class="hook">"Forty-three — Who is registered?"</td><td>Passive recon, registrant data, Open-Source Intelligence (OSINT) starting point.</td></tr>
+						<tr><td class="num">23</td><td class="num">49 / TCP</td><td class="svc">Terminal Access Controller Access-Control System Plus (TACACS+)</td><td>Cisco Authentication, Authorisation and Accounting (AAA) protocol that encrypts the entire payload (vs. RADIUS which only encrypts the password).</td><td class="hook">"Quarter-to-fifty — TAC-ACS, the Cisco kid."</td><td>Centralised AAA on network gear; full-payload encryption is the exam differentiator.</td></tr>
+						<tr><td class="num">24</td><td class="num">67 / UDP</td><td class="svc">Dynamic Host Configuration Protocol (DHCP) — Server</td><td>The DHCP server replies to client broadcasts on this port.</td><td class="hook">"67 / 68 — server gives, client gets."</td><td>Rogue DHCP attack, IP-pool exhaustion, gateway / DNS poisoning.</td></tr>
+						<tr><td class="num">25</td><td class="num">68 / UDP</td><td class="svc">DHCP — Client</td><td>The DHCP client receives offers and acknowledgements on this port.</td><td class="hook">"68 — client one above 67."</td><td>Pair with port 67 — the question often tests which is which.</td></tr>
+						<tr><td class="num">26</td><td class="num">70 / TCP</td><td class="svc">Gopher</td><td>Pre-Web menu protocol — almost extinct, but still a Server-Side Request Forgery (SSRF) primitive.</td><td class="hook">"70 = the old groundhog before the Web."</td><td>SSRF via <code>gopher://</code> Uniform Resource Identifier (URI) to reach internal services that only speak raw TCP.</td></tr>
+						<tr><td class="num">27</td><td class="num">79 / TCP</td><td class="svc">Finger</td><td>Legacy user-information lookup — last login time, home directory, real name.</td><td class="hook">"79 = point-the-finger."</td><td>Username enumeration on legacy Unix.</td></tr>
+						<tr><td class="num">28</td><td class="num">111 / TCP + UDP</td><td class="svc">Sun Remote Procedure Call (Sun RPC) / Portmapper</td><td>Linux / Unix RPC endpoint mapper — the directory of which RPC services are listening on which dynamic ports.</td><td class="hook">"Three flags planted = 111, all the RPC services here."</td><td>Network File System (NFS), <code>rpcinfo</code> enumeration, NIS / Network Information Service exposure.</td></tr>
+						<tr><td class="num">29</td><td class="num">119 / TCP</td><td class="svc">Network News Transfer Protocol (NNTP)</td><td>Usenet news article distribution.</td><td class="hook">"119 — old news (call 999, plus old)."</td><td>Rare in modern environments; banner grab.</td></tr>
+						<tr><td class="num">30</td><td class="num">123 / UDP</td><td class="svc">Network Time Protocol (NTP)</td><td>Clock synchronisation across hosts and infrastructure.</td><td class="hook">"123 — count one-two-three to the second."</td><td>NTP <code>monlist</code> amplification (DDoS); Kerberos breaks if clock skew &gt;5 minutes.</td></tr>
+						<tr><td class="num">31</td><td class="num">135 / TCP</td><td class="svc">Microsoft Remote Procedure Call (MS-RPC) Endpoint Mapper / Distributed Component Object Model (DCOM)</td><td>Windows equivalent of Linux 111 — directory of MS-RPC services.</td><td class="hook">"135 = Microsoft's portmap (mirror of 111)."</td><td>Endpoint enumeration, DCOM lateral movement, Windows Management Instrumentation (WMI) over MS-RPC.</td></tr>
+						<tr><td class="num">32</td><td class="num">137 / UDP</td><td class="svc">NetBIOS Name Service (NBT-NS)</td><td>Windows name resolution before DNS — broadcast-based.</td><td class="hook">"137 — NetBIOS Names, started life on the 137th."</td><td>Link-Local Multicast Name Resolution (LLMNR) / NBT-NS poisoning via Responder; harvests Net New Technology LAN Manager (NTLM) hashes.</td></tr>
+						<tr><td class="num">33</td><td class="num">138 / UDP</td><td class="svc">NetBIOS Datagram Service</td><td>Connectionless NetBIOS messages — browse lists, mailslots.</td><td class="hook">"138 — datagram between name (137) and session (139)."</td><td>Legacy browser elections, broadcast traffic that leaks domain structure.</td></tr>
+						<tr><td class="num">34</td><td class="num">139 / TCP</td><td class="svc">NetBIOS Session Service</td><td>SMB over NetBIOS — the legacy SMB transport before SMB-direct on 445.</td><td class="hook">"139 = old SMB; 445 = new SMB."</td><td>Null sessions, share enumeration, often paired with 445 on older hosts.</td></tr>
+						<tr><td class="num">35</td><td class="num">162 / UDP</td><td class="svc">SNMP Trap</td><td>Unsolicited SNMP alerts pushed from agents to a manager.</td><td class="hook">"162 = 161 + 1 — the trap that follows the query."</td><td>Spoofed traps poison monitoring; a forgotten 162 listener is an info leak.</td></tr>
+						<tr><td class="num">36</td><td class="num">179 / TCP</td><td class="svc">Border Gateway Protocol (BGP)</td><td>The Internet's exterior routing protocol — Autonomous System (AS) to AS path advertisement.</td><td class="hook">"One-seven-nine — the AS handshake."</td><td>Route hijack, weak Message Digest 5 (MD5) authentication, prefix leaks.</td></tr>
+						<tr><td class="num">37</td><td class="num">465 / TCP</td><td class="svc">Simple Mail Transfer Protocol Secure (SMTPS)</td><td>SMTP wrapped in implicit TLS / SSL.</td><td class="hook">"4-6-5 — locked mail-room."</td><td>Modern mail submission alternative is 587 with STARTTLS; 465 was deprecated then re-instated.</td></tr>
+						<tr><td class="num">38</td><td class="num">500 / UDP</td><td class="svc">Internet Security Association and Key Management Protocol (ISAKMP) / Internet Key Exchange (IKE)</td><td>Phase-1 negotiation for Internet Protocol Security (IPsec) Virtual Private Networks (VPNs).</td><td class="hook">"500 = the front door of the IPsec tunnel."</td><td>Aggressive-mode Pre-Shared Key (PSK) capture and offline crack, IKE version detection.</td></tr>
+						<tr><td class="num">39</td><td class="num">554 / TCP + UDP</td><td class="svc">Real Time Streaming Protocol (RTSP)</td><td>Control protocol for streaming video and audio (Internet Protocol — IP — cameras, media servers).</td><td class="hook">"554 = streaming live."</td><td>Default credentials on IP cameras, exposed Closed-Circuit Television (CCTV) feeds.</td></tr>
+						<tr><td class="num">40</td><td class="num">993 / TCP</td><td class="svc">Internet Message Access Protocol Secure (IMAPS)</td><td>IMAP wrapped in TLS / SSL.</td><td class="hook">"993 = 143 + locked envelope."</td><td>Pair with 143 — when 143 is open and 993 is not, mail auth is in the clear.</td></tr>
+						<tr><td class="num">41</td><td class="num">995 / TCP</td><td class="svc">Post Office Protocol version 3 Secure (POP3S)</td><td>POP3 wrapped in TLS / SSL.</td><td class="hook">"995 = 110 with armour."</td><td>Pair with 110 — same logic as 993 / 143.</td></tr>
+						<tr><td class="num">42</td><td class="num">1194 / UDP</td><td class="svc">OpenVPN</td><td>Open-source VPN over UDP (default) or TCP.</td><td class="hook">"1194 — eleven-ninety-four, OpenVPN's signature."</td><td>Static-key vs. TLS modes; weak PSK or exposed Certificate Authority (CA).</td></tr>
+						<tr><td class="num">43</td><td class="num">1433 / TCP</td><td class="svc">Microsoft Structured Query Language Server (MS-SQL)</td><td>Microsoft SQL Server database engine.</td><td class="hook">"1433 — fourteen-thirty-three, MS-SQL's badge."</td><td><code>xp_cmdshell</code> command execution, weak <code>sa</code> credentials, SQL injection (SQLi) via linked apps.</td></tr>
+						<tr><td class="num">44</td><td class="num">1521 / TCP</td><td class="svc">Oracle Database Listener</td><td>Oracle Database listener / Transparent Network Substrate (TNS).</td><td class="hook">"15-21 — Oracle's TNS porthole."</td><td>TNS poisoning, default Service Identifier (SID) enumeration, Oracle Listener attacks.</td></tr>
+						<tr><td class="num">45</td><td class="num">1701 / UDP</td><td class="svc">Layer 2 Tunneling Protocol (L2TP)</td><td>VPN tunnelling protocol — almost always paired with IPsec for confidentiality.</td><td class="hook">"17-01 — L2TP, the tunnel without locks (uses IPsec for those)."</td><td>L2TP alone has no encryption; check for L2TP-without-IPsec misconfigurations.</td></tr>
+						<tr><td class="num">46</td><td class="num">1723 / TCP</td><td class="svc">Point-to-Point Tunneling Protocol (PPTP)</td><td>Legacy Microsoft VPN — MS-CHAPv2 authentication.</td><td class="hook">"1723 — PPTP, deprecated and broken."</td><td>MS-CHAPv2 weakness, offline crack via <code>chapcrack</code> / <code>cloudcracker</code>; treat as red flag.</td></tr>
+						<tr><td class="num">47</td><td class="num">1812 / UDP</td><td class="svc">Remote Authentication Dial-In User Service (RADIUS) Authentication</td><td>AAA for network access — Wi-Fi 802.1X, VPN, switches.</td><td class="hook">"1812 — RADIUS auth (1813 = accounting)."</td><td>Only the password attribute is encrypted; rest of payload in the clear; compare with TACACS+ (port 49).</td></tr>
+						<tr><td class="num">48</td><td class="num">2049 / TCP + UDP</td><td class="svc">Network File System (NFS)</td><td>Unix remote file-system mounting.</td><td class="hook">"20-49 — NFS, the Unix share."</td><td><code>showmount -e</code> exposure, no_root_squash exports, weak host-based authentication.</td></tr>
+						<tr><td class="num">49</td><td class="num">5432 / TCP</td><td class="svc">PostgreSQL</td><td>PostgreSQL database server.</td><td class="hook">"5432 — count down P-G-S-Q-L."</td><td>Default <code>postgres</code> credentials, <code>COPY ... FROM PROGRAM</code> code execution.</td></tr>
+						<tr><td class="num">50</td><td class="num">8080 / TCP</td><td class="svc">Hypertext Transfer Protocol (HTTP) — Alternate</td><td>Common alternate web port — proxies, application servers (Apache Tomcat, Jenkins).</td><td class="hook">"8080 = 80 doubled, the developer port."</td><td>Forgotten admin consoles, unauthenticated Jenkins, Tomcat manager default creds.</td></tr>
+					</tbody>
+				</table>
+			</div>
+
+			<h3>Recall questions — Ports 21–50</h3>
+			<ol class="rev-q-list">
+				<li class="rev-q"><p class="q-num">Q21 · Echo</p><p class="q-prompt">Which port returns whatever data is sent to it and is a known reflection / amplification vector?</p><ol class="q-options" type="A"><li>7</li><li>9</li><li>13</li><li>19</li></ol><p class="q-answer"><strong>Answer:</strong> A — 7</p></li>
+				<li class="rev-q"><p class="q-num">Q22 · WHOIS</p><p class="q-prompt">Querying domain registration data from a registrar uses which Transmission Control Protocol (TCP) port?</p><ol class="q-options" type="A"><li>43</li><li>53</li><li>80</li><li>110</li></ol><p class="q-answer"><strong>Answer:</strong> A — 43</p></li>
+				<li class="rev-q"><p class="q-num">Q23 · TACACS+</p><p class="q-prompt">Which Authentication, Authorisation and Accounting (AAA) protocol encrypts the <em>entire</em> payload, not just the password, and uses port 49?</p><ol class="q-options" type="A"><li>Remote Authentication Dial-In User Service (RADIUS)</li><li>Terminal Access Controller Access-Control System Plus (TACACS+)</li><li>Diameter</li><li>Kerberos</li></ol><p class="q-answer"><strong>Answer:</strong> B — TACACS+</p></li>
+				<li class="rev-q"><p class="q-num">Q24 · DHCP Server</p><p class="q-prompt">A Dynamic Host Configuration Protocol (DHCP) server listens for client requests on which port?</p><ol class="q-options" type="A"><li>67</li><li>68</li><li>53</li><li>547</li></ol><p class="q-answer"><strong>Answer:</strong> A — 67</p></li>
+				<li class="rev-q"><p class="q-num">Q25 · DHCP Client</p><p class="q-prompt">A DHCP client receives offers and acknowledgements on which port?</p><ol class="q-options" type="A"><li>67</li><li>68</li><li>137</li><li>547</li></ol><p class="q-answer"><strong>Answer:</strong> B — 68</p></li>
+				<li class="rev-q"><p class="q-num">Q26 · Gopher</p><p class="q-prompt">Which legacy menu protocol — port 70 — is still abused via Server-Side Request Forgery (SSRF) to reach internal Transmission Control Protocol (TCP) services?</p><ol class="q-options" type="A"><li>Hypertext Transfer Protocol (HTTP)</li><li>Gopher</li><li>File Transfer Protocol (FTP)</li><li>Network News Transfer Protocol (NNTP)</li></ol><p class="q-answer"><strong>Answer:</strong> B — Gopher</p></li>
+				<li class="rev-q"><p class="q-num">Q27 · Finger</p><p class="q-prompt">Which legacy protocol leaks last login time and home directory of users on Unix systems?</p><ol class="q-options" type="A"><li>Finger (port 79)</li><li>NetBIOS Name Service (port 137)</li><li>Identification Protocol (port 113)</li><li>Quote-of-the-Day (port 17)</li></ol><p class="q-answer"><strong>Answer:</strong> A — Finger / 79</p></li>
+				<li class="rev-q"><p class="q-num">Q28 · SunRPC</p><p class="q-prompt">On Linux, the Remote Procedure Call (RPC) endpoint mapper queried by <code>rpcinfo</code> listens on which port?</p><ol class="q-options" type="A"><li>111</li><li>135</li><li>139</li><li>2049</li></ol><p class="q-answer"><strong>Answer:</strong> A — 111</p></li>
+				<li class="rev-q"><p class="q-num">Q29 · NNTP</p><p class="q-prompt">Network News Transfer Protocol (NNTP) — Usenet — defaults to which port?</p><ol class="q-options" type="A"><li>25</li><li>119</li><li>563</li><li>110</li></ol><p class="q-answer"><strong>Answer:</strong> B — 119</p></li>
+				<li class="rev-q"><p class="q-num">Q30 · NTP</p><p class="q-prompt">Network Time Protocol (NTP) clock synchronisation uses which port?</p><ol class="q-options" type="A"><li>53</li><li>123</li><li>161</li><li>514</li></ol><p class="q-answer"><strong>Answer:</strong> B — 123</p></li>
+				<li class="rev-q"><p class="q-num">Q31 · MS-RPC</p><p class="q-prompt">The Microsoft Distributed Component Object Model (DCOM) endpoint mapper listens on which port?</p><ol class="q-options" type="A"><li>111</li><li>135</li><li>137</li><li>445</li></ol><p class="q-answer"><strong>Answer:</strong> B — 135</p></li>
+				<li class="rev-q"><p class="q-num">Q32 · NetBIOS-NS</p><p class="q-prompt">Responder poisons which User Datagram Protocol (UDP) port to harvest Net New Technology LAN Manager (NTLM) hashes via NetBIOS Name Service (NBT-NS) spoofing?</p><ol class="q-options" type="A"><li>137</li><li>138</li><li>139</li><li>445</li></ol><p class="q-answer"><strong>Answer:</strong> A — 137</p></li>
+				<li class="rev-q"><p class="q-num">Q33 · NetBIOS-DGM</p><p class="q-prompt">NetBIOS Datagram Service uses which port?</p><ol class="q-options" type="A"><li>137</li><li>138</li><li>139</li><li>445</li></ol><p class="q-answer"><strong>Answer:</strong> B — 138</p></li>
+				<li class="rev-q"><p class="q-num">Q34 · NetBIOS-SSN</p><p class="q-prompt">NetBIOS Session Service — legacy Server Message Block (SMB) before SMB-direct — listens on:</p><ol class="q-options" type="A"><li>137</li><li>138</li><li>139</li><li>445</li></ol><p class="q-answer"><strong>Answer:</strong> C — 139</p></li>
+				<li class="rev-q"><p class="q-num">Q35 · SNMP Trap</p><p class="q-prompt">Unsolicited Simple Network Management Protocol (SNMP) trap notifications are received on which port?</p><ol class="q-options" type="A"><li>161</li><li>162</li><li>514</li><li>520</li></ol><p class="q-answer"><strong>Answer:</strong> B — 162</p></li>
+				<li class="rev-q"><p class="q-num">Q36 · BGP</p><p class="q-prompt">Border Gateway Protocol (BGP) — exterior Internet routing — uses which Transmission Control Protocol (TCP) port?</p><ol class="q-options" type="A"><li>53</li><li>179</li><li>520</li><li>8080</li></ol><p class="q-answer"><strong>Answer:</strong> B — 179</p></li>
+				<li class="rev-q"><p class="q-num">Q37 · SMTPS</p><p class="q-prompt">Implicit-Transport Layer Security (TLS) Simple Mail Transfer Protocol Secure (SMTPS) defaults to which port?</p><ol class="q-options" type="A"><li>25</li><li>465</li><li>587</li><li>993</li></ol><p class="q-answer"><strong>Answer:</strong> B — 465</p></li>
+				<li class="rev-q"><p class="q-num">Q38 · ISAKMP</p><p class="q-prompt">Internet Security Association and Key Management Protocol (ISAKMP) / Internet Key Exchange (IKE) for Internet Protocol Security (IPsec) Virtual Private Networks (VPNs) uses which port?</p><ol class="q-options" type="A"><li>443</li><li>500</li><li>1194</li><li>1701</li></ol><p class="q-answer"><strong>Answer:</strong> B — 500</p></li>
+				<li class="rev-q"><p class="q-num">Q39 · RTSP</p><p class="q-prompt">Real Time Streaming Protocol (RTSP) — used by Internet Protocol (IP) cameras and Closed-Circuit Television (CCTV) systems — uses which port?</p><ol class="q-options" type="A"><li>554</li><li>1723</li><li>5060</li><li>8080</li></ol><p class="q-answer"><strong>Answer:</strong> A — 554</p></li>
+				<li class="rev-q"><p class="q-num">Q40 · IMAPS</p><p class="q-prompt">Internet Message Access Protocol Secure (IMAPS) uses which port?</p><ol class="q-options" type="A"><li>143</li><li>465</li><li>993</li><li>995</li></ol><p class="q-answer"><strong>Answer:</strong> C — 993</p></li>
+				<li class="rev-q"><p class="q-num">Q41 · POP3S</p><p class="q-prompt">Post Office Protocol version 3 Secure (POP3S) uses which port?</p><ol class="q-options" type="A"><li>110</li><li>465</li><li>993</li><li>995</li></ol><p class="q-answer"><strong>Answer:</strong> D — 995</p></li>
+				<li class="rev-q"><p class="q-num">Q42 · OpenVPN</p><p class="q-prompt">OpenVPN defaults to User Datagram Protocol (UDP) on which port?</p><ol class="q-options" type="A"><li>500</li><li>1194</li><li>1701</li><li>1723</li></ol><p class="q-answer"><strong>Answer:</strong> B — 1194</p></li>
+				<li class="rev-q"><p class="q-num">Q43 · MS-SQL</p><p class="q-prompt">Microsoft Structured Query Language (SQL) Server listens on which Transmission Control Protocol (TCP) port?</p><ol class="q-options" type="A"><li>1433</li><li>1521</li><li>3306</li><li>5432</li></ol><p class="q-answer"><strong>Answer:</strong> A — 1433</p></li>
+				<li class="rev-q"><p class="q-num">Q44 · Oracle</p><p class="q-prompt">Oracle Database Listener / Transparent Network Substrate (TNS) listens on which port?</p><ol class="q-options" type="A"><li>1433</li><li>1521</li><li>3306</li><li>5432</li></ol><p class="q-answer"><strong>Answer:</strong> B — 1521</p></li>
+				<li class="rev-q"><p class="q-num">Q45 · L2TP</p><p class="q-prompt">Layer 2 Tunneling Protocol (L2TP) — usually wrapped in Internet Protocol Security (IPsec) — uses which port?</p><ol class="q-options" type="A"><li>500</li><li>1194</li><li>1701</li><li>1723</li></ol><p class="q-answer"><strong>Answer:</strong> C — 1701</p></li>
+				<li class="rev-q"><p class="q-num">Q46 · PPTP</p><p class="q-prompt">Point-to-Point Tunneling Protocol (PPTP), now deprecated for its broken Microsoft Challenge-Handshake Authentication Protocol version 2 (MS-CHAPv2), uses which port?</p><ol class="q-options" type="A"><li>500</li><li>1194</li><li>1701</li><li>1723</li></ol><p class="q-answer"><strong>Answer:</strong> D — 1723</p></li>
+				<li class="rev-q"><p class="q-num">Q47 · RADIUS</p><p class="q-prompt">Remote Authentication Dial-In User Service (RADIUS) authentication uses which port?</p><ol class="q-options" type="A"><li>49</li><li>1812</li><li>1813</li><li>514</li></ol><p class="q-answer"><strong>Answer:</strong> B — 1812</p></li>
+				<li class="rev-q"><p class="q-num">Q48 · NFS</p><p class="q-prompt">Network File System (NFS) — Unix-style remote file mounting — uses which port?</p><ol class="q-options" type="A"><li>111</li><li>445</li><li>2049</li><li>3306</li></ol><p class="q-answer"><strong>Answer:</strong> C — 2049</p></li>
+				<li class="rev-q"><p class="q-num">Q49 · PostgreSQL</p><p class="q-prompt">PostgreSQL database server listens on which Transmission Control Protocol (TCP) port?</p><ol class="q-options" type="A"><li>1433</li><li>1521</li><li>3306</li><li>5432</li></ol><p class="q-answer"><strong>Answer:</strong> D — 5432</p></li>
+				<li class="rev-q"><p class="q-num">Q50 · HTTP-Alt</p><p class="q-prompt">Apache Tomcat, Jenkins, and many web proxies default to which alternate Hypertext Transfer Protocol (HTTP) port?</p><ol class="q-options" type="A"><li>80</li><li>443</li><li>8080</li><li>8443</li></ol><p class="q-answer"><strong>Answer:</strong> C — 8080</p></li>
+			</ol>
+		</section>
+
+		<section id="linux-commands" class="section">
+			<div class="rev-section-title">
+				<h2>Linux / Unix Commands</h2>
+				<span class="rev-tag">CPSA Domain F</span>
+			</div>
+			<p>Every Linux / Unix command and tested invocation drawn from the 135-question Unix Assessment domain of the CPSA question bank. Eight functional groups plus a closing files-of-interest set. Tight rows on purpose — the question after each table is the active-recall layer.</p>
+
+			<h3>Group 1 — Viewing &amp; searching files</h3>
+			<div class="rev-table-wrap">
+				<table class="rev-table">
+					<thead><tr><th>#</th><th>Command</th><th>Use</th><th>Tested invocation</th><th>Memory hook</th></tr></thead>
+					<tbody>
+						<tr><td class="num">L1</td><td class="svc">ls</td><td>List directory contents and metadata.</td><td><code>ls -la</code> · <code>ls -Z</code> (Security Enhanced Linux — SELinux — context)</td><td class="hook">"l-s = LiSt."</td></tr>
+						<tr><td class="num">L2</td><td class="svc">cat</td><td>Concatenate and print files to standard output.</td><td><code>cat /etc/passwd</code></td><td class="hook">"cat = catalogue, type it out."</td></tr>
+						<tr><td class="num">L3</td><td class="svc">head</td><td>Print the first lines of a file (default 10).</td><td><code>head -n 20 file</code></td><td class="hook">"Head = top of the page."</td></tr>
+						<tr><td class="num">L4</td><td class="svc">tail</td><td>Print the last lines or follow a growing file.</td><td><code>tail -f /var/log/auth.log</code></td><td class="hook">"Tail = bottom; -f follows like a dog."</td></tr>
+						<tr><td class="num">L5</td><td class="svc">less</td><td>Interactive file pager — page up / down, search.</td><td><code>less /var/log/syslog</code></td><td class="hook">"Less is more, with brakes."</td></tr>
+						<tr><td class="num">L6</td><td class="svc">find</td><td>Walk the file-system and match files by criteria.</td><td><code>find / -perm -4000 -type f 2&gt;/dev/null</code> (Set User ID — SUID — hunt) · <code>find / -mmin -60</code></td><td class="hook">"Find anything anywhere — slow but exhaustive."</td></tr>
+						<tr><td class="num">L7</td><td class="svc">locate</td><td>Database-backed filename search — depends on a nightly <code>updatedb</code>.</td><td><code>locate sshd_config</code></td><td class="hook">"Locate = fast lookup, possibly stale."</td></tr>
+						<tr><td class="num">L8</td><td class="svc">which</td><td>Show the full path of the binary that would run.</td><td><code>which python3</code></td><td class="hook">"Which one runs?"</td></tr>
+						<tr><td class="num">L9</td><td class="svc">whereis</td><td>Show binary, source, and manual page locations.</td><td><code>whereis nmap</code></td><td class="hook">"Where is the whole kit?"</td></tr>
+						<tr><td class="num">L10</td><td class="svc">stat</td><td>Display detailed file metadata — access / modify / change timestamps, inode, link count, mode.</td><td><code>stat /etc/shadow</code></td><td class="hook">"Stat = full statistics on a file."</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<ol class="rev-q-list">
+				<li class="rev-q"><p class="q-num">L1 · ls</p><p class="q-prompt">Which Linux command lists files including hidden entries with full permissions, owner, and size?</p><ol class="q-options" type="A"><li><code>ls</code></li><li><code>ls -la</code></li><li><code>cat</code></li><li><code>find</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>ls -la</code></p></li>
+				<li class="rev-q"><p class="q-num">L2 · cat</p><p class="q-prompt">Which command CONCATENATES files and prints them to standard output?</p><ol class="q-options" type="A"><li><code>cat</code></li><li><code>head</code></li><li><code>more</code></li><li><code>ls</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>cat</code></p></li>
+				<li class="rev-q"><p class="q-num">L3 · head</p><p class="q-prompt">Which command prints the first 20 lines of a file?</p><ol class="q-options" type="A"><li><code>head -n 20 file</code></li><li><code>tail -n 20 file</code></li><li><code>less file</code></li><li><code>wc -l file</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>head -n 20 file</code></p></li>
+				<li class="rev-q"><p class="q-num">L4 · tail</p><p class="q-prompt">To follow new lines as they are written to a log file in real time, use:</p><ol class="q-options" type="A"><li><code>tail -f</code></li><li><code>cat -f</code></li><li><code>head -f</code></li><li><code>watch tail</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>tail -f</code></p></li>
+				<li class="rev-q"><p class="q-num">L5 · less</p><p class="q-prompt">Which command opens a file in an interactive scrolling pager that supports search?</p><ol class="q-options" type="A"><li><code>less</code></li><li><code>cat</code></li><li><code>head</code></li><li><code>find</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>less</code></p></li>
+				<li class="rev-q"><p class="q-num">L6 · find</p><p class="q-prompt">Which command finds all files with the Set User ID (SUID) bit set under root, suppressing permission errors?</p><ol class="q-options" type="A"><li><code>find / -perm -4000 -type f 2&gt;/dev/null</code></li><li><code>locate suid</code></li><li><code>ls -la /</code></li><li><code>which suid</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>find / -perm -4000 -type f 2&gt;/dev/null</code></p></li>
+				<li class="rev-q"><p class="q-num">L7 · locate</p><p class="q-prompt">Which command queries a pre-built database for files by name?</p><ol class="q-options" type="A"><li><code>find</code></li><li><code>locate</code></li><li><code>which</code></li><li><code>whereis</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>locate</code></p></li>
+				<li class="rev-q"><p class="q-num">L8 · which</p><p class="q-prompt">Which command shows the full path of the executable that would run if you typed its name?</p><ol class="q-options" type="A"><li><code>which</code></li><li><code>whereis</code></li><li><code>find</code></li><li><code>locate</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>which</code></p></li>
+				<li class="rev-q"><p class="q-num">L9 · whereis</p><p class="q-prompt">Which command returns the binary, source code, AND manual page locations for a program?</p><ol class="q-options" type="A"><li><code>which</code></li><li><code>whereis</code></li><li><code>find</code></li><li><code>locate</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>whereis</code></p></li>
+				<li class="rev-q"><p class="q-num">L10 · stat</p><p class="q-prompt">Which command displays detailed metadata of a file — access, modify, and change timestamps plus inode and link count?</p><ol class="q-options" type="A"><li><code>ls -la</code></li><li><code>stat</code></li><li><code>file</code></li><li><code>find</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>stat</code></p></li>
+			</ol>
+
+			<h3>Group 2 — Permissions, users &amp; identity</h3>
+			<div class="rev-table-wrap">
+				<table class="rev-table">
+					<thead><tr><th>#</th><th>Command</th><th>Use</th><th>Tested invocation</th><th>Memory hook</th></tr></thead>
+					<tbody>
+						<tr><td class="num">L11</td><td class="svc">chmod</td><td>Change file mode (permission) bits.</td><td><code>chmod 755 file</code> · <code>chmod +s file</code> (set Set User ID / Set Group ID — SUID / SGID)</td><td class="hook">"ch-MODE."</td></tr>
+						<tr><td class="num">L12</td><td class="svc">chown</td><td>Change owner (and optionally group) of a file.</td><td><code>chown user:group file</code></td><td class="hook">"ch-OWN — change OWNer."</td></tr>
+						<tr><td class="num">L13</td><td class="svc">chgrp</td><td>Change group ownership only.</td><td><code>chgrp staff file</code></td><td class="hook">"ch-GRP — group only."</td></tr>
+						<tr><td class="num">L14</td><td class="svc">sudo</td><td>Run a command as another user (default root) with logging.</td><td><code>sudo -l</code> (list allowed) · <code>sudo su</code> (escalate)</td><td class="hook">"SuperUser DO."</td></tr>
+						<tr><td class="num">L15</td><td class="svc">su</td><td>Switch user — drop into another account's shell.</td><td><code>su -</code> (login shell)</td><td class="hook">"Switch User."</td></tr>
+						<tr><td class="num">L16</td><td class="svc">passwd</td><td>Change a password.</td><td><code>passwd</code> (self) · <code>passwd jdoe</code> (root only)</td><td class="hook">"PASSWD = change pwd."</td></tr>
+						<tr><td class="num">L17</td><td class="svc">useradd</td><td>Create a local user account.</td><td><code>useradd -m jdoe</code> (with home directory)</td><td class="hook">"User-ADD."</td></tr>
+						<tr><td class="num">L18</td><td class="svc">id</td><td>Print effective User ID (UID), Group ID (GID), and group memberships.</td><td><code>id</code> · <code>id jdoe</code></td><td class="hook">"ID = identification badge."</td></tr>
+						<tr><td class="num">L19</td><td class="svc">whoami</td><td>Print effective username only.</td><td><code>whoami</code></td><td class="hook">"Literally 'who am I?'"</td></tr>
+						<tr><td class="num">L20</td><td class="svc">w</td><td>Show logged-in users with their terminal, login time, idle time, and load averages.</td><td><code>w</code></td><td class="hook">"w = who-and-what's-running."</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<ol class="rev-q-list">
+				<li class="rev-q"><p class="q-num">L11 · chmod</p><p class="q-prompt">Which command sets the Set User ID (SUID) bit on an executable?</p><ol class="q-options" type="A"><li><code>chmod +s file</code></li><li><code>chown root file</code></li><li><code>chgrp root file</code></li><li><code>chmod 644 file</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>chmod +s file</code></p></li>
+				<li class="rev-q"><p class="q-num">L12 · chown</p><p class="q-prompt">Which command changes both owner and group of a file in one invocation?</p><ol class="q-options" type="A"><li><code>chmod user:group file</code></li><li><code>chown user:group file</code></li><li><code>chgrp user:group file</code></li><li><code>setfacl -m u:user file</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>chown user:group file</code></p></li>
+				<li class="rev-q"><p class="q-num">L13 · chgrp</p><p class="q-prompt">Which command changes ONLY the group ownership of a file?</p><ol class="q-options" type="A"><li><code>chmod</code></li><li><code>chown</code></li><li><code>chgrp</code></li><li><code>setgid</code></li></ol><p class="q-answer"><strong>Answer:</strong> C — <code>chgrp</code></p></li>
+				<li class="rev-q"><p class="q-num">L14 · sudo</p><p class="q-prompt">Which command lists the privileges the current user is allowed to invoke via the sudoers policy?</p><ol class="q-options" type="A"><li><code>sudo -l</code></li><li><code>sudo -v</code></li><li><code>id</code></li><li><code>cat /etc/sudoers</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>sudo -l</code></p></li>
+				<li class="rev-q"><p class="q-num">L15 · su</p><p class="q-prompt">Which command launches a full login shell as the target user, loading their environment?</p><ol class="q-options" type="A"><li><code>su -</code></li><li><code>sudo</code></li><li><code>login</code></li><li><code>chsh</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>su -</code></p></li>
+				<li class="rev-q"><p class="q-num">L16 · passwd</p><p class="q-prompt">Which command changes the password of the user <code>jdoe</code> (root only)?</p><ol class="q-options" type="A"><li><code>passwd jdoe</code></li><li><code>chpwd jdoe</code></li><li><code>useradd -p jdoe</code></li><li><code>su jdoe</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>passwd jdoe</code></p></li>
+				<li class="rev-q"><p class="q-num">L17 · useradd</p><p class="q-prompt">Which command creates a new user account AND a home directory?</p><ol class="q-options" type="A"><li><code>useradd -m jdoe</code></li><li><code>adduser -h jdoe</code></li><li><code>mkuser jdoe</code></li><li><code>usermod -m jdoe</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>useradd -m jdoe</code></p></li>
+				<li class="rev-q"><p class="q-num">L18 · id</p><p class="q-prompt">Which command prints the current user's User ID (UID), Group ID (GID), and supplementary group memberships?</p><ol class="q-options" type="A"><li><code>whoami</code></li><li><code>w</code></li><li><code>id</code></li><li><code>groups</code></li></ol><p class="q-answer"><strong>Answer:</strong> C — <code>id</code></p></li>
+				<li class="rev-q"><p class="q-num">L19 · whoami</p><p class="q-prompt">Which command prints ONLY the effective username and nothing else?</p><ol class="q-options" type="A"><li><code>id</code></li><li><code>whoami</code></li><li><code>w</code></li><li><code>logname</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>whoami</code></p></li>
+				<li class="rev-q"><p class="q-num">L20 · w</p><p class="q-prompt">Which command shows logged-in users alongside their idle time, terminal, and current load averages?</p><ol class="q-options" type="A"><li><code>w</code></li><li><code>last</code></li><li><code>who</code></li><li><code>users</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>w</code></p></li>
+			</ol>
+
+			<h3>Group 3 — Processes &amp; priority</h3>
+			<div class="rev-table-wrap">
+				<table class="rev-table">
+					<thead><tr><th>#</th><th>Command</th><th>Use</th><th>Tested invocation</th><th>Memory hook</th></tr></thead>
+					<tbody>
+						<tr><td class="num">L21</td><td class="svc">ps</td><td>Snapshot of running processes.</td><td><code>ps aux</code> (Berkeley Software Distribution — BSD — syntax: All users, eXtended, no controlling Terminal — TTY)</td><td class="hook">"ps = Process Snapshot."</td></tr>
+						<tr><td class="num">L22</td><td class="svc">top</td><td>Real-time interactive process and resource monitor.</td><td><code>top</code></td><td class="hook">"Top = busiest at the top."</td></tr>
+						<tr><td class="num">L23</td><td class="svc">kill</td><td>Send a signal to a Process Identifier (PID).</td><td><code>kill -9 PID</code> (SIGKILL — unblockable)</td><td class="hook">"Kill the PID; -9 = the nuke."</td></tr>
+						<tr><td class="num">L24</td><td class="svc">killall</td><td>Send a signal to every process matching a name.</td><td><code>killall firefox</code></td><td class="hook">"Kill ALL by name."</td></tr>
+						<tr><td class="num">L25</td><td class="svc">pkill</td><td>Pattern-match kill (regular expressions, by user, by terminal).</td><td><code>pkill -KILL -u jdoe</code> (force-kill all of jdoe's processes)</td><td class="hook">"P-kill = pattern kill."</td></tr>
+						<tr><td class="num">L26</td><td class="svc">nice</td><td>Start a command with a Central Processing Unit (CPU) niceness value (lower priority).</td><td><code>nice -n 10 cmd</code></td><td class="hook">"Nice = polite, low priority."</td></tr>
+						<tr><td class="num">L27</td><td class="svc">renice</td><td>Change the niceness of a running process.</td><td><code>renice 5 -p PID</code></td><td class="hook">"RE-nice = update later."</td></tr>
+						<tr><td class="num">L28</td><td class="svc">ionice</td><td>Set Input / Output (I/O) scheduling priority.</td><td><code>ionice -c 3 cmd</code> (idle class)</td><td class="hook">"I-O nice for disk politeness."</td></tr>
+						<tr><td class="num">L29</td><td class="svc">free</td><td>Display Random-Access Memory (RAM) and swap usage.</td><td><code>free -h</code> (human-readable) · <code>free -m</code> (megabytes)</td><td class="hook">"Free memory snapshot."</td></tr>
+						<tr><td class="num">L30</td><td class="svc">vmstat</td><td>Virtual Memory and system performance statistics over time.</td><td><code>vmstat 1</code> (one-second interval) · <code>vmstat -s</code></td><td class="hook">"VM-stat = Virtual Memory stats."</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<ol class="rev-q-list">
+				<li class="rev-q"><p class="q-num">L21 · ps</p><p class="q-prompt">Which Berkeley Software Distribution (BSD) syntax invocation of <code>ps</code> shows ALL processes from ALL users including those without a controlling terminal?</p><ol class="q-options" type="A"><li><code>ps -ef</code></li><li><code>ps aux</code></li><li><code>ps -A</code></li><li><code>ps</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>ps aux</code></p></li>
+				<li class="rev-q"><p class="q-num">L22 · top</p><p class="q-prompt">Which interactive command shows the busiest processes by Central Processing Unit (CPU) at the top of a live, refreshing screen?</p><ol class="q-options" type="A"><li><code>htop</code></li><li><code>ps aux</code></li><li><code>top</code></li><li><code>vmstat 1</code></li></ol><p class="q-answer"><strong>Answer:</strong> C — <code>top</code></p></li>
+				<li class="rev-q"><p class="q-num">L23 · kill</p><p class="q-prompt">Which signal number sent by <code>kill</code> is the unblockable, forceful termination (SIGKILL)?</p><ol class="q-options" type="A"><li>1</li><li>9</li><li>15</li><li>19</li></ol><p class="q-answer"><strong>Answer:</strong> B — 9</p></li>
+				<li class="rev-q"><p class="q-num">L24 · killall</p><p class="q-prompt">Which command kills EVERY process whose name matches the supplied string?</p><ol class="q-options" type="A"><li><code>kill</code></li><li><code>killall</code></li><li><code>pkill</code></li><li><code>xkill</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>killall</code></p></li>
+				<li class="rev-q"><p class="q-num">L25 · pkill</p><p class="q-prompt">Which command terminates all of user <code>jdoe</code>'s processes with SIGKILL?</p><ol class="q-options" type="A"><li><code>killall -9 jdoe</code></li><li><code>pkill -KILL -u jdoe</code></li><li><code>kill -9 jdoe</code></li><li><code>userdel jdoe</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>pkill -KILL -u jdoe</code></p></li>
+				<li class="rev-q"><p class="q-num">L26 · nice</p><p class="q-prompt">Which command starts a new process at lower-than-default Central Processing Unit (CPU) priority?</p><ol class="q-options" type="A"><li><code>nice -n 10 cmd</code></li><li><code>renice 10 cmd</code></li><li><code>ionice -c 3 cmd</code></li><li><code>nohup cmd</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>nice -n 10 cmd</code></p></li>
+				<li class="rev-q"><p class="q-num">L27 · renice</p><p class="q-prompt">Which command changes the niceness of an ALREADY running process?</p><ol class="q-options" type="A"><li><code>nice</code></li><li><code>renice</code></li><li><code>ionice</code></li><li><code>chrt</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>renice</code></p></li>
+				<li class="rev-q"><p class="q-num">L28 · ionice</p><p class="q-prompt">Which command sets the disk Input / Output (I/O) priority of a process to the idle class?</p><ol class="q-options" type="A"><li><code>nice -c 3</code></li><li><code>ionice -c 3 cmd</code></li><li><code>renice -i</code></li><li><code>iostat -c 3</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>ionice -c 3 cmd</code></p></li>
+				<li class="rev-q"><p class="q-num">L29 · free</p><p class="q-prompt">Which command displays Random-Access Memory (RAM) and swap usage in human-readable units?</p><ol class="q-options" type="A"><li><code>free -h</code></li><li><code>top -h</code></li><li><code>vmstat -h</code></li><li><code>df -h</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>free -h</code></p></li>
+				<li class="rev-q"><p class="q-num">L30 · vmstat</p><p class="q-prompt">Which command samples Virtual Memory and system performance statistics every one second?</p><ol class="q-options" type="A"><li><code>top</code></li><li><code>vmstat 1</code></li><li><code>iostat 1</code></li><li><code>mpstat 1</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>vmstat 1</code></p></li>
+			</ol>
+
+			<h3>Group 4 — Hardware &amp; kernel</h3>
+			<div class="rev-table-wrap">
+				<table class="rev-table">
+					<thead><tr><th>#</th><th>Command</th><th>Use</th><th>Tested invocation</th><th>Memory hook</th></tr></thead>
+					<tbody>
+						<tr><td class="num">L31</td><td class="svc">uname</td><td>Print kernel name, version, hostname, architecture.</td><td><code>uname -a</code> (all) · <code>uname -r</code> (kernel release)</td><td class="hook">"UN(ix)-NAME identification."</td></tr>
+						<tr><td class="num">L32</td><td class="svc">uptime</td><td>Time since boot plus 1, 5, 15-minute load averages.</td><td><code>uptime</code></td><td class="hook">"Up-time + load averages."</td></tr>
+						<tr><td class="num">L33</td><td class="svc">hostname</td><td>Display or set the system hostname (non-persistent unless saved).</td><td><code>hostname</code> · <code>hostname new-host</code></td><td class="hook">"Just the hostname."</td></tr>
+						<tr><td class="num">L34</td><td class="svc">hostnamectl</td><td>Persistently set hostname via systemd.</td><td><code>hostnamectl set-hostname web01</code></td><td class="hook">"Hostname-ConTroL — systemd persistence."</td></tr>
+						<tr><td class="num">L35</td><td class="svc">lsblk</td><td>List block devices (disks, partitions, mountpoints).</td><td><code>lsblk</code></td><td class="hook">"LS-BLocK."</td></tr>
+						<tr><td class="num">L36</td><td class="svc">lshw</td><td>Detailed Hardware (HW) inventory.</td><td><code>lshw</code> · <code>lshw -short</code></td><td class="hook">"LS-HardWare."</td></tr>
+						<tr><td class="num">L37</td><td class="svc">lsmod</td><td>List kernel modules currently loaded.</td><td><code>lsmod</code></td><td class="hook">"LS-MODules."</td></tr>
+						<tr><td class="num">L38</td><td class="svc">lspci</td><td>Devices on the Peripheral Component Interconnect (PCI) bus.</td><td><code>lspci</code> · <code>lspci -v</code></td><td class="hook">"LS-PCI bus."</td></tr>
+						<tr><td class="num">L39</td><td class="svc">lsusb</td><td>List Universal Serial Bus (USB) devices attached.</td><td><code>lsusb</code></td><td class="hook">"LS-USB."</td></tr>
+						<tr><td class="num">L40</td><td class="svc">sensors</td><td>Display motherboard / Central Processing Unit (CPU) temperature, fan, voltage readings.</td><td><code>sensors</code></td><td class="hook">"Sensors = thermal/voltage."</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<ol class="rev-q-list">
+				<li class="rev-q"><p class="q-num">L31 · uname</p><p class="q-prompt">Which command prints all kernel information — name, hostname, release, architecture — in one line?</p><ol class="q-options" type="A"><li><code>uname -a</code></li><li><code>uname -r</code></li><li><code>cat /proc/version</code></li><li><code>hostnamectl</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>uname -a</code></p></li>
+				<li class="rev-q"><p class="q-num">L32 · uptime</p><p class="q-prompt">Which command shows time since boot plus 1, 5, and 15-minute load averages?</p><ol class="q-options" type="A"><li><code>w</code></li><li><code>top</code></li><li><code>uptime</code></li><li><code>last reboot</code></li></ol><p class="q-answer"><strong>Answer:</strong> C — <code>uptime</code></p></li>
+				<li class="rev-q"><p class="q-num">L33 · hostname</p><p class="q-prompt">Which command displays the system's current hostname without changing it persistently?</p><ol class="q-options" type="A"><li><code>hostname</code></li><li><code>hostnamectl set-hostname</code></li><li><code>uname -n</code> (also valid)</li><li>Both A and C</li></ol><p class="q-answer"><strong>Answer:</strong> D — <code>hostname</code> and <code>uname -n</code> both display it; A is the conventional answer.</p></li>
+				<li class="rev-q"><p class="q-num">L34 · hostnamectl</p><p class="q-prompt">Which command PERSISTENTLY sets the system hostname under systemd?</p><ol class="q-options" type="A"><li><code>hostname web01</code></li><li><code>hostnamectl set-hostname web01</code></li><li><code>echo web01 &gt; /etc/hostname</code></li><li><code>uname -n web01</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>hostnamectl set-hostname web01</code></p></li>
+				<li class="rev-q"><p class="q-num">L35 · lsblk</p><p class="q-prompt">Which command lists block devices — disks, partitions, and their mount points — in a tree?</p><ol class="q-options" type="A"><li><code>lsblk</code></li><li><code>fdisk -l</code></li><li><code>df -T</code></li><li><code>blkid</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>lsblk</code></p></li>
+				<li class="rev-q"><p class="q-num">L36 · lshw</p><p class="q-prompt">Which command produces a detailed Hardware (HW) inventory of the host?</p><ol class="q-options" type="A"><li><code>lspci</code></li><li><code>lsusb</code></li><li><code>lshw</code></li><li><code>dmidecode</code></li></ol><p class="q-answer"><strong>Answer:</strong> C — <code>lshw</code></p></li>
+				<li class="rev-q"><p class="q-num">L37 · lsmod</p><p class="q-prompt">Which command lists kernel modules currently loaded into the running kernel?</p><ol class="q-options" type="A"><li><code>lsmod</code></li><li><code>modprobe -l</code></li><li><code>lspci</code></li><li><code>dmesg</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>lsmod</code></p></li>
+				<li class="rev-q"><p class="q-num">L38 · lspci</p><p class="q-prompt">Which command lists devices attached to the Peripheral Component Interconnect (PCI) bus?</p><ol class="q-options" type="A"><li><code>lsusb</code></li><li><code>lspci</code></li><li><code>lsblk</code></li><li><code>lshw</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>lspci</code></p></li>
+				<li class="rev-q"><p class="q-num">L39 · lsusb</p><p class="q-prompt">Which command lists Universal Serial Bus (USB) devices attached to the host?</p><ol class="q-options" type="A"><li><code>lspci</code></li><li><code>lsusb</code></li><li><code>lsblk</code></li><li><code>lshw -class usb</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>lsusb</code></p></li>
+				<li class="rev-q"><p class="q-num">L40 · sensors</p><p class="q-prompt">Which command displays motherboard and Central Processing Unit (CPU) temperature, fan-speed, and voltage readings (where supported)?</p><ol class="q-options" type="A"><li><code>uptime</code></li><li><code>sensors</code></li><li><code>vmstat</code></li><li><code>iostat</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>sensors</code></p></li>
+			</ol>
+
+			<h3>Group 5 — Disks, filesystems &amp; archives</h3>
+			<div class="rev-table-wrap">
+				<table class="rev-table">
+					<thead><tr><th>#</th><th>Command</th><th>Use</th><th>Tested invocation</th><th>Memory hook</th></tr></thead>
+					<tbody>
+						<tr><td class="num">L41</td><td class="svc">df</td><td>Disk Free — usage per mounted filesystem.</td><td><code>df -h</code> (human) · <code>df -T</code> (with type)</td><td class="hook">"Disk Free."</td></tr>
+						<tr><td class="num">L42</td><td class="svc">du</td><td>Disk Usage — directory size summation.</td><td><code>du -sh dir</code> (summary, human) · <code>du -h</code></td><td class="hook">"Disk Usage."</td></tr>
+						<tr><td class="num">L43</td><td class="svc">mount</td><td>Attach a filesystem; with no arguments, list current mounts.</td><td><code>mount</code> (list) · <code>mount /dev/sdb1 /mnt</code></td><td class="hook">"Mount it."</td></tr>
+						<tr><td class="num">L44</td><td class="svc">umount</td><td>Detach a filesystem (note: ONE 'n').</td><td><code>umount /mnt</code></td><td class="hook">"U-MOUNT — one 'n', not 'unmount'."</td></tr>
+						<tr><td class="num">L45</td><td class="svc">mkfs.ext4</td><td>Create (format) an ext4 filesystem.</td><td><code>mkfs.ext4 /dev/sdb1</code></td><td class="hook">"MaKe-FileSystem."</td></tr>
+						<tr><td class="num">L46</td><td class="svc">fsck.ext4</td><td>FileSystem ChecK — verify and repair ext4.</td><td><code>fsck.ext4 /dev/sdb1</code></td><td class="hook">"FS-ChecK."</td></tr>
+						<tr><td class="num">L47</td><td class="svc">mkdir</td><td>Create a directory; <code>-p</code> creates parents.</td><td><code>mkdir -p path/to/dir</code></td><td class="hook">"MaKe-DIRectory."</td></tr>
+						<tr><td class="num">L48</td><td class="svc">tar</td><td>Tape ARchive — bundle files; combine with gzip / bzip2.</td><td><code>tar -xzvf file.tar.gz</code> (extract) · <code>tar -czvf out.tar.gz dir</code> (create)</td><td class="hook">"x-tract or c-reate; z = gzip, v = verbose, f = file."</td></tr>
+						<tr><td class="num">L49</td><td class="svc">gzip</td><td>Compress a single file using DEFLATE.</td><td><code>gzip file</code> → <code>file.gz</code></td><td class="hook">"GNU ZIP."</td></tr>
+						<tr><td class="num">L50</td><td class="svc">gunzip / zcat</td><td>Decompress (<code>gunzip</code>) or read directly (<code>zcat</code>) without decompressing to disk.</td><td><code>gunzip file.gz</code> · <code>zcat file.gz | grep error</code></td><td class="hook">"gun-ZIP undoes; z-cat reads in place."</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<ol class="rev-q-list">
+				<li class="rev-q"><p class="q-num">L41 · df</p><p class="q-prompt">Which command shows disk usage per mounted filesystem in human-readable units?</p><ol class="q-options" type="A"><li><code>du -h</code></li><li><code>df -h</code></li><li><code>lsblk -h</code></li><li><code>free -h</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>df -h</code></p></li>
+				<li class="rev-q"><p class="q-num">L42 · du</p><p class="q-prompt">Which command summarises the total size of a directory in human-readable units?</p><ol class="q-options" type="A"><li><code>df -sh dir</code></li><li><code>du -sh dir</code></li><li><code>ls -sh dir</code></li><li><code>find dir -size</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>du -sh dir</code></p></li>
+				<li class="rev-q"><p class="q-num">L43 · mount</p><p class="q-prompt">With NO arguments, what does <code>mount</code> do?</p><ol class="q-options" type="A"><li>Errors out</li><li>Mounts all entries in <code>/etc/fstab</code></li><li>Lists currently mounted filesystems</li><li>Displays the boot-time mount log</li></ol><p class="q-answer"><strong>Answer:</strong> C — Lists currently mounted filesystems</p></li>
+				<li class="rev-q"><p class="q-num">L44 · umount</p><p class="q-prompt">Which command detaches a mounted filesystem from <code>/mnt</code>?</p><ol class="q-options" type="A"><li><code>unmount /mnt</code></li><li><code>umount /mnt</code></li><li><code>mount -u /mnt</code></li><li><code>detach /mnt</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>umount /mnt</code></p></li>
+				<li class="rev-q"><p class="q-num">L45 · mkfs.ext4</p><p class="q-prompt">Which command formats <code>/dev/sdb1</code> as an ext4 filesystem?</p><ol class="q-options" type="A"><li><code>format /dev/sdb1</code></li><li><code>fsck.ext4 /dev/sdb1</code></li><li><code>mkfs.ext4 /dev/sdb1</code></li><li><code>mkdir /dev/sdb1</code></li></ol><p class="q-answer"><strong>Answer:</strong> C — <code>mkfs.ext4 /dev/sdb1</code></p></li>
+				<li class="rev-q"><p class="q-num">L46 · fsck.ext4</p><p class="q-prompt">Which command checks and repairs an ext4 filesystem?</p><ol class="q-options" type="A"><li><code>mkfs.ext4</code></li><li><code>fsck.ext4</code></li><li><code>e2fsck -m</code></li><li><code>chkdsk</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>fsck.ext4</code></p></li>
+				<li class="rev-q"><p class="q-num">L47 · mkdir</p><p class="q-prompt">Which option to <code>mkdir</code> creates parent directories as needed?</p><ol class="q-options" type="A"><li><code>-r</code></li><li><code>-p</code></li><li><code>-m</code></li><li><code>-a</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>-p</code></p></li>
+				<li class="rev-q"><p class="q-num">L48 · tar</p><p class="q-prompt">Which invocation EXTRACTS a gzipped tape archive verbosely?</p><ol class="q-options" type="A"><li><code>tar -czvf file.tar.gz</code></li><li><code>tar -xzvf file.tar.gz</code></li><li><code>tar -tvf file.tar.gz</code></li><li><code>tar -rvf file.tar.gz</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>tar -xzvf file.tar.gz</code></p></li>
+				<li class="rev-q"><p class="q-num">L49 · gzip</p><p class="q-prompt">Which compression utility produces a <code>.gz</code> file using the DEFLATE algorithm?</p><ol class="q-options" type="A"><li><code>bzip2</code></li><li><code>xz</code></li><li><code>gzip</code></li><li><code>compress</code></li></ol><p class="q-answer"><strong>Answer:</strong> C — <code>gzip</code></p></li>
+				<li class="rev-q"><p class="q-num">L50 · zcat</p><p class="q-prompt">Which command reads a gzipped file's contents to standard output WITHOUT writing the decompressed file to disk?</p><ol class="q-options" type="A"><li><code>gunzip</code></li><li><code>cat</code></li><li><code>zcat</code></li><li><code>tar -xz</code></li></ol><p class="q-answer"><strong>Answer:</strong> C — <code>zcat</code></p></li>
+			</ol>
+
+			<h3>Group 6 — Networking</h3>
+			<div class="rev-table-wrap">
+				<table class="rev-table">
+					<thead><tr><th>#</th><th>Command</th><th>Use</th><th>Tested invocation</th><th>Memory hook</th></tr></thead>
+					<tbody>
+						<tr><td class="num">L51</td><td class="svc">ifconfig</td><td>Display / configure network interfaces (legacy, replaced by <code>ip</code>).</td><td><code>ifconfig</code> · <code>ifconfig -a</code> (include inactive)</td><td class="hook">"InterFace-config."</td></tr>
+						<tr><td class="num">L52</td><td class="svc">ip</td><td>Modern interface, address, route, and tunnel manager.</td><td><code>ip a</code> (addresses) · <code>ip route show</code> (routing)</td><td class="hook">"<code>ip</code> = the new everything."</td></tr>
+						<tr><td class="num">L53</td><td class="svc">route</td><td>Display / manipulate the kernel routing table (legacy).</td><td><code>route -n</code> (numeric)</td><td class="hook">"Route table, no name lookups with <code>-n</code>."</td></tr>
+						<tr><td class="num">L54</td><td class="svc">arp</td><td>Display / modify Address Resolution Protocol (ARP) cache.</td><td><code>arp -a</code> · <code>arp -n</code></td><td class="hook">"ARP cache."</td></tr>
+						<tr><td class="num">L55</td><td class="svc">netstat</td><td>Network connections and listening sockets (legacy).</td><td><code>netstat -tulpn</code> (TCP / UDP listening with PID, numeric)</td><td class="hook">"NETwork STATistics."</td></tr>
+						<tr><td class="num">L56</td><td class="svc">ss</td><td>Socket Statistics — modern replacement for <code>netstat</code>.</td><td><code>ss -tulnp</code> · <code>ss -lnt</code></td><td class="hook">"SS = Socket Statistics."</td></tr>
+						<tr><td class="num">L57</td><td class="svc">lsof</td><td>LiSt Open Files — including network sockets and process mappings.</td><td><code>lsof -i</code> (network) · <code>lsof -p PID</code></td><td class="hook">"LiSt-Open-Files (sockets count)."</td></tr>
+						<tr><td class="num">L58</td><td class="svc">rpcinfo</td><td>Enumerate Remote Procedure Call (RPC) services on a host's portmapper (port 111).</td><td><code>rpcinfo -p target</code></td><td class="hook">"RPC info."</td></tr>
+						<tr><td class="num">L59</td><td class="svc">nethogs</td><td>Show network bandwidth use per process in real time.</td><td><code>nethogs</code></td><td class="hook">"Which process is HOGGING the network?"</td></tr>
+						<tr><td class="num">L60</td><td class="svc">dig</td><td>Domain Information Groper — query Domain Name System (DNS) servers.</td><td><code>dig @8.8.8.8 example.com ANY</code> · <code>dig axfr @ns1 example.com</code></td><td class="hook">"DIG = Domain Information Groper."</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<ol class="rev-q-list">
+				<li class="rev-q"><p class="q-num">L51 · ifconfig</p><p class="q-prompt">Which legacy command displays all configured network interfaces, including inactive ones?</p><ol class="q-options" type="A"><li><code>ifconfig -a</code></li><li><code>ip a</code></li><li><code>route -n</code></li><li><code>netstat -i</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>ifconfig -a</code></p></li>
+				<li class="rev-q"><p class="q-num">L52 · ip</p><p class="q-prompt">Which MODERN command displays the kernel routing table?</p><ol class="q-options" type="A"><li><code>route -n</code></li><li><code>ifconfig</code></li><li><code>ip route show</code></li><li><code>netstat -r</code></li></ol><p class="q-answer"><strong>Answer:</strong> C — <code>ip route show</code></p></li>
+				<li class="rev-q"><p class="q-num">L53 · route</p><p class="q-prompt">Which legacy command displays the routing table without resolving names?</p><ol class="q-options" type="A"><li><code>route -n</code></li><li><code>route -a</code></li><li><code>ip n</code></li><li><code>arp -n</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>route -n</code></p></li>
+				<li class="rev-q"><p class="q-num">L54 · arp</p><p class="q-prompt">Which command displays the local Address Resolution Protocol (ARP) cache?</p><ol class="q-options" type="A"><li><code>arp -a</code></li><li><code>ip route</code></li><li><code>ifconfig</code></li><li><code>netstat -an</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>arp -a</code></p></li>
+				<li class="rev-q"><p class="q-num">L55 · netstat</p><p class="q-prompt">Which <code>netstat</code> invocation shows all listening Transmission Control Protocol (TCP) and User Datagram Protocol (UDP) sockets with their owning Process Identifiers (PIDs), in numeric form?</p><ol class="q-options" type="A"><li><code>netstat -an</code></li><li><code>netstat -tulpn</code></li><li><code>netstat -r</code></li><li><code>netstat -i</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>netstat -tulpn</code></p></li>
+				<li class="rev-q"><p class="q-num">L56 · ss</p><p class="q-prompt">Which modern command replaces <code>netstat</code> for socket statistics?</p><ol class="q-options" type="A"><li><code>lsof</code></li><li><code>ss</code></li><li><code>tcpdump</code></li><li><code>iproute</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>ss</code></p></li>
+				<li class="rev-q"><p class="q-num">L57 · lsof</p><p class="q-prompt">Which command lists every open network connection with the process that owns it?</p><ol class="q-options" type="A"><li><code>lsof -i</code></li><li><code>ps -ef</code></li><li><code>ls /proc</code></li><li><code>fuser</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>lsof -i</code></p></li>
+				<li class="rev-q"><p class="q-num">L58 · rpcinfo</p><p class="q-prompt">Which command enumerates Remote Procedure Call (RPC) services registered with a host's portmapper?</p><ol class="q-options" type="A"><li><code>rpcclient</code></li><li><code>rpcinfo -p target</code></li><li><code>nmap --script rpc-grind</code></li><li><code>showmount -e</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>rpcinfo -p target</code></p></li>
+				<li class="rev-q"><p class="q-num">L59 · nethogs</p><p class="q-prompt">Which command identifies which PROCESS is consuming the most network bandwidth in real time?</p><ol class="q-options" type="A"><li><code>iftop</code></li><li><code>nethogs</code></li><li><code>tcpdump</code></li><li><code>top</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>nethogs</code></p></li>
+				<li class="rev-q"><p class="q-num">L60 · dig</p><p class="q-prompt">Which command attempts a Domain Name System (DNS) zone transfer (Asynchronous Full Transfer Zone — AXFR) against a name server?</p><ol class="q-options" type="A"><li><code>dig axfr @ns1 example.com</code></li><li><code>nslookup -type=axfr example.com</code></li><li><code>host -t any example.com</code></li><li><code>whois example.com</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>dig axfr @ns1 example.com</code></p></li>
+			</ol>
+
+			<h3>Group 7 — Logs, audit &amp; monitoring</h3>
+			<div class="rev-table-wrap">
+				<table class="rev-table">
+					<thead><tr><th>#</th><th>Command</th><th>Use</th><th>Tested invocation</th><th>Memory hook</th></tr></thead>
+					<tbody>
+						<tr><td class="num">L61</td><td class="svc">last</td><td>Display recent SUCCESSFUL logins from <code>/var/log/wtmp</code>.</td><td><code>last</code> · <code>last -F</code></td><td class="hook">"LAST few logins."</td></tr>
+						<tr><td class="num">L62</td><td class="svc">lastb</td><td>Display FAILED logins from <code>/var/log/btmp</code>.</td><td><code>lastb</code></td><td class="hook">"LAST-Bad."</td></tr>
+						<tr><td class="num">L63</td><td class="svc">dmesg</td><td>Print the kernel ring buffer — boot and hardware events.</td><td><code>dmesg</code> · <code>dmesg -T</code> (timestamps)</td><td class="hook">"Display kernel MESsaGes."</td></tr>
+						<tr><td class="num">L64</td><td class="svc">journalctl</td><td>Query the systemd journal — unified log store.</td><td><code>journalctl -f</code> (follow) · <code>journalctl -u sshd</code> (per-unit)</td><td class="hook">"JOURNAL-ConTroL — systemd's logbook."</td></tr>
+						<tr><td class="num">L65</td><td class="svc">iostat</td><td>Disk Input / Output (I/O) and Central Processing Unit (CPU) utilisation statistics.</td><td><code>iostat</code> · <code>iostat -x</code></td><td class="hook">"I-O STATistics."</td></tr>
+						<tr><td class="num">L66</td><td class="svc">mpstat</td><td>Per-Central Processing Unit (CPU) statistics.</td><td><code>mpstat -P ALL</code></td><td class="hook">"Multi-Processor STATistics."</td></tr>
+						<tr><td class="num">L67</td><td class="svc">nproc</td><td>Print the number of available Central Processing Unit (CPU) cores / threads.</td><td><code>nproc</code></td><td class="hook">"Number of PROCessors."</td></tr>
+						<tr><td class="num">L68</td><td class="svc">inotifywait</td><td>Block until a filesystem event occurs (Linux Kernel notify subsystem).</td><td><code>inotifywait -m /etc/passwd</code></td><td class="hook">"INOTIFY-WAIT for changes."</td></tr>
+						<tr><td class="num">L69</td><td class="svc">timedatectl</td><td>Query / set system time and timezone via systemd.</td><td><code>timedatectl</code> · <code>timedatectl set-timezone Europe/London</code></td><td class="hook">"TIME-DATE-ConTroL."</td></tr>
+						<tr><td class="num">L70</td><td class="svc">tzselect</td><td>Interactively pick a timezone identifier.</td><td><code>tzselect</code></td><td class="hook">"TimeZone-SELECT."</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<ol class="rev-q-list">
+				<li class="rev-q"><p class="q-num">L61 · last</p><p class="q-prompt">Which command lists recent SUCCESSFUL user logins?</p><ol class="q-options" type="A"><li><code>last</code></li><li><code>lastb</code></li><li><code>w</code></li><li><code>who</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>last</code></p></li>
+				<li class="rev-q"><p class="q-num">L62 · lastb</p><p class="q-prompt">Which command lists FAILED login attempts from <code>/var/log/btmp</code>?</p><ol class="q-options" type="A"><li><code>last</code></li><li><code>lastb</code></li><li><code>last -f</code></li><li><code>journalctl -u sshd</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>lastb</code></p></li>
+				<li class="rev-q"><p class="q-num">L63 · dmesg</p><p class="q-prompt">Which command prints the kernel ring buffer — boot and hardware events?</p><ol class="q-options" type="A"><li><code>dmesg</code></li><li><code>journalctl -k</code></li><li>Both A and B</li><li><code>uname -a</code></li></ol><p class="q-answer"><strong>Answer:</strong> C — both <code>dmesg</code> and <code>journalctl -k</code> read kernel messages; <code>dmesg</code> is the conventional answer.</p></li>
+				<li class="rev-q"><p class="q-num">L64 · journalctl</p><p class="q-prompt">Which command follows the systemd journal entries for the <code>sshd</code> unit in real time?</p><ol class="q-options" type="A"><li><code>tail -f /var/log/sshd</code></li><li><code>journalctl -fu sshd</code></li><li><code>systemctl status sshd</code></li><li><code>dmesg -f</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>journalctl -fu sshd</code></p></li>
+				<li class="rev-q"><p class="q-num">L65 · iostat</p><p class="q-prompt">Which command reports disk Input / Output (I/O) and Central Processing Unit (CPU) utilisation statistics together?</p><ol class="q-options" type="A"><li><code>vmstat</code></li><li><code>iostat</code></li><li><code>mpstat</code></li><li><code>top</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>iostat</code></p></li>
+				<li class="rev-q"><p class="q-num">L66 · mpstat</p><p class="q-prompt">Which command reports statistics PER Central Processing Unit (CPU) core?</p><ol class="q-options" type="A"><li><code>mpstat -P ALL</code></li><li><code>iostat -c</code></li><li><code>top -1</code></li><li><code>vmstat 1</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>mpstat -P ALL</code></p></li>
+				<li class="rev-q"><p class="q-num">L67 · nproc</p><p class="q-prompt">Which command prints just the number of available Central Processing Unit (CPU) cores?</p><ol class="q-options" type="A"><li><code>nproc</code></li><li><code>lscpu</code></li><li><code>cat /proc/cpuinfo</code></li><li><code>uname -p</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>nproc</code></p></li>
+				<li class="rev-q"><p class="q-num">L68 · inotifywait</p><p class="q-prompt">Which command blocks until a file or directory is modified, accessed, or moved?</p><ol class="q-options" type="A"><li><code>watch</code></li><li><code>inotifywait</code></li><li><code>auditctl</code></li><li><code>strace</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>inotifywait</code></p></li>
+				<li class="rev-q"><p class="q-num">L69 · timedatectl</p><p class="q-prompt">Which command queries and sets the system clock and timezone via systemd?</p><ol class="q-options" type="A"><li><code>date</code></li><li><code>hwclock</code></li><li><code>timedatectl</code></li><li><code>ntpdate</code></li></ol><p class="q-answer"><strong>Answer:</strong> C — <code>timedatectl</code></p></li>
+				<li class="rev-q"><p class="q-num">L70 · tzselect</p><p class="q-prompt">Which command interactively walks the user through choosing a timezone identifier?</p><ol class="q-options" type="A"><li><code>tzselect</code></li><li><code>tz</code></li><li><code>timedatectl set-timezone</code></li><li><code>tzdata</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>tzselect</code></p></li>
+			</ol>
+
+			<h3>Group 8 — Services, scheduling &amp; security</h3>
+			<div class="rev-table-wrap">
+				<table class="rev-table">
+					<thead><tr><th>#</th><th>Command</th><th>Use</th><th>Tested invocation</th><th>Memory hook</th></tr></thead>
+					<tbody>
+						<tr><td class="num">L71</td><td class="svc">systemctl</td><td>Manage systemd units (services, sockets, timers).</td><td><code>systemctl status sshd</code> · <code>systemctl --failed</code> · <code>systemctl list-unit-files</code></td><td class="hook">"SYSTEM-ConTroL — systemd's master."</td></tr>
+						<tr><td class="num">L72</td><td class="svc">service</td><td>Legacy SysV-init wrapper (still works on systemd).</td><td><code>service ssh start</code> · <code>service --status-all</code></td><td class="hook">"Service — old way."</td></tr>
+						<tr><td class="num">L73</td><td class="svc">cron</td><td>Daemon that runs scheduled jobs at fixed times.</td><td>(daemon, configured via crontabs)</td><td class="hook">"Cron = chrono = time."</td></tr>
+						<tr><td class="num">L74</td><td class="svc">crontab</td><td>Edit / list a user's cron schedule.</td><td><code>crontab -e</code> (edit) · <code>crontab -l</code> (list) · <code>crontab -u user -l</code></td><td class="hook">"Cron-TABle."</td></tr>
+						<tr><td class="num">L75</td><td class="svc">modprobe</td><td>Load / unload kernel modules with dependency resolution.</td><td><code>modprobe module</code> · <code>modprobe -r module</code> (unload)</td><td class="hook">"MODule-PROBE."</td></tr>
+						<tr><td class="num">L76</td><td class="svc">getenforce</td><td>Show current Security Enhanced Linux (SELinux) mode.</td><td><code>getenforce</code> (Enforcing / Permissive / Disabled)</td><td class="hook">"GET-ENFORCEment."</td></tr>
+						<tr><td class="num">L77</td><td class="svc">getsebool</td><td>Display Security Enhanced Linux (SELinux) boolean toggles.</td><td><code>getsebool -a</code></td><td class="hook">"GET SELinux BOOLeans."</td></tr>
+						<tr><td class="num">L78</td><td class="svc">iptables</td><td>Legacy in-kernel packet filter (Netfilter front end).</td><td><code>iptables -L -n -v</code> · <code>iptables -A INPUT -p tcp --dport 22 -j ACCEPT</code></td><td class="hook">"IP TABLES — packet chains."</td></tr>
+						<tr><td class="num">L79</td><td class="svc">nft</td><td>nftables — modern Netfilter front end replacing iptables.</td><td><code>nft list ruleset</code></td><td class="hook">"<code>nft</code> = next-gen iptables."</td></tr>
+						<tr><td class="num">L80</td><td class="svc">pwd</td><td>Print the current working directory.</td><td><code>pwd</code></td><td class="hook">"Print Working Directory."</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<ol class="rev-q-list">
+				<li class="rev-q"><p class="q-num">L71 · systemctl</p><p class="q-prompt">Which command lists ALL failed systemd units?</p><ol class="q-options" type="A"><li><code>systemctl --failed</code></li><li><code>systemctl status</code></li><li><code>service --status-all</code></li><li><code>journalctl -p err</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>systemctl --failed</code></p></li>
+				<li class="rev-q"><p class="q-num">L72 · service</p><p class="q-prompt">Which legacy command shows the status of every System V (SysV) init service in one table?</p><ol class="q-options" type="A"><li><code>systemctl status</code></li><li><code>service --status-all</code></li><li><code>chkconfig --list</code></li><li><code>initctl list</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>service --status-all</code></p></li>
+				<li class="rev-q"><p class="q-num">L73 · cron</p><p class="q-prompt">Which daemon runs scheduled jobs at fixed times specified in user crontabs?</p><ol class="q-options" type="A"><li><code>at</code></li><li><code>cron</code></li><li><code>systemd-timer</code></li><li><code>anacron</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>cron</code></p></li>
+				<li class="rev-q"><p class="q-num">L74 · crontab</p><p class="q-prompt">Which command opens the current user's cron schedule for editing?</p><ol class="q-options" type="A"><li><code>cron -e</code></li><li><code>crontab -e</code></li><li><code>crond -e</code></li><li><code>edit /etc/crontab</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>crontab -e</code></p></li>
+				<li class="rev-q"><p class="q-num">L75 · modprobe</p><p class="q-prompt">Which command UNLOADS a kernel module by name, resolving dependencies?</p><ol class="q-options" type="A"><li><code>rmmod module</code></li><li><code>modprobe -r module</code></li><li><code>insmod -r module</code></li><li><code>lsmod -d module</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>modprobe -r module</code></p></li>
+				<li class="rev-q"><p class="q-num">L76 · getenforce</p><p class="q-prompt">Which command reports whether Security Enhanced Linux (SELinux) is in Enforcing, Permissive, or Disabled mode?</p><ol class="q-options" type="A"><li><code>getenforce</code></li><li><code>sestatus -e</code></li><li><code>setenforce</code></li><li><code>aa-status</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>getenforce</code></p></li>
+				<li class="rev-q"><p class="q-num">L77 · getsebool</p><p class="q-prompt">Which command lists ALL Security Enhanced Linux (SELinux) boolean toggles and their current values?</p><ol class="q-options" type="A"><li><code>setsebool -a</code></li><li><code>getsebool -a</code></li><li><code>sestatus</code></li><li><code>seinfo -b</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>getsebool -a</code></p></li>
+				<li class="rev-q"><p class="q-num">L78 · iptables</p><p class="q-prompt">Which command lists the legacy <code>iptables</code> firewall ruleset numerically with packet / byte counters?</p><ol class="q-options" type="A"><li><code>iptables -L -n -v</code></li><li><code>iptables -S</code></li><li><code>nft list ruleset</code></li><li><code>ufw status verbose</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>iptables -L -n -v</code></p></li>
+				<li class="rev-q"><p class="q-num">L79 · nft</p><p class="q-prompt">Which command lists the entire active <code>nftables</code> ruleset in a single block?</p><ol class="q-options" type="A"><li><code>nft -L</code></li><li><code>nft list ruleset</code></li><li><code>iptables -nL</code></li><li><code>nftables-status</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>nft list ruleset</code></p></li>
+				<li class="rev-q"><p class="q-num">L80 · pwd</p><p class="q-prompt">Which command prints the absolute path of the current working directory?</p><ol class="q-options" type="A"><li><code>cd</code></li><li><code>pwd</code></li><li><code>ls -d</code></li><li><code>echo $HOME</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>pwd</code></p></li>
+			</ol>
+
+			<h3>Group 9 — Critical files &amp; paths</h3>
+			<div class="rev-table-wrap">
+				<table class="rev-table">
+					<thead><tr><th>#</th><th>Path</th><th>Use</th><th>Notes</th><th>Memory hook</th></tr></thead>
+					<tbody>
+						<tr><td class="num">L81</td><td class="svc"><code>/etc/passwd</code></td><td>Local user account database — username, User ID (UID), Group ID (GID), home directory, login shell.</td><td>World-readable. No password material — that lives in <code>/etc/shadow</code>.</td><td class="hook">"PASSwd = WHO, not WHAT."</td></tr>
+						<tr><td class="num">L82</td><td class="svc"><code>/etc/shadow</code></td><td>Hashed user passwords (and aging metadata).</td><td>Root-readable only. The crackable file in any Linux engagement.</td><td class="hook">"Shadow = the hashes."</td></tr>
+						<tr><td class="num">L83</td><td class="svc"><code>/etc/sudoers</code></td><td>Defines which users may run which commands as which other users.</td><td>Edit ONLY via <code>visudo</code> — syntax errors lock everyone out.</td><td class="hook">"Sudoers = the priv-list."</td></tr>
+						<tr><td class="num">L84</td><td class="svc"><code>/etc/fstab</code></td><td>FileSystem TABle — mounts applied at boot.</td><td>Misconfigurations can render the system unbootable.</td><td class="hook">"f-stab = filesystem table at boot."</td></tr>
+						<tr><td class="num">L85</td><td class="svc"><code>/var/log/auth.log</code></td><td>Authentication events — Secure Shell (SSH), <code>sudo</code>, login failures (Debian / Ubuntu).</td><td>Equivalent on Red Hat: <code>/var/log/secure</code>.</td><td class="hook">"AUTH log = who tried what."</td></tr>
+						<tr><td class="num">L86</td><td class="svc"><code>/var/log/syslog</code></td><td>General-purpose system log — kernel and daemon messages (Debian / Ubuntu).</td><td>Equivalent on Red Hat: <code>/var/log/messages</code>.</td><td class="hook">"Syslog = catch-all."</td></tr>
+						<tr><td class="num">L87</td><td class="svc"><code>/var/log/btmp</code></td><td>Binary log of failed login attempts.</td><td>Read with <code>lastb</code>, not <code>cat</code> — binary format.</td><td class="hook">"B-tmp = Bad-tmp."</td></tr>
+						<tr><td class="num">L88</td><td class="svc"><code>/proc/cpuinfo</code></td><td>Pseudo-file describing the Central Processing Unit (CPU) — vendor, model, flags, cores.</td><td>Used by <code>nproc</code>, <code>lscpu</code>, and many tools.</td><td class="hook">"<code>/proc</code> = process / kernel info pseudo-FS."</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<ol class="rev-q-list">
+				<li class="rev-q"><p class="q-num">L81 · /etc/passwd</p><p class="q-prompt">Which file lists every local user with their User ID (UID), Group ID (GID), home directory, and login shell — WITHOUT password hashes?</p><ol class="q-options" type="A"><li><code>/etc/passwd</code></li><li><code>/etc/shadow</code></li><li><code>/etc/group</code></li><li><code>/etc/sudoers</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>/etc/passwd</code></p></li>
+				<li class="rev-q"><p class="q-num">L82 · /etc/shadow</p><p class="q-prompt">Which file stores the hashed user passwords on a modern Linux system?</p><ol class="q-options" type="A"><li><code>/etc/passwd</code></li><li><code>/etc/shadow</code></li><li><code>/etc/security</code></li><li><code>/etc/login.defs</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>/etc/shadow</code></p></li>
+				<li class="rev-q"><p class="q-num">L83 · /etc/sudoers</p><p class="q-prompt">Which command should ALWAYS be used to safely edit the <code>/etc/sudoers</code> file?</p><ol class="q-options" type="A"><li><code>vi /etc/sudoers</code></li><li><code>visudo</code></li><li><code>nano /etc/sudoers</code></li><li><code>sudoedit /etc/sudoers</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>visudo</code></p></li>
+				<li class="rev-q"><p class="q-num">L84 · /etc/fstab</p><p class="q-prompt">Which file defines the filesystems automatically mounted at boot?</p><ol class="q-options" type="A"><li><code>/etc/fstab</code></li><li><code>/etc/mtab</code></li><li><code>/proc/mounts</code></li><li><code>/etc/init.d/mounts</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>/etc/fstab</code></p></li>
+				<li class="rev-q"><p class="q-num">L85 · /var/log/auth.log</p><p class="q-prompt">On a Debian / Ubuntu host, which log records Secure Shell (SSH) authentication events and <code>sudo</code> usage?</p><ol class="q-options" type="A"><li><code>/var/log/auth.log</code></li><li><code>/var/log/secure</code></li><li><code>/var/log/syslog</code></li><li><code>/var/log/messages</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>/var/log/auth.log</code> (Red Hat-family equivalent is <code>/var/log/secure</code>)</p></li>
+				<li class="rev-q"><p class="q-num">L86 · /var/log/syslog</p><p class="q-prompt">On Debian / Ubuntu, which file is the general-purpose catch-all log for kernel and daemon messages?</p><ol class="q-options" type="A"><li><code>/var/log/auth.log</code></li><li><code>/var/log/syslog</code></li><li><code>/var/log/dmesg</code></li><li><code>/var/log/kern.log</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>/var/log/syslog</code></p></li>
+				<li class="rev-q"><p class="q-num">L87 · /var/log/btmp</p><p class="q-prompt">Which command reads the binary <code>/var/log/btmp</code> file to display failed login attempts?</p><ol class="q-options" type="A"><li><code>last</code></li><li><code>lastb</code></li><li><code>cat</code></li><li><code>tail</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>lastb</code></p></li>
+				<li class="rev-q"><p class="q-num">L88 · /proc/cpuinfo</p><p class="q-prompt">Which pseudo-file exposes Central Processing Unit (CPU) vendor, model, cores, and feature flags?</p><ol class="q-options" type="A"><li><code>/proc/cpuinfo</code></li><li><code>/sys/devices/cpu</code></li><li><code>/dev/cpu</code></li><li><code>/etc/cpuinfo</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>/proc/cpuinfo</code></p></li>
+			</ol>
+		</section>
+
+		<section id="windows-commands" class="section">
+			<div class="rev-section-title">
+				<h2>Windows Commands</h2>
+				<span class="rev-tag">CPSA Domain E</span>
+			</div>
+			<p>Every Windows command, PowerShell cmdlet, Sysinternals tool, and offensive utility that appears in the 129-question Windows Assessment domain. Nine groups, including a closing files / hives / paths set. Pay extra attention to the <code>/switch</code> variants of <code>whoami</code>, <code>ipconfig</code>, <code>net user</code>, and <code>wmic</code> — the bank tests these specifically.</p>
+
+			<h3>Group 1 — Identity &amp; user enumeration</h3>
+			<div class="rev-table-wrap">
+				<table class="rev-table">
+					<thead><tr><th>#</th><th>Command</th><th>Use</th><th>Tested invocation</th><th>Memory hook</th></tr></thead>
+					<tbody>
+						<tr><td class="num">W1</td><td class="svc">whoami</td><td>Print current user context (DOMAIN\username).</td><td><code>whoami</code></td><td class="hook">"Literally 'who am I?'"</td></tr>
+						<tr><td class="num">W2</td><td class="svc">whoami /user</td><td>Show current user with Security Identifier (SID).</td><td><code>whoami /user</code></td><td class="hook">"<code>/user</code> = my SID badge."</td></tr>
+						<tr><td class="num">W3</td><td class="svc">whoami /groups</td><td>Show all group memberships (with SIDs and attributes).</td><td><code>whoami /groups</code></td><td class="hook">"<code>/groups</code> = my clubs."</td></tr>
+						<tr><td class="num">W4</td><td class="svc">net user</td><td>List local user accounts.</td><td><code>net user</code> · <code>net user jdoe</code></td><td class="hook">"NET user — local."</td></tr>
+						<tr><td class="num">W5</td><td class="svc">net user /domain</td><td>List domain user accounts (queries the Domain Controller).</td><td><code>net user /domain</code> · <code>net user jdoe /domain</code></td><td class="hook">"<code>/domain</code> = ask the Domain Controller."</td></tr>
+						<tr><td class="num">W6</td><td class="svc">net localgroup</td><td>List local groups (Administrators, Users, etc.).</td><td><code>net localgroup</code> · <code>net localgroup Administrators</code></td><td class="hook">"Local groups, on this box only."</td></tr>
+						<tr><td class="num">W7</td><td class="svc">net group /domain</td><td>List domain groups (Domain Admins, etc.).</td><td><code>net group "Domain Admins" /domain</code></td><td class="hook">"Group + <code>/domain</code> = AD groups."</td></tr>
+						<tr><td class="num">W8</td><td class="svc">dsquery user</td><td>Active Directory (AD) user enumeration via Directory Service Query.</td><td><code>dsquery user -limit 0</code></td><td class="hook">"DS-query = Directory Service query."</td></tr>
+						<tr><td class="num">W9</td><td class="svc">Get-ADUser</td><td>PowerShell cmdlet for AD user retrieval (Remote Server Administration Tools — RSAT — required).</td><td><code>Get-ADUser -Filter *</code></td><td class="hook">"Get the AD User."</td></tr>
+						<tr><td class="num">W10</td><td class="svc">Get-LocalUser</td><td>PowerShell cmdlet for local user accounts.</td><td><code>Get-LocalUser</code></td><td class="hook">"Get the Local User (modern <code>net user</code>)."</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<ol class="rev-q-list">
+				<li class="rev-q"><p class="q-num">W1 · whoami</p><p class="q-prompt">Which command prints the current user context as <code>DOMAIN\\username</code>?</p><ol class="q-options" type="A"><li><code>whoami</code></li><li><code>echo %USERNAME%</code></li><li><code>net user</code></li><li><code>id</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>whoami</code></p></li>
+				<li class="rev-q"><p class="q-num">W2 · whoami /user</p><p class="q-prompt">Which command prints the current user's name AND Security Identifier (SID)?</p><ol class="q-options" type="A"><li><code>whoami /priv</code></li><li><code>whoami /user</code></li><li><code>whoami /sid</code></li><li><code>net user /sid</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>whoami /user</code></p></li>
+				<li class="rev-q"><p class="q-num">W3 · whoami /groups</p><p class="q-prompt">Which command lists every group the current token is a member of, with Security Identifiers (SIDs) and attributes?</p><ol class="q-options" type="A"><li><code>net user %USERNAME%</code></li><li><code>whoami /groups</code></li><li><code>net localgroup</code></li><li><code>gpresult /r</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>whoami /groups</code></p></li>
+				<li class="rev-q"><p class="q-num">W4 · net user</p><p class="q-prompt">Which command lists every LOCAL user on the host?</p><ol class="q-options" type="A"><li><code>net user</code></li><li><code>net user /domain</code></li><li><code>dsquery user</code></li><li><code>Get-ADUser</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>net user</code></p></li>
+				<li class="rev-q"><p class="q-num">W5 · net user /domain</p><p class="q-prompt">Which command queries the DOMAIN Controller for the list of domain user accounts?</p><ol class="q-options" type="A"><li><code>net user</code></li><li><code>net user /domain</code></li><li><code>net localgroup /domain</code></li><li><code>net domain users</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>net user /domain</code></p></li>
+				<li class="rev-q"><p class="q-num">W6 · net localgroup</p><p class="q-prompt">Which command lists the members of the local <code>Administrators</code> group?</p><ol class="q-options" type="A"><li><code>net group Administrators</code></li><li><code>net localgroup Administrators</code></li><li><code>whoami /groups</code></li><li><code>net user Administrators</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>net localgroup Administrators</code></p></li>
+				<li class="rev-q"><p class="q-num">W7 · net group /domain</p><p class="q-prompt">Which command lists the membership of the <code>Domain Admins</code> group?</p><ol class="q-options" type="A"><li><code>net localgroup "Domain Admins"</code></li><li><code>net group "Domain Admins" /domain</code></li><li><code>dsquery group "Domain Admins"</code></li><li><code>whoami /groups</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>net group "Domain Admins" /domain</code></p></li>
+				<li class="rev-q"><p class="q-num">W8 · dsquery user</p><p class="q-prompt">Which command enumerates ALL Active Directory (AD) user accounts via the Directory Service Query tool with no result-count cap?</p><ol class="q-options" type="A"><li><code>dsquery user</code></li><li><code>dsquery user -limit 0</code></li><li><code>net user /domain</code></li><li><code>dsget user *</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>dsquery user -limit 0</code></p></li>
+				<li class="rev-q"><p class="q-num">W9 · Get-ADUser</p><p class="q-prompt">Which PowerShell cmdlet retrieves Active Directory (AD) user objects?</p><ol class="q-options" type="A"><li><code>Get-User</code></li><li><code>Get-LocalUser</code></li><li><code>Get-ADUser</code></li><li><code>Find-ADUser</code></li></ol><p class="q-answer"><strong>Answer:</strong> C — <code>Get-ADUser</code></p></li>
+				<li class="rev-q"><p class="q-num">W10 · Get-LocalUser</p><p class="q-prompt">Which PowerShell cmdlet lists LOCAL user accounts on the host?</p><ol class="q-options" type="A"><li><code>Get-User</code></li><li><code>Get-LocalUser</code></li><li><code>Get-ADUser</code></li><li><code>Get-WmiObject Win32_UserAccount</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>Get-LocalUser</code></p></li>
+			</ol>
+
+			<h3>Group 2 — System info &amp; policy</h3>
+			<div class="rev-table-wrap">
+				<table class="rev-table">
+					<thead><tr><th>#</th><th>Command</th><th>Use</th><th>Tested invocation</th><th>Memory hook</th></tr></thead>
+					<tbody>
+						<tr><td class="num">W11</td><td class="svc">systeminfo</td><td>Detailed Operating System (OS) info — version, Basic Input / Output System (BIOS), domain, hotfixes.</td><td><code>systeminfo</code></td><td class="hook">"SYSTEM-INFO."</td></tr>
+						<tr><td class="num">W12</td><td class="svc">hostname</td><td>Print the local computer name.</td><td><code>hostname</code></td><td class="hook">"Just the hostname."</td></tr>
+						<tr><td class="num">W13</td><td class="svc">ipconfig</td><td>Network interface configuration display / management.</td><td><code>ipconfig</code> · <code>ipconfig /all</code></td><td class="hook">"IP CONFIG."</td></tr>
+						<tr><td class="num">W14</td><td class="svc">set</td><td>Display all environment variables for the current shell.</td><td><code>set</code></td><td class="hook">"SET = print env."</td></tr>
+						<tr><td class="num">W15</td><td class="svc">wmic process list brief</td><td>List running processes via Windows Management Instrumentation Command-line (WMIC).</td><td><code>wmic process list brief</code> · <code>wmic process list full</code></td><td class="hook">"WMI Command-line process snapshot."</td></tr>
+						<tr><td class="num">W16</td><td class="svc">wmic qfe list</td><td>List installed hotfixes / patches (Quick Fix Engineering).</td><td><code>wmic qfe list</code></td><td class="hook">"QFE = Quick Fix Engineering = patches."</td></tr>
+						<tr><td class="num">W17</td><td class="svc">gpresult /r</td><td>Show Resultant Set of Policy (RSoP) for the current user — applied Group Policy Objects.</td><td><code>gpresult /r</code></td><td class="hook">"Group-Policy RESULT."</td></tr>
+						<tr><td class="num">W18</td><td class="svc">gpresult /scope:user /v</td><td>VERBOSE Group Policy report scoped to the current user.</td><td><code>gpresult /scope:user /v</code></td><td class="hook">"<code>/v</code> = verbose; <code>/scope:user</code> = my policies."</td></tr>
+						<tr><td class="num">W19</td><td class="svc">gpupdate /force</td><td>Force re-application of all Group Policy Objects (GPOs) immediately.</td><td><code>gpupdate /force</code></td><td class="hook">"Force-update GP."</td></tr>
+						<tr><td class="num">W20</td><td class="svc">wmic csproduct get UUID</td><td>Read the system Universally Unique Identifier (UUID) from Computer System product info.</td><td><code>wmic csproduct get UUID</code></td><td class="hook">"CSproduct UUID = hardware ID."</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<ol class="rev-q-list">
+				<li class="rev-q"><p class="q-num">W11 · systeminfo</p><p class="q-prompt">Which command displays Operating System (OS) version, Basic Input / Output System (BIOS), domain membership, and ALL installed hotfixes in one report?</p><ol class="q-options" type="A"><li><code>systeminfo</code></li><li><code>winver</code></li><li><code>ver</code></li><li><code>msinfo32</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>systeminfo</code></p></li>
+				<li class="rev-q"><p class="q-num">W12 · hostname</p><p class="q-prompt">Which command simply prints the local computer name?</p><ol class="q-options" type="A"><li><code>hostname</code></li><li><code>echo %COMPUTERNAME%</code></li><li><code>systeminfo | findstr Host</code></li><li>All of the above</li></ol><p class="q-answer"><strong>Answer:</strong> D — all three return the hostname; A is the canonical answer.</p></li>
+				<li class="rev-q"><p class="q-num">W13 · ipconfig /all</p><p class="q-prompt">Which command displays detailed network interface info, including Media Access Control (MAC) addresses and Dynamic Host Configuration Protocol (DHCP) lease times?</p><ol class="q-options" type="A"><li><code>ipconfig</code></li><li><code>ipconfig /all</code></li><li><code>ipconfig /allcompartments</code></li><li><code>netsh interface show</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>ipconfig /all</code></p></li>
+				<li class="rev-q"><p class="q-num">W14 · set</p><p class="q-prompt">Which Command Prompt command prints all environment variables in the current shell?</p><ol class="q-options" type="A"><li><code>set</code></li><li><code>env</code></li><li><code>env -all</code></li><li><code>printenv</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>set</code></p></li>
+				<li class="rev-q"><p class="q-num">W15 · wmic process</p><p class="q-prompt">Which Windows Management Instrumentation Command-line (WMIC) invocation lists all running processes briefly?</p><ol class="q-options" type="A"><li><code>wmic process list brief</code></li><li><code>tasklist /v</code></li><li><code>Get-Process</code></li><li><code>wmic process list status</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>wmic process list brief</code></p></li>
+				<li class="rev-q"><p class="q-num">W16 · wmic qfe</p><p class="q-prompt">Which command lists all installed Quick Fix Engineering (QFE) hotfixes / patches?</p><ol class="q-options" type="A"><li><code>wmic qfe list</code></li><li><code>systeminfo</code> (also lists them)</li><li><code>Get-HotFix</code></li><li>All of the above</li></ol><p class="q-answer"><strong>Answer:</strong> D — all three return hotfixes; <code>wmic qfe list</code> is the canonical answer.</p></li>
+				<li class="rev-q"><p class="q-num">W17 · gpresult /r</p><p class="q-prompt">Which command produces a Resultant Set of Policy (RSoP) report showing all applied Group Policy Objects (GPOs) for the current user?</p><ol class="q-options" type="A"><li><code>gpresult /r</code></li><li><code>gpupdate /force</code></li><li><code>rsop.msc</code></li><li><code>secedit /analyze</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>gpresult /r</code></p></li>
+				<li class="rev-q"><p class="q-num">W18 · gpresult /scope:user /v</p><p class="q-prompt">Which command produces a VERBOSE Group Policy report restricted to the user scope?</p><ol class="q-options" type="A"><li><code>gpresult /v</code></li><li><code>gpresult /scope:user /v</code></li><li><code>gpresult /scope:computer /v</code></li><li><code>gpresult /h report.html</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>gpresult /scope:user /v</code></p></li>
+				<li class="rev-q"><p class="q-num">W19 · gpupdate /force</p><p class="q-prompt">Which command forces immediate re-application of all Group Policy Objects (GPOs), ignoring caches?</p><ol class="q-options" type="A"><li><code>gpupdate</code></li><li><code>gpupdate /force</code></li><li><code>gpresult /force</code></li><li><code>secedit /refreshpolicy</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>gpupdate /force</code></p></li>
+				<li class="rev-q"><p class="q-num">W20 · wmic csproduct</p><p class="q-prompt">Which command reads the system Universally Unique Identifier (UUID) from the Computer System product info?</p><ol class="q-options" type="A"><li><code>wmic csproduct get UUID</code></li><li><code>systeminfo | findstr UUID</code></li><li><code>wmic bios get UUID</code></li><li><code>echo %UUID%</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>wmic csproduct get UUID</code></p></li>
+			</ol>
+
+			<h3>Group 3 — Network &amp; Domain Name System</h3>
+			<div class="rev-table-wrap">
+				<table class="rev-table">
+					<thead><tr><th>#</th><th>Command</th><th>Use</th><th>Tested invocation</th><th>Memory hook</th></tr></thead>
+					<tbody>
+						<tr><td class="num">W21</td><td class="svc">arp -a</td><td>Display the local Address Resolution Protocol (ARP) cache.</td><td><code>arp -a</code></td><td class="hook">"ARP, all entries."</td></tr>
+						<tr><td class="num">W22</td><td class="svc">route print</td><td>Display the Internet Protocol (IP) routing table.</td><td><code>route print</code></td><td class="hook">"Route → print to screen."</td></tr>
+						<tr><td class="num">W23</td><td class="svc">netstat -ano</td><td>List All connections and listening ports, Numeric, with Owning Process Identifier (PID).</td><td><code>netstat -ano</code> · <code>netstat -anob</code> (with binary)</td><td class="hook">"A-N-O = All-Numeric-Owner."</td></tr>
+						<tr><td class="num">W24</td><td class="svc">nslookup</td><td>Domain Name System (DNS) lookup tool.</td><td><code>nslookup target.com</code> · <code>nslookup -type=any target.com</code></td><td class="hook">"Name Server LOOKUP."</td></tr>
+						<tr><td class="num">W25</td><td class="svc">ipconfig /flushdns</td><td>Clear the local DNS resolver cache.</td><td><code>ipconfig /flushdns</code></td><td class="hook">"FLUSH the DNS cache."</td></tr>
+						<tr><td class="num">W26</td><td class="svc">ipconfig /displaydns</td><td>Show entries currently held in the local DNS resolver cache.</td><td><code>ipconfig /displaydns</code></td><td class="hook">"DISPLAY the DNS cache."</td></tr>
+						<tr><td class="num">W27</td><td class="svc">ipconfig /release</td><td>Release the current Dynamic Host Configuration Protocol (DHCP) lease.</td><td><code>ipconfig /release</code></td><td class="hook">"RELEASE the lease."</td></tr>
+						<tr><td class="num">W28</td><td class="svc">ipconfig /registerdns</td><td>Re-register the host's records with its DNS server.</td><td><code>ipconfig /registerdns</code></td><td class="hook">"REGISTER with DNS."</td></tr>
+						<tr><td class="num">W29</td><td class="svc">netsh advfirewall</td><td>Configure / inspect the Windows Defender Firewall.</td><td><code>netsh advfirewall firewall show rule name=all</code> · <code>netsh advfirewall set allprofiles state off</code></td><td class="hook">"NET-SHell, advanced firewall."</td></tr>
+						<tr><td class="num">W30</td><td class="svc">nbtscan</td><td>Scan a range for NetBIOS over Transmission Control Protocol / Internet Protocol (NBT) responders — names, Media Access Control (MAC) addresses.</td><td><code>nbtscan 10.0.0.0/24</code></td><td class="hook">"NBT-SCAN."</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<ol class="rev-q-list">
+				<li class="rev-q"><p class="q-num">W21 · arp -a</p><p class="q-prompt">Which Windows command displays all entries in the local Address Resolution Protocol (ARP) cache?</p><ol class="q-options" type="A"><li><code>arp -a</code></li><li><code>arp -e</code></li><li><code>netstat -r</code></li><li><code>ipconfig /all</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>arp -a</code></p></li>
+				<li class="rev-q"><p class="q-num">W22 · route print</p><p class="q-prompt">Which Windows command displays the routing table?</p><ol class="q-options" type="A"><li><code>route -n</code></li><li><code>route print</code></li><li><code>netstat -r</code></li><li>Both B and C</li></ol><p class="q-answer"><strong>Answer:</strong> D — both <code>route print</code> and <code>netstat -r</code> show the table; B is the canonical answer.</p></li>
+				<li class="rev-q"><p class="q-num">W23 · netstat -ano</p><p class="q-prompt">Which Windows invocation of <code>netstat</code> lists all connections, numerically, with the owning Process Identifier (PID)?</p><ol class="q-options" type="A"><li><code>netstat -an</code></li><li><code>netstat -ano</code></li><li><code>netstat -b</code></li><li><code>netstat -tulpn</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>netstat -ano</code></p></li>
+				<li class="rev-q"><p class="q-num">W24 · nslookup</p><p class="q-prompt">Which built-in Windows tool performs Domain Name System (DNS) record lookups?</p><ol class="q-options" type="A"><li><code>nslookup</code></li><li><code>dig</code></li><li><code>host</code></li><li><code>resolve</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>nslookup</code></p></li>
+				<li class="rev-q"><p class="q-num">W25 · ipconfig /flushdns</p><p class="q-prompt">Which command clears the local Domain Name System (DNS) resolver cache?</p><ol class="q-options" type="A"><li><code>ipconfig /flushdns</code></li><li><code>ipconfig /release</code></li><li><code>ipconfig /registerdns</code></li><li><code>net stop dnscache</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>ipconfig /flushdns</code></p></li>
+				<li class="rev-q"><p class="q-num">W26 · ipconfig /displaydns</p><p class="q-prompt">Which command shows the entries currently held in the local Domain Name System (DNS) resolver cache?</p><ol class="q-options" type="A"><li><code>ipconfig /displaydns</code></li><li><code>ipconfig /flushdns</code></li><li><code>nslookup</code></li><li><code>Get-DnsClientCache</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>ipconfig /displaydns</code></p></li>
+				<li class="rev-q"><p class="q-num">W27 · ipconfig /release</p><p class="q-prompt">Which command releases the current Dynamic Host Configuration Protocol (DHCP) lease on all interfaces?</p><ol class="q-options" type="A"><li><code>ipconfig /release</code></li><li><code>ipconfig /renew</code></li><li><code>ipconfig /flushdns</code></li><li><code>net stop dhcp</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>ipconfig /release</code></p></li>
+				<li class="rev-q"><p class="q-num">W28 · ipconfig /registerdns</p><p class="q-prompt">Which command forces re-registration of the host's records with its Domain Name System (DNS) server?</p><ol class="q-options" type="A"><li><code>ipconfig /registerdns</code></li><li><code>ipconfig /flushdns</code></li><li><code>net dns register</code></li><li><code>nltest /dsregdns</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>ipconfig /registerdns</code></p></li>
+				<li class="rev-q"><p class="q-num">W29 · netsh advfirewall</p><p class="q-prompt">Which command displays every rule in the Windows Defender Firewall?</p><ol class="q-options" type="A"><li><code>netsh advfirewall firewall show rule name=all</code></li><li><code>netsh firewall show all</code></li><li><code>Get-NetFirewallRule</code></li><li>Both A and C</li></ol><p class="q-answer"><strong>Answer:</strong> D — both work; A is the canonical Command Prompt answer.</p></li>
+				<li class="rev-q"><p class="q-num">W30 · nbtscan</p><p class="q-prompt">Which tool scans a network range for NetBIOS-over-Transmission Control Protocol / Internet Protocol (NBT) responders, showing names and Media Access Control (MAC) addresses?</p><ol class="q-options" type="A"><li><code>nbtscan</code></li><li><code>nmap -sN</code></li><li><code>net view</code></li><li><code>arp-scan</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>nbtscan</code></p></li>
+			</ol>
+
+			<h3>Group 4 — Sessions, shares &amp; services</h3>
+			<div class="rev-table-wrap">
+				<table class="rev-table">
+					<thead><tr><th>#</th><th>Command</th><th>Use</th><th>Tested invocation</th><th>Memory hook</th></tr></thead>
+					<tbody>
+						<tr><td class="num">W31</td><td class="svc">net share</td><td>List local shares OR create / delete one.</td><td><code>net share</code> · <code>net share Z=C:\folder</code></td><td class="hook">"My shares."</td></tr>
+						<tr><td class="num">W32</td><td class="svc">net use</td><td>Map a drive letter to a remote share or null-session a target.</td><td><code>net use Z: \\server\share</code> · <code>net use \\target\IPC$ "" /u:""</code> (null session)</td><td class="hook">"USE a share as a drive."</td></tr>
+						<tr><td class="num">W33</td><td class="svc">net view</td><td>List shares published by a remote host.</td><td><code>net view \\target</code> · <code>net view /domain</code></td><td class="hook">"VIEW their shares."</td></tr>
+						<tr><td class="num">W34</td><td class="svc">net session</td><td>List inbound Server Message Block (SMB) sessions to this host (admin only).</td><td><code>net session</code></td><td class="hook">"Sessions ON me."</td></tr>
+						<tr><td class="num">W35</td><td class="svc">tasklist</td><td>List running processes.</td><td><code>tasklist</code> · <code>tasklist /v</code> (verbose) · <code>tasklist /svc</code></td><td class="hook">"TASK LIST."</td></tr>
+						<tr><td class="num">W36</td><td class="svc">taskkill</td><td>Terminate a process by Process Identifier (PID) or name.</td><td><code>taskkill /PID 1234 /F</code> · <code>taskkill /IM notepad.exe /F</code></td><td class="hook">"TASK KILL — <code>/F</code> = force."</td></tr>
+						<tr><td class="num">W37</td><td class="svc">sc query</td><td>Enumerate Windows services via the Service Control manager.</td><td><code>sc query</code> · <code>sc query type= service state= all</code></td><td class="hook">"SC = Service Control."</td></tr>
+						<tr><td class="num">W38</td><td class="svc">sc stop</td><td>Stop a running Windows service.</td><td><code>sc stop ServiceName</code></td><td class="hook">"SC stop = service halt."</td></tr>
+						<tr><td class="num">W39</td><td class="svc">schtasks /query</td><td>List scheduled tasks (modern replacement for <code>at</code>).</td><td><code>schtasks /query /fo LIST /v</code></td><td class="hook">"SCH-TASKS query."</td></tr>
+						<tr><td class="num">W40</td><td class="svc">driverquery</td><td>List installed device drivers and modules.</td><td><code>driverquery</code> · <code>driverquery /v</code></td><td class="hook">"DRIVER QUERY."</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<ol class="rev-q-list">
+				<li class="rev-q"><p class="q-num">W31 · net share</p><p class="q-prompt">Which command lists every share published by the local host?</p><ol class="q-options" type="A"><li><code>net share</code></li><li><code>net view</code></li><li><code>net use</code></li><li><code>smbclient -L localhost</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>net share</code></p></li>
+				<li class="rev-q"><p class="q-num">W32 · net use</p><p class="q-prompt">Which command opens a Server Message Block (SMB) NULL session against the Inter-Process Communication (IPC$) share of a remote host?</p><ol class="q-options" type="A"><li><code>net use \\target\IPC$ "" /u:""</code></li><li><code>net session \\target</code></li><li><code>net view \\target</code></li><li><code>net share \\target\IPC$</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>net use \\target\IPC$ "" /u:""</code></p></li>
+				<li class="rev-q"><p class="q-num">W33 · net view</p><p class="q-prompt">Which command lists the shares published by a REMOTE host?</p><ol class="q-options" type="A"><li><code>net share \\target</code></li><li><code>net view \\target</code></li><li><code>net use \\target</code></li><li><code>nbtstat -a target</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>net view \\target</code></p></li>
+				<li class="rev-q"><p class="q-num">W34 · net session</p><p class="q-prompt">Which command lists inbound Server Message Block (SMB) sessions to the local host (administrator privilege required)?</p><ol class="q-options" type="A"><li><code>net session</code></li><li><code>net use</code></li><li><code>net share</code></li><li><code>quser</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>net session</code></p></li>
+				<li class="rev-q"><p class="q-num">W35 · tasklist /v</p><p class="q-prompt">Which Windows command lists all running processes WITH window title and user context?</p><ol class="q-options" type="A"><li><code>tasklist</code></li><li><code>tasklist /v</code></li><li><code>tasklist /svc</code></li><li><code>wmic process</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>tasklist /v</code></p></li>
+				<li class="rev-q"><p class="q-num">W36 · taskkill</p><p class="q-prompt">Which command forcefully terminates Process Identifier (PID) 1234?</p><ol class="q-options" type="A"><li><code>kill 1234</code></li><li><code>taskkill /PID 1234 /F</code></li><li><code>tskill 1234 /F</code></li><li><code>net stop 1234</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>taskkill /PID 1234 /F</code></p></li>
+				<li class="rev-q"><p class="q-num">W37 · sc query</p><p class="q-prompt">Which command enumerates installed Windows services via the Service Control manager?</p><ol class="q-options" type="A"><li><code>net start</code></li><li><code>sc query</code></li><li><code>tasklist /svc</code></li><li><code>Get-Service</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>sc query</code></p></li>
+				<li class="rev-q"><p class="q-num">W38 · sc stop</p><p class="q-prompt">Which command stops a running Windows service named <code>Spooler</code>?</p><ol class="q-options" type="A"><li><code>sc stop Spooler</code></li><li><code>net stop Spooler</code></li><li><code>Stop-Service Spooler</code></li><li>All of the above</li></ol><p class="q-answer"><strong>Answer:</strong> D — all three stop the service; A is the canonical Service Control answer.</p></li>
+				<li class="rev-q"><p class="q-num">W39 · schtasks /query</p><p class="q-prompt">Which command lists all scheduled tasks on the local host in verbose list format?</p><ol class="q-options" type="A"><li><code>at</code></li><li><code>schtasks /query /fo LIST /v</code></li><li><code>Get-ScheduledTask</code></li><li><code>tasklist /svc</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>schtasks /query /fo LIST /v</code></p></li>
+				<li class="rev-q"><p class="q-num">W40 · driverquery</p><p class="q-prompt">Which command lists every installed device driver on the host?</p><ol class="q-options" type="A"><li><code>driverquery</code></li><li><code>sc query type= driver</code></li><li>Both A and B</li><li><code>tasklist /m</code></li></ol><p class="q-answer"><strong>Answer:</strong> C — both list drivers; A is the canonical answer.</p></li>
+			</ol>
+
+			<h3>Group 5 — Files, registry &amp; policy</h3>
+			<div class="rev-table-wrap">
+				<table class="rev-table">
+					<thead><tr><th>#</th><th>Command</th><th>Use</th><th>Tested invocation</th><th>Memory hook</th></tr></thead>
+					<tbody>
+						<tr><td class="num">W41</td><td class="svc">dir</td><td>List directory contents (Command Prompt equivalent of <code>ls</code>).</td><td><code>dir</code> · <code>dir /a /s</code> (all, recursive)</td><td class="hook">"DIRectory."</td></tr>
+						<tr><td class="num">W42</td><td class="svc">type</td><td>Display file contents (cmd equivalent of <code>cat</code>).</td><td><code>type C:\file.txt</code></td><td class="hook">"TYPE the file out."</td></tr>
+						<tr><td class="num">W43</td><td class="svc">copy</td><td>Copy a file.</td><td><code>copy src.txt dst.txt</code></td><td class="hook">"COPY."</td></tr>
+						<tr><td class="num">W44</td><td class="svc">del</td><td>Delete a file (cmd equivalent of <code>rm</code>).</td><td><code>del file.txt</code> · <code>del /q /s *</code></td><td class="hook">"DELete."</td></tr>
+						<tr><td class="num">W45</td><td class="svc">reg query</td><td>Read a registry key or value.</td><td><code>reg query HKLM\Software</code> · <code>reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Run</code></td><td class="hook">"REGistry QUERY."</td></tr>
+						<tr><td class="num">W46</td><td class="svc">reg.exe (save)</td><td>Save a registry hive offline — used to dump the Security Account Manager (SAM) hive for cracking.</td><td><code>reg save HKLM\SAM sam.hive</code> · <code>reg save HKLM\SYSTEM system.hive</code></td><td class="hook">"REG save = grab the hive."</td></tr>
+						<tr><td class="num">W47</td><td class="svc">ldp.exe</td><td>Built-in graphical Lightweight Directory Access Protocol (LDAP) / LDAP over Secure Sockets Layer (LDAPS) probe.</td><td><code>ldp.exe</code> (open, Connection → Connect)</td><td class="hook">"LDP = LDAP Probe."</td></tr>
+						<tr><td class="num">W48</td><td class="svc">netdom query fsmo</td><td>Show Flexible Single Master Operation (FSMO) role holders for the domain.</td><td><code>netdom query fsmo</code></td><td class="hook">"Net-Dom: who holds FSMO?"</td></tr>
+						<tr><td class="num">W49</td><td class="svc">netdom query trust</td><td>List Active Directory (AD) trust relationships.</td><td><code>netdom query trust</code> · <code>netdom trust /d:domain</code></td><td class="hook">"Net-Dom: who do we trust?"</td></tr>
+						<tr><td class="num">W50</td><td class="svc">secedit /export</td><td>Export the local Security Policy to an Initialization (INF) file.</td><td><code>secedit /export /cfg out.inf</code></td><td class="hook">"Security EDIT export."</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<ol class="rev-q-list">
+				<li class="rev-q"><p class="q-num">W41 · dir</p><p class="q-prompt">Which Command Prompt command lists files and directories?</p><ol class="q-options" type="A"><li><code>ls</code></li><li><code>dir</code></li><li><code>list</code></li><li><code>show</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>dir</code></p></li>
+				<li class="rev-q"><p class="q-num">W42 · type</p><p class="q-prompt">Which Command Prompt command prints a file's contents to the console — the Windows equivalent of Linux <code>cat</code>?</p><ol class="q-options" type="A"><li><code>print</code></li><li><code>type</code></li><li><code>cat</code></li><li><code>echo</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>type</code></p></li>
+				<li class="rev-q"><p class="q-num">W43 · copy</p><p class="q-prompt">Which Command Prompt command copies a file from a source to a destination?</p><ol class="q-options" type="A"><li><code>cp</code></li><li><code>copy</code></li><li><code>xcopy</code> (also valid)</li><li>Both B and C</li></ol><p class="q-answer"><strong>Answer:</strong> D — <code>copy</code> and <code>xcopy</code> both work; B is the canonical answer.</p></li>
+				<li class="rev-q"><p class="q-num">W44 · del</p><p class="q-prompt">Which Command Prompt command deletes a file?</p><ol class="q-options" type="A"><li><code>rm</code></li><li><code>del</code></li><li><code>erase</code> (alias)</li><li>Both B and C</li></ol><p class="q-answer"><strong>Answer:</strong> D — <code>del</code> and <code>erase</code> are aliases; B is the canonical answer.</p></li>
+				<li class="rev-q"><p class="q-num">W45 · reg query</p><p class="q-prompt">Which command queries the Registry for keys or values under <code>HKEY_LOCAL_MACHINE\SOFTWARE</code>?</p><ol class="q-options" type="A"><li><code>reg query HKLM\Software</code></li><li><code>regedit /q HKLM\Software</code></li><li><code>regquery HKLM\Software</code></li><li><code>Get-Registry HKLM\Software</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>reg query HKLM\Software</code></p></li>
+				<li class="rev-q"><p class="q-num">W46 · reg save</p><p class="q-prompt">Which command saves the Security Account Manager (SAM) registry hive offline for later password-hash extraction?</p><ol class="q-options" type="A"><li><code>reg save HKLM\SAM sam.hive</code></li><li><code>reg export HKLM\SAM sam.reg</code></li><li><code>reg copy HKLM\SAM sam</code></li><li><code>copy C:\Windows\System32\config\SAM .</code> (locked while online)</li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>reg save HKLM\SAM sam.hive</code></p></li>
+				<li class="rev-q"><p class="q-num">W47 · ldp.exe</p><p class="q-prompt">Which BUILT-IN Windows tool is a graphical Lightweight Directory Access Protocol (LDAP) client useful for verifying LDAP / LDAP over Secure Sockets Layer (LDAPS) connectivity and enumerating Active Directory (AD)?</p><ol class="q-options" type="A"><li><code>ldap.exe</code></li><li><code>ldp.exe</code></li><li><code>adsiedit.msc</code></li><li><code>dsa.msc</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>ldp.exe</code></p></li>
+				<li class="rev-q"><p class="q-num">W48 · netdom query fsmo</p><p class="q-prompt">Which command identifies the five Flexible Single Master Operation (FSMO) role holders in an Active Directory (AD) forest?</p><ol class="q-options" type="A"><li><code>netdom query fsmo</code></li><li><code>net group "FSMO"</code></li><li><code>dcdiag /test:FSMO</code></li><li><code>repadmin /showfsmo</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>netdom query fsmo</code></p></li>
+				<li class="rev-q"><p class="q-num">W49 · netdom query trust</p><p class="q-prompt">Which command enumerates the trust relationships of the current Active Directory (AD) domain?</p><ol class="q-options" type="A"><li><code>netdom query trust</code></li><li><code>nltest /domain_trusts</code> (also valid)</li><li><code>dsquery * "CN=System,DC=...,DC=..."</code></li><li>Both A and B</li></ol><p class="q-answer"><strong>Answer:</strong> D — both work; A is the canonical answer.</p></li>
+				<li class="rev-q"><p class="q-num">W50 · secedit /export</p><p class="q-prompt">Which command exports the local Security Policy to an Initialization (INF) file for review?</p><ol class="q-options" type="A"><li><code>secedit /export /cfg out.inf</code></li><li><code>gpresult /h out.html</code></li><li><code>secpol.msc /export</code></li><li><code>net accounts /export</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>secedit /export /cfg out.inf</code></p></li>
+			</ol>
+
+			<h3>Group 6 — PowerShell &amp; Kerberos client</h3>
+			<div class="rev-table-wrap">
+				<table class="rev-table">
+					<thead><tr><th>#</th><th>Command</th><th>Use</th><th>Tested invocation</th><th>Memory hook</th></tr></thead>
+					<tbody>
+						<tr><td class="num">W51</td><td class="svc">Get-Process</td><td>Enumerate running processes.</td><td><code>Get-Process</code> · <code>Get-Process | Where-Object Path</code></td><td class="hook">"Get-Process — modern <code>tasklist</code>."</td></tr>
+						<tr><td class="num">W52</td><td class="svc">Get-Service</td><td>List services and their states.</td><td><code>Get-Service</code> · <code>Get-Service | ? Status -eq Running</code></td><td class="hook">"Get-Service — modern <code>sc query</code>."</td></tr>
+						<tr><td class="num">W53</td><td class="svc">Get-EventLog</td><td>Read entries from the legacy event-log API.</td><td><code>Get-EventLog -LogName Security -Newest 50</code></td><td class="hook">"Get-EventLog (modern equivalent: <code>Get-WinEvent</code>)."</td></tr>
+						<tr><td class="num">W54</td><td class="svc">Get-CimInstance</td><td>Query system info via Common Information Model (CIM) — successor to legacy WMI cmdlets.</td><td><code>Get-CimInstance Win32_OperatingSystem</code></td><td class="hook">"CIM = modern WMI."</td></tr>
+						<tr><td class="num">W55</td><td class="svc">Get-WmiObject</td><td>Legacy Windows Management Instrumentation (WMI) query cmdlet.</td><td><code>Get-WmiObject Win32_BIOS</code></td><td class="hook">"Get-WMI-Object — legacy."</td></tr>
+						<tr><td class="num">W56</td><td class="svc">Get-ChildItem</td><td>List items in a path (filesystem, registry, certificate store).</td><td><code>Get-ChildItem C:\</code> · alias <code>gci</code>, <code>dir</code>, <code>ls</code></td><td class="hook">"Get-ChildItem (works on registry too!)."</td></tr>
+						<tr><td class="num">W57</td><td class="svc">Enter-PSSession</td><td>Open an INTERACTIVE PowerShell remoting session over Windows Remote Management (WinRM).</td><td><code>Enter-PSSession -ComputerName target</code></td><td class="hook">"ENTER a remote shell."</td></tr>
+						<tr><td class="num">W58</td><td class="svc">Invoke-Command</td><td>Run a script block against one or many remote hosts via WinRM.</td><td><code>Invoke-Command -ComputerName target -ScriptBlock { Get-Process }</code></td><td class="hook">"INVOKE a command remotely."</td></tr>
+						<tr><td class="num">W59</td><td class="svc">Set-ExecutionPolicy</td><td>Configure PowerShell script execution policy.</td><td><code>Set-ExecutionPolicy Bypass -Scope Process</code> (in-memory only — common offensive technique)</td><td class="hook">"Set-ExecutionPolicy Bypass -Scope Process = in-memory bypass."</td></tr>
+						<tr><td class="num">W60</td><td class="svc">klist</td><td>Display cached Kerberos tickets and Ticket-Granting Tickets (TGTs).</td><td><code>klist</code> · <code>klist purge</code></td><td class="hook">"Kerberos LIST."</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<ol class="rev-q-list">
+				<li class="rev-q"><p class="q-num">W51 · Get-Process</p><p class="q-prompt">Which PowerShell cmdlet lists running processes?</p><ol class="q-options" type="A"><li><code>Get-Process</code></li><li><code>ps</code> (alias)</li><li><code>gps</code> (alias)</li><li>All of the above</li></ol><p class="q-answer"><strong>Answer:</strong> D — all three are aliases for the same cmdlet.</p></li>
+				<li class="rev-q"><p class="q-num">W52 · Get-Service</p><p class="q-prompt">Which PowerShell cmdlet lists Windows services and their current state?</p><ol class="q-options" type="A"><li><code>Get-Service</code></li><li><code>Get-Process</code></li><li><code>Get-CimInstance Win32_Service</code> (also valid)</li><li>Both A and C</li></ol><p class="q-answer"><strong>Answer:</strong> D — both work; A is the canonical answer.</p></li>
+				<li class="rev-q"><p class="q-num">W53 · Get-EventLog</p><p class="q-prompt">Which PowerShell cmdlet reads the LEGACY event-log API for the most recent 50 Security entries?</p><ol class="q-options" type="A"><li><code>Get-WinEvent -LogName Security -MaxEvents 50</code></li><li><code>Get-EventLog -LogName Security -Newest 50</code></li><li><code>wevtutil qe Security /c:50</code></li><li>All of the above</li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>Get-EventLog -LogName Security -Newest 50</code> (canonical legacy answer).</p></li>
+				<li class="rev-q"><p class="q-num">W54 · Get-CimInstance</p><p class="q-prompt">Which PowerShell cmdlet is the MODERN replacement for <code>Get-WmiObject</code>?</p><ol class="q-options" type="A"><li><code>Get-WmiObject</code></li><li><code>Get-CimInstance</code></li><li><code>Invoke-WmiMethod</code></li><li><code>Get-CimAssociatedInstance</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>Get-CimInstance</code></p></li>
+				<li class="rev-q"><p class="q-num">W55 · Get-WmiObject</p><p class="q-prompt">Which LEGACY PowerShell cmdlet queries the Windows Management Instrumentation (WMI) repository?</p><ol class="q-options" type="A"><li><code>Get-WmiObject</code></li><li><code>Get-CimInstance</code></li><li><code>Invoke-WmiQuery</code></li><li><code>wmic</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>Get-WmiObject</code></p></li>
+				<li class="rev-q"><p class="q-num">W56 · Get-ChildItem</p><p class="q-prompt">Which PowerShell cmdlet lists items in a path AND can also enumerate Registry keys (e.g. <code>HKLM:</code>)?</p><ol class="q-options" type="A"><li><code>Get-ChildItem</code></li><li><code>Get-Item</code></li><li><code>Get-Content</code></li><li><code>Get-Location</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>Get-ChildItem</code></p></li>
+				<li class="rev-q"><p class="q-num">W57 · Enter-PSSession</p><p class="q-prompt">Which PowerShell cmdlet opens an INTERACTIVE remote shell over Windows Remote Management (WinRM)?</p><ol class="q-options" type="A"><li><code>Enter-PSSession</code></li><li><code>Invoke-Command</code></li><li><code>New-PSSession</code></li><li><code>Connect-PSSession</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>Enter-PSSession</code></p></li>
+				<li class="rev-q"><p class="q-num">W58 · Invoke-Command</p><p class="q-prompt">Which PowerShell cmdlet runs a SCRIPT BLOCK against one or many remote computers (non-interactive)?</p><ol class="q-options" type="A"><li><code>Enter-PSSession</code></li><li><code>Invoke-Command</code></li><li><code>Invoke-RestMethod</code></li><li><code>Invoke-Expression</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>Invoke-Command</code></p></li>
+				<li class="rev-q"><p class="q-num">W59 · Set-ExecutionPolicy</p><p class="q-prompt">Which command bypasses PowerShell's execution policy ONLY for the current process — a common offensive technique?</p><ol class="q-options" type="A"><li><code>Set-ExecutionPolicy Bypass -Scope Process</code></li><li><code>Set-ExecutionPolicy Unrestricted</code></li><li><code>powershell.exe -ExecutionPolicy Bypass</code> (also valid)</li><li>Both A and C</li></ol><p class="q-answer"><strong>Answer:</strong> D — both methods produce a per-process bypass; A is the canonical answer.</p></li>
+				<li class="rev-q"><p class="q-num">W60 · klist</p><p class="q-prompt">Which built-in command displays the Kerberos ticket cache for the current logon session?</p><ol class="q-options" type="A"><li><code>klist</code></li><li><code>kerberos /list</code></li><li><code>net ticket</code></li><li><code>Get-KerberosTicket</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>klist</code></p></li>
+			</ol>
+
+			<h3>Group 7 — Sysinternals &amp; Server Message Block tools</h3>
+			<div class="rev-table-wrap">
+				<table class="rev-table">
+					<thead><tr><th>#</th><th>Tool</th><th>Use</th><th>Tested invocation</th><th>Memory hook</th></tr></thead>
+					<tbody>
+						<tr><td class="num">W61</td><td class="svc">Process Explorer</td><td>Sysinternals Graphical User Interface (GUI) process tree — shows DLLs, file handles, integrity level.</td><td>(GUI) — <code>procexp.exe</code></td><td class="hook">"Task Manager on steroids."</td></tr>
+						<tr><td class="num">W62</td><td class="svc">Autoruns</td><td>Sysinternals enumerator of all autostart locations — registry Run keys, scheduled tasks, drivers.</td><td>(GUI) — <code>autoruns.exe</code></td><td class="hook">"AUTORUNS = persistence audit."</td></tr>
+						<tr><td class="num">W63</td><td class="svc">Sysmon</td><td>System Monitor — kernel-mode telemetry sensor that writes detailed events to the Windows Event Log.</td><td><code>sysmon -i config.xml</code> (install)</td><td class="hook">"SYS-MON = system monitor sensor."</td></tr>
+						<tr><td class="num">W64</td><td class="svc">smbclient</td><td>Linux Server Message Block (SMB) client — list and access shares.</td><td><code>smbclient -L \\\\target -N</code> · <code>smbclient \\\\target\\share -U user</code></td><td class="hook">"SMB client (often run from Linux)."</td></tr>
+						<tr><td class="num">W65</td><td class="svc">smbmap</td><td>Map SMB shares with read / write Access Control List (ACL) summary.</td><td><code>smbmap -H target -u "" -p ""</code></td><td class="hook">"SMB MAP — what can I read / write?"</td></tr>
+						<tr><td class="num">W66</td><td class="svc">enum4linux</td><td>Wraps <code>smbclient</code>, <code>rpcclient</code>, <code>nmblookup</code> for SMB / Remote Procedure Call (RPC) enumeration.</td><td><code>enum4linux -a target</code></td><td class="hook">"ENUM-4-LINUX — one-shot SMB recon."</td></tr>
+						<tr><td class="num">W67</td><td class="svc">rpcclient</td><td>Interactive Remote Procedure Call (RPC) client — supports null sessions for legacy hosts.</td><td><code>rpcclient -U "" target</code> · then <code>enumdomusers</code></td><td class="hook">"RPC client = ad-hoc RPC commands."</td></tr>
+						<tr><td class="num">W68</td><td class="svc">rpcdump</td><td>Discover Remote Procedure Call (RPC) services and bindings (Impacket / Sysinternals variants).</td><td><code>rpcdump.py @target</code></td><td class="hook">"RPC dump = find every endpoint."</td></tr>
+						<tr><td class="num">W69</td><td class="svc">SetSPN</td><td>Manage / enumerate Service Principal Names (SPNs) — the Kerberoasting prep tool.</td><td><code>setspn -Q */*</code> (find all SPNs in the forest)</td><td class="hook">"set Service Principal Name."</td></tr>
+						<tr><td class="num">W70</td><td class="svc">Responder</td><td>Link-Local Multicast Name Resolution (LLMNR) / NetBIOS Name Service (NBT-NS) / Multicast Domain Name System (mDNS) poisoner — captures Net New Technology LAN Manager version 2 (NTLMv2) hashes.</td><td><code>responder -I eth0</code></td><td class="hook">"RESPONDER answers broadcasts and steals creds."</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<ol class="rev-q-list">
+				<li class="rev-q"><p class="q-num">W61 · Process Explorer</p><p class="q-prompt">Which Sysinternals tool provides a Graphical User Interface (GUI) process tree showing loaded DLLs, file handles, and integrity level?</p><ol class="q-options" type="A"><li>Task Manager</li><li>Process Explorer</li><li>Autoruns</li><li>Process Monitor</li></ol><p class="q-answer"><strong>Answer:</strong> B — Process Explorer</p></li>
+				<li class="rev-q"><p class="q-num">W62 · Autoruns</p><p class="q-prompt">Which Sysinternals tool enumerates EVERY autostart location — Registry Run keys, scheduled tasks, services, drivers, browser helpers — for persistence audits?</p><ol class="q-options" type="A"><li>Process Explorer</li><li>Autoruns</li><li>Sysmon</li><li>PsExec</li></ol><p class="q-answer"><strong>Answer:</strong> B — Autoruns</p></li>
+				<li class="rev-q"><p class="q-num">W63 · Sysmon</p><p class="q-prompt">Which Sysinternals tool is a KERNEL-MODE telemetry sensor that writes detailed process, network, and file events to the Windows Event Log?</p><ol class="q-options" type="A"><li>Process Monitor</li><li>Process Explorer</li><li>Sysmon</li><li>Autoruns</li></ol><p class="q-answer"><strong>Answer:</strong> C — Sysmon</p></li>
+				<li class="rev-q"><p class="q-num">W64 · smbclient</p><p class="q-prompt">Which Linux command lists Server Message Block (SMB) shares on a remote Windows host without supplying credentials?</p><ol class="q-options" type="A"><li><code>smbclient -L \\\\target -N</code></li><li><code>smbmap -H target</code> (also valid)</li><li><code>net view \\target</code> (Windows-only)</li><li>Both A and B</li></ol><p class="q-answer"><strong>Answer:</strong> D — both Linux options work; A is the canonical answer.</p></li>
+				<li class="rev-q"><p class="q-num">W65 · smbmap</p><p class="q-prompt">Which tool maps Server Message Block (SMB) shares and reports per-share read / write Access Control List (ACL) permissions?</p><ol class="q-options" type="A"><li><code>smbclient</code></li><li><code>smbmap</code></li><li><code>enum4linux</code></li><li><code>nbtscan</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>smbmap</code></p></li>
+				<li class="rev-q"><p class="q-num">W66 · enum4linux</p><p class="q-prompt">Which one-shot tool wraps <code>smbclient</code>, <code>rpcclient</code>, and <code>nmblookup</code> for combined Server Message Block (SMB) and Remote Procedure Call (RPC) enumeration?</p><ol class="q-options" type="A"><li><code>enum4linux</code></li><li><code>smbenum</code></li><li><code>smbexec</code></li><li><code>rpcdump</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>enum4linux</code></p></li>
+				<li class="rev-q"><p class="q-num">W67 · rpcclient</p><p class="q-prompt">Which tool opens an interactive Remote Procedure Call (RPC) session — including legacy null sessions — for manual enumeration commands like <code>enumdomusers</code>?</p><ol class="q-options" type="A"><li><code>rpcclient -U "" target</code></li><li><code>rpcdump @target</code></li><li><code>smbclient -L target</code></li><li><code>impacket-rpcdump</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>rpcclient -U "" target</code></p></li>
+				<li class="rev-q"><p class="q-num">W68 · rpcdump</p><p class="q-prompt">Which tool DISCOVERS all Remote Procedure Call (RPC) endpoints exposed by a host?</p><ol class="q-options" type="A"><li><code>rpcclient</code></li><li><code>rpcdump</code></li><li><code>nbtscan</code></li><li><code>nmap --script smb-enum-shares</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>rpcdump</code></p></li>
+				<li class="rev-q"><p class="q-num">W69 · SetSPN</p><p class="q-prompt">Which built-in Windows tool enumerates ALL Service Principal Names (SPNs) in the forest — a prerequisite for Kerberoasting?</p><ol class="q-options" type="A"><li><code>setspn -Q */*</code></li><li><code>klist spn</code></li><li><code>nltest /spn</code></li><li><code>dsquery user -spn</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>setspn -Q */*</code></p></li>
+				<li class="rev-q"><p class="q-num">W70 · Responder</p><p class="q-prompt">Which tool poisons Link-Local Multicast Name Resolution (LLMNR) and NetBIOS Name Service (NBT-NS) responses to capture Net New Technology LAN Manager version 2 (NTLMv2) challenge / response hashes?</p><ol class="q-options" type="A"><li>Mimikatz</li><li>Responder</li><li>BloodHound</li><li>Wireshark</li></ol><p class="q-answer"><strong>Answer:</strong> B — Responder</p></li>
+			</ol>
+
+			<h3>Group 8 — Offensive Active Directory tooling</h3>
+			<div class="rev-table-wrap">
+				<table class="rev-table">
+					<thead><tr><th>#</th><th>Tool</th><th>Use</th><th>Tested invocation</th><th>Memory hook</th></tr></thead>
+					<tbody>
+						<tr><td class="num">W71</td><td class="svc">Mimikatz</td><td>Extracts credentials, hashes, and Kerberos tickets from <code>lsass.exe</code> memory.</td><td><code>privilege::debug</code> · <code>sekurlsa::logonpasswords</code></td><td class="hook">"MIMI-KATZ — the credential vacuum."</td></tr>
+						<tr><td class="num">W72</td><td class="svc">kekeo</td><td>Mimikatz's Kerberos sister tool — Authentication Service (AS) requests, Pass-the-Ticket (PtT), Pass-the-Cache.</td><td><code>tgt::ask /user:jdoe /domain:corp.local</code></td><td class="hook">"KEKEO = Kerberos sibling."</td></tr>
+						<tr><td class="num">W73</td><td class="svc">krb5dump</td><td>Extract / decrypt Kerberos tickets offline from a hive or capture.</td><td><code>krb5dump &lt;file&gt;</code></td><td class="hook">"KRB5 dump = ticket extraction."</td></tr>
+						<tr><td class="num">W74</td><td class="svc">pwdump</td><td>Legacy SAM hash extractor (when the registry hive is accessible offline).</td><td><code>pwdump SYSTEM SAM</code></td><td class="hook">"PW DUMP = password dump (offline)."</td></tr>
+						<tr><td class="num">W75</td><td class="svc">Rubeus</td><td>Modern Kerberos toolkit — Kerberoasting, Authentication Service Response (AS-REP) roasting, ticket export / import.</td><td><code>Rubeus.exe kerberoast</code> · <code>Rubeus.exe asreproast</code></td><td class="hook">"RUBEUS = the Kerberos toolkit."</td></tr>
+						<tr><td class="num">W76</td><td class="svc">BloodHound</td><td>Visualises Active Directory (AD) attack paths from collected metadata.</td><td>(consumes data from SharpHound / AzureHound)</td><td class="hook">"BLOODHOUND tracks the path."</td></tr>
+						<tr><td class="num">W77</td><td class="svc">SharpHound</td><td>Collector that walks AD and exports relationship data for BloodHound to ingest.</td><td><code>SharpHound.exe -c All</code></td><td class="hook">"SHARP collects, BLOODHOUND visualises."</td></tr>
+						<tr><td class="num">W78</td><td class="svc">CrackMapExec / NetExec</td><td>Automated network enumeration over Server Message Block (SMB), Windows Remote Management (WinRM), Lightweight Directory Access Protocol (LDAP), Remote Procedure Call (RPC).</td><td><code>crackmapexec smb 10.0.0.0/24 -u user -p pass</code> · modern fork: <code>netexec</code></td><td class="hook">"CME = the swiss-army knife."</td></tr>
+						<tr><td class="num">W79</td><td class="svc">psexec.py</td><td>Impacket script — remote SYSTEM-level command execution via SMB.</td><td><code>psexec.py user:pass@target</code></td><td class="hook">"Impacket PSExec — Linux-side lateral."</td></tr>
+						<tr><td class="num">W80</td><td class="svc">secretsdump.py</td><td>Impacket script — extract Security Account Manager (SAM), Local Security Authority (LSA), and NT Directory Services (NTDS.dit) hashes remotely.</td><td><code>secretsdump.py user:pass@target</code></td><td class="hook">"SECRETS DUMP = remote NTDS dump."</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<ol class="rev-q-list">
+				<li class="rev-q"><p class="q-num">W71 · Mimikatz</p><p class="q-prompt">Which tool extracts plaintext passwords, hashes, and Kerberos tickets from the memory of <code>lsass.exe</code>?</p><ol class="q-options" type="A"><li>Mimikatz</li><li>Wireshark</li><li>Process Monitor</li><li>Responder</li></ol><p class="q-answer"><strong>Answer:</strong> A — Mimikatz</p></li>
+				<li class="rev-q"><p class="q-num">W72 · kekeo</p><p class="q-prompt">Which tool — Mimikatz's sibling — handles Authentication Service (AS) requests and Pass-the-Ticket (PtT) operations against Kerberos?</p><ol class="q-options" type="A"><li>Rubeus</li><li>kekeo</li><li>BloodHound</li><li>krb5dump</li></ol><p class="q-answer"><strong>Answer:</strong> B — kekeo</p></li>
+				<li class="rev-q"><p class="q-num">W73 · krb5dump</p><p class="q-prompt">Which tool extracts and decrypts Kerberos tickets OFFLINE from captured material?</p><ol class="q-options" type="A"><li>Mimikatz</li><li>krb5dump</li><li>Responder</li><li>SetSPN</li></ol><p class="q-answer"><strong>Answer:</strong> B — krb5dump</p></li>
+				<li class="rev-q"><p class="q-num">W74 · pwdump</p><p class="q-prompt">Which legacy tool extracts Security Account Manager (SAM) password hashes from offline registry hives (<code>SYSTEM</code> + <code>SAM</code>)?</p><ol class="q-options" type="A"><li><code>pwdump</code></li><li><code>fgdump</code> (also valid)</li><li><code>secretsdump.py</code></li><li>All of the above</li></ol><p class="q-answer"><strong>Answer:</strong> D — all three can dump SAM hashes; A is the canonical legacy answer.</p></li>
+				<li class="rev-q"><p class="q-num">W75 · Rubeus</p><p class="q-prompt">Which modern Kerberos toolkit performs Kerberoasting, Authentication Service Response (AS-REP) roasting, and ticket import / export from Windows?</p><ol class="q-options" type="A"><li>Mimikatz</li><li>Rubeus</li><li>BloodHound</li><li>kekeo</li></ol><p class="q-answer"><strong>Answer:</strong> B — Rubeus</p></li>
+				<li class="rev-q"><p class="q-num">W76 · BloodHound</p><p class="q-prompt">Which tool VISUALISES Active Directory (AD) attack paths from collected relationship data?</p><ol class="q-options" type="A"><li>SharpHound</li><li>BloodHound</li><li>PingCastle</li><li>ADExplorer</li></ol><p class="q-answer"><strong>Answer:</strong> B — BloodHound</p></li>
+				<li class="rev-q"><p class="q-num">W77 · SharpHound</p><p class="q-prompt">Which collector walks Active Directory (AD) and exports the dataset for BloodHound to ingest?</p><ol class="q-options" type="A"><li>SharpHound</li><li>BloodHound</li><li>PingCastle</li><li>PowerView</li></ol><p class="q-answer"><strong>Answer:</strong> A — SharpHound</p></li>
+				<li class="rev-q"><p class="q-num">W78 · CrackMapExec</p><p class="q-prompt">Which automated tool enumerates and attacks across Server Message Block (SMB), Windows Remote Management (WinRM), Lightweight Directory Access Protocol (LDAP), and Remote Procedure Call (RPC) in one wrapper?</p><ol class="q-options" type="A"><li>Metasploit</li><li>CrackMapExec / NetExec</li><li>Impacket</li><li>Responder</li></ol><p class="q-answer"><strong>Answer:</strong> B — CrackMapExec / NetExec</p></li>
+				<li class="rev-q"><p class="q-num">W79 · psexec.py</p><p class="q-prompt">Which Impacket script executes commands as SYSTEM on a remote Windows host via Server Message Block (SMB)?</p><ol class="q-options" type="A"><li><code>psexec.py</code></li><li><code>smbexec.py</code> (also valid)</li><li><code>wmiexec.py</code></li><li>Both A and B</li></ol><p class="q-answer"><strong>Answer:</strong> D — both run SMB-based execution; A is the canonical answer.</p></li>
+				<li class="rev-q"><p class="q-num">W80 · secretsdump.py</p><p class="q-prompt">Which Impacket script extracts Security Account Manager (SAM), Local Security Authority (LSA) Secrets, and NT Directory Services (NTDS.dit) hashes from a target?</p><ol class="q-options" type="A"><li><code>secretsdump.py</code></li><li><code>psexec.py</code></li><li><code>wmiexec.py</code></li><li><code>impacket-getuserspns</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>secretsdump.py</code></p></li>
+			</ol>
+
+			<h3>Group 9 — Critical files, hives &amp; paths</h3>
+			<div class="rev-table-wrap">
+				<table class="rev-table">
+					<thead><tr><th>#</th><th>Path</th><th>Use</th><th>Notes</th><th>Memory hook</th></tr></thead>
+					<tbody>
+						<tr><td class="num">W81</td><td class="svc"><code>C:\Windows\System32\config\SAM</code></td><td>Local Security Account Manager (SAM) database — local user password hashes.</td><td>Locked while running; dump via <code>reg save</code> or offline copy.</td><td class="hook">"SAM = local hashes."</td></tr>
+						<tr><td class="num">W82</td><td class="svc"><code>C:\Windows\System32\config\SYSTEM</code></td><td>SYSTEM registry hive — contains the Boot Key required to decrypt SAM hashes.</td><td>Always grab SYSTEM <em>with</em> SAM.</td><td class="hook">"SYSTEM = the BOOTKEY for SAM."</td></tr>
+						<tr><td class="num">W83</td><td class="svc"><code>NTDS.dit</code></td><td>Active Directory (AD) database — contains every domain user hash.</td><td>Lives on Domain Controllers under <code>%SystemRoot%\NTDS\</code>; extracted via shadow copy or <code>secretsdump.py</code>.</td><td class="hook">"NTDS.dit = the AD crown jewel."</td></tr>
+						<tr><td class="num">W84</td><td class="svc"><code>lsass.exe</code></td><td>Local Security Authority Subsystem — holds plaintext credentials, Kerberos tickets, and Net New Technology LAN Manager (NTLM) hashes in memory.</td><td>Mimikatz's primary target; protected on modern hosts by Credential Guard / Local Security Authority Protected Process (LSA RunAsPPL).</td><td class="hook">"lsass = the live wallet."</td></tr>
+						<tr><td class="num">W85</td><td class="svc">LSA Secrets</td><td>Local Security Authority Secrets — stored under <code>HKLM\SECURITY\Policy\Secrets</code>; cached domain creds, service account passwords, auto-logon passwords.</td><td>Dumped offline alongside SAM via <code>secretsdump.py -lsa</code>.</td><td class="hook">"LSA Secrets = cached domain creds."</td></tr>
+						<tr><td class="num">W86</td><td class="svc"><code>\\domain\SYSVOL</code></td><td>Domain-replicated share containing Group Policy Objects (GPOs), logon scripts, and (historically) Group Policy Preferences (GPP) <code>cpassword</code> attributes.</td><td>Search SYSVOL for <code>cpassword=</code> — older Group Policy Preferences leaked weakly-encrypted passwords.</td><td class="hook">"SYSVOL = GPO + script share."</td></tr>
+						<tr><td class="num">W87</td><td class="svc"><code>\\domain\NETLOGON</code></td><td>Domain-replicated share for logon scripts and (legacy) Distributed File System (DFS) referrals.</td><td>Read access for all authenticated users — content is high-value recon.</td><td class="hook">"NETLOGON = logon scripts."</td></tr>
+						<tr><td class="num">W88</td><td class="svc"><code>C:\Windows\System32\drivers\etc\hosts</code></td><td>Local hosts file — overrides Domain Name System (DNS) resolution per host.</td><td>Modifications by malware are a classic Indicator of Compromise (IoC).</td><td class="hook">"Drivers\etc\hosts — Windows' /etc/hosts."</td></tr>
+						<tr><td class="num">W89</td><td class="svc"><code>%SystemRoot%</code></td><td>Environment variable for the Windows installation directory — almost always <code>C:\Windows</code>.</td><td>Used in scripts and Group Policy paths; not a literal directory name.</td><td class="hook">"%SystemRoot% ≈ C:\Windows."</td></tr>
+						<tr><td class="num">W90</td><td class="svc"><code>HKEY_LOCAL_MACHINE\SOFTWARE</code></td><td>Registry hive holding installed software keys and machine-wide policy.</td><td>The Run / RunOnce / Image File Execution Options keys live under <code>HKLM\Software\Microsoft\Windows\CurrentVersion\</code> and <code>...\Windows NT\CurrentVersion\</code>.</td><td class="hook">"HKLM = the machine; HKCU = the user."</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<ol class="rev-q-list">
+				<li class="rev-q"><p class="q-num">W81 · SAM</p><p class="q-prompt">Which file holds local user password hashes on a Windows host?</p><ol class="q-options" type="A"><li><code>C:\Windows\System32\config\SAM</code></li><li><code>C:\Windows\System32\config\SECURITY</code></li><li><code>C:\Windows\System32\config\SYSTEM</code></li><li><code>NTDS.dit</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>SAM</code></p></li>
+				<li class="rev-q"><p class="q-num">W82 · SYSTEM hive</p><p class="q-prompt">When dumping the Security Account Manager (SAM) database offline, which OTHER hive must be captured to derive the Boot Key needed for decryption?</p><ol class="q-options" type="A"><li><code>SOFTWARE</code></li><li><code>SYSTEM</code></li><li><code>SECURITY</code></li><li><code>DEFAULT</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>SYSTEM</code></p></li>
+				<li class="rev-q"><p class="q-num">W83 · NTDS.dit</p><p class="q-prompt">Which file on a Domain Controller contains every domain user's password hash?</p><ol class="q-options" type="A"><li><code>SAM</code></li><li><code>NTDS.dit</code></li><li><code>LSA Secrets</code></li><li><code>SYSVOL</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>NTDS.dit</code></p></li>
+				<li class="rev-q"><p class="q-num">W84 · lsass.exe</p><p class="q-prompt">Which Windows process holds plaintext credentials, Kerberos tickets, and Net New Technology LAN Manager (NTLM) hashes in memory and is the primary target of Mimikatz?</p><ol class="q-options" type="A"><li><code>winlogon.exe</code></li><li><code>lsass.exe</code></li><li><code>services.exe</code></li><li><code>csrss.exe</code></li></ol><p class="q-answer"><strong>Answer:</strong> B — <code>lsass.exe</code></p></li>
+				<li class="rev-q"><p class="q-num">W85 · LSA Secrets</p><p class="q-prompt">Which store holds cached domain credentials, service-account passwords, and auto-logon passwords on a Windows host?</p><ol class="q-options" type="A"><li>Security Account Manager (SAM)</li><li>Local Security Authority (LSA) Secrets</li><li>Credential Manager Vault</li><li>Trusted Platform Module (TPM)</li></ol><p class="q-answer"><strong>Answer:</strong> B — Local Security Authority (LSA) Secrets</p></li>
+				<li class="rev-q"><p class="q-num">W86 · SYSVOL</p><p class="q-prompt">Which Active Directory (AD) share replicates Group Policy Objects (GPOs) and logon scripts to every Domain Controller — and historically leaked Group Policy Preferences (GPP) <code>cpassword</code> values?</p><ol class="q-options" type="A"><li>NETLOGON</li><li>SYSVOL</li><li>ADMIN$</li><li>IPC$</li></ol><p class="q-answer"><strong>Answer:</strong> B — SYSVOL</p></li>
+				<li class="rev-q"><p class="q-num">W87 · NETLOGON</p><p class="q-prompt">Which Active Directory (AD) share is used to distribute logon scripts to clients, and is readable by every authenticated user?</p><ol class="q-options" type="A"><li>NETLOGON</li><li>SYSVOL</li><li>C$</li><li>ADMIN$</li></ol><p class="q-answer"><strong>Answer:</strong> A — NETLOGON</p></li>
+				<li class="rev-q"><p class="q-num">W88 · hosts file</p><p class="q-prompt">What is the canonical path of the Windows local <code>hosts</code> file used to override Domain Name System (DNS) resolution?</p><ol class="q-options" type="A"><li><code>C:\Windows\System32\drivers\etc\hosts</code></li><li><code>C:\Windows\System32\config\hosts</code></li><li><code>C:\Windows\hosts</code></li><li><code>C:\hosts</code></li></ol><p class="q-answer"><strong>Answer:</strong> A — <code>C:\Windows\System32\drivers\etc\hosts</code></p></li>
+				<li class="rev-q"><p class="q-num">W89 · %SystemRoot%</p><p class="q-prompt">Which environment variable expands to the Windows installation directory (commonly <code>C:\Windows</code>)?</p><ol class="q-options" type="A"><li><code>%SystemRoot%</code></li><li><code>%WinDir%</code> (alias)</li><li><code>%ProgramFiles%</code></li><li>Both A and B</li></ol><p class="q-answer"><strong>Answer:</strong> D — <code>%SystemRoot%</code> and <code>%WinDir%</code> both resolve to <code>C:\Windows</code>; A is the canonical answer.</p></li>
+				<li class="rev-q"><p class="q-num">W90 · HKLM\SOFTWARE</p><p class="q-prompt">Under which Registry hive do the persistence-relevant <code>Run</code> / <code>RunOnce</code> / <code>Image File Execution Options</code> keys live?</p><ol class="q-options" type="A"><li><code>HKEY_CURRENT_USER\SOFTWARE</code> (also valid for per-user persistence)</li><li><code>HKEY_LOCAL_MACHINE\SOFTWARE</code></li><li><code>HKEY_USERS</code></li><li>Both A and B</li></ol><p class="q-answer"><strong>Answer:</strong> D — both <code>HKLM\SOFTWARE</code> and <code>HKCU\SOFTWARE</code> hold these keys; B is the machine-wide canonical answer.</p></li>
+			</ol>
+		</section>
+
+		<section id="contact" class="section">
+			<h2>Contact</h2>
+			<ul class="contact-list contact-icons">
+				<li>
+					<a href="https://linkedin.com/in/rob-jw" target="_blank" rel="noreferrer" class="contact-icon-link"
+						aria-label="LinkedIn profile">
+						<i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+					</a>
+				</li>
+				<li>
+					<a href="https://github.com/Rob-JW" target="_blank" rel="noreferrer" class="contact-icon-link"
+						aria-label="GitHub profile">
+						<i class="fa-brands fa-github" aria-hidden="true"></i>
+					</a>
+				</li>
+				<li>
+					<a href="https://robwilliams.link/" target="_blank" rel="noreferrer" class="contact-icon-link"
+						aria-label="Personal site">
+						<i class="fa-solid fa-globe" aria-hidden="true"></i>
+					</a>
+				</li>
+				<li>
+					<a href="mailto:williams5886@gmail.com" class="contact-icon-link" aria-label="Send email">
+						<i class="fa-solid fa-envelope" aria-hidden="true"></i>
+					</a>
+				</li>
+			</ul>
+		</section>
+	</main>
+
+	<footer class="site-footer">
+		<span>© <span id="year"></span> Rob Williams</span>
+		<span class="footer-dot">Built with pixels &amp; packets.</span>
+	</footer>
+
+	<script src="script.js"></script>
+</body>
+
+</html>

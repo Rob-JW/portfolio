@@ -1243,6 +1243,248 @@ body {
 	}
 }
 
+/* ============================================================
+ * Revision sheet — port and command reference tables, plus
+ * single-answer recall questions. Matches site theme variables.
+ * ============================================================ */
+
+.rev-intro {
+	max-width: 70ch;
+	color: var(--text-muted);
+	line-height: 1.6;
+	margin: 0 0 1rem;
+}
+
+.rev-toc {
+	list-style: none;
+	padding: 0;
+	margin: 1rem 0 1.5rem;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 0.5rem;
+}
+
+.rev-toc a {
+	display: block;
+	padding: 0.55rem 0.8rem;
+	border: 1px solid var(--border-strong);
+	background: var(--bg-elevated);
+	color: var(--text-main);
+	text-decoration: none;
+	font-size: 0.85rem;
+	letter-spacing: 0.02em;
+	transition: border-color 150ms ease, background 150ms ease, color 150ms ease;
+}
+
+.rev-toc a:hover,
+.rev-toc a:focus-visible {
+	border-color: var(--accent);
+	background: var(--accent-soft);
+	color: var(--accent);
+	outline: none;
+}
+
+.rev-method {
+	border: 1px solid var(--border-strong);
+	background: var(--bg-elevated);
+	padding: 0.85rem 1rem;
+	margin: 1rem 0 1.5rem;
+}
+
+.rev-method h3 {
+	margin: 0 0 0.5rem;
+	font-size: 0.95rem;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: var(--accent-2);
+}
+
+.rev-method ul {
+	margin: 0.25rem 0 0;
+	padding-left: 1.2rem;
+	color: var(--text-muted);
+	line-height: 1.55;
+	font-size: 0.88rem;
+}
+
+.rev-method ul li {
+	padding: 0.15rem 0;
+}
+
+.rev-method strong {
+	color: var(--text-main);
+}
+
+.rev-table-wrap {
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+	margin: 1rem 0 1.25rem;
+	border: 1px solid var(--border-strong);
+}
+
+.rev-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.85rem;
+	min-width: 720px;
+	/* Fixed layout means column widths come from the rules below, not the
+	 * widest cell content — without this, the long protocol names in the
+	 * Port and Service columns would dominate the row. */
+	table-layout: fixed;
+}
+
+/* Narrow # column; remaining columns share the rest equally.
+ * 4em ≈ 64px which, after the 0.55rem inner padding (border-box), leaves
+ * ~46px of content area — comfortably fits two-digit ports (1–50) and the
+ * three-character L88 / W90 entries in the command tables. nowrap is the
+ * belt-and-braces backstop. */
+.rev-table th:first-child,
+.rev-table td:first-child {
+	width: 4em;
+	white-space: nowrap;
+}
+
+.rev-table thead th {
+	background: var(--bg-elevated);
+	border-bottom: 2px solid var(--accent);
+	text-align: left;
+	padding: 0.6rem 0.55rem;
+	font-size: 0.72rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--accent-2);
+}
+
+.rev-table tbody td {
+	border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+	padding: 0.55rem;
+	vertical-align: top;
+	line-height: 1.45;
+	color: var(--text-main);
+	overflow-wrap: anywhere;
+}
+
+.rev-table tbody tr:nth-child(even) td {
+	background: rgba(148, 163, 184, 0.04);
+}
+
+.rev-table tbody tr:hover td {
+	background: var(--accent-soft);
+}
+
+.rev-table code {
+	font-family: "Courier New", Courier, monospace;
+	font-size: 0.85em;
+	background: var(--bg);
+	padding: 0.05rem 0.32rem;
+	border: 1px solid var(--border-strong);
+	color: var(--accent);
+	/* Allow long code tokens to break inside narrower fixed columns. */
+	overflow-wrap: anywhere;
+	word-break: break-word;
+}
+
+.rev-table .num {
+	font-variant-numeric: tabular-nums;
+	font-weight: 600;
+	color: var(--accent);
+}
+
+.rev-table .svc {
+	font-weight: 600;
+	color: var(--text-main);
+}
+
+.rev-table .hook {
+	color: var(--text-muted);
+	font-style: italic;
+}
+
+.rev-q-list {
+	list-style: none;
+	padding: 0;
+	margin: 1rem 0 0;
+	display: grid;
+	gap: 0.6rem;
+}
+
+.rev-q {
+	padding: 0.75rem 0.95rem;
+	border-left: 3px solid var(--accent-2);
+	background: var(--bg-elevated);
+	border-top: 1px solid var(--border-strong);
+	border-right: 1px solid var(--border-strong);
+	border-bottom: 1px solid var(--border-strong);
+}
+
+.rev-q .q-num {
+	margin: 0 0 0.25rem;
+	font-size: 0.7rem;
+	text-transform: uppercase;
+	letter-spacing: 0.16em;
+	color: var(--accent-2);
+	font-weight: 600;
+}
+
+.rev-q .q-prompt {
+	margin: 0.15rem 0 0.4rem;
+	color: var(--text-main);
+	line-height: 1.55;
+}
+
+.rev-q .q-options {
+	margin: 0.25rem 0 0.4rem 0;
+	padding: 0 0 0 1.5rem;
+	color: var(--text-muted);
+	line-height: 1.5;
+}
+
+.rev-q .q-options li {
+	padding: 0.1rem 0;
+}
+
+.rev-q .q-answer {
+	margin: 0.3rem 0 0;
+	font-size: 0.85rem;
+	color: var(--accent);
+}
+
+.rev-q .q-answer strong {
+	color: var(--accent);
+}
+
+.rev-section-title {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0.6rem;
+	margin: 1.5rem 0 0.5rem;
+}
+
+.rev-section-title h2 {
+	margin: 0;
+}
+
+.rev-section-title .rev-tag {
+	font-size: 0.72rem;
+	text-transform: uppercase;
+	letter-spacing: 0.16em;
+	color: var(--accent-2);
+	border: 1px solid var(--accent-2);
+	padding: 0.15rem 0.5rem;
+}
+
+@media (max-width: 600px) {
+	.rev-table {
+		font-size: 0.8rem;
+		min-width: 600px;
+	}
+
+	.rev-q .q-options {
+		padding-left: 1.2rem;
+	}
+}
+
 /* Mobile — collapse zigzag to single column with marker rail on left.
  * Popup expands inline below the card when tap-toggled. */
 @media (max-width: 700px) {
