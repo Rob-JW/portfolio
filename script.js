@@ -1,3 +1,5 @@
+/* global Chart */
+
 // Ensure the footer year stays current
 document.addEventListener("DOMContentLoaded", () => {
 	const yearSpan = document.getElementById("year");
