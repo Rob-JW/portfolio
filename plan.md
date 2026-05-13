@@ -23,8 +23,10 @@
 - Project CLAUDE.md file layout refreshed to reflect current sub-page count and add `qbank/` analogue (n/a here — that's CPSA project)
 
 ### Still outstanding (next session)
-- Item 2 remainder: real content for `projects.html`, `backlog.html`, `write-ups.html`, `learning-resources.html`
+- Item 2 remainder: real content for `projects.html`, `backlog.html`, `write-ups.html`. *`learning-resources.html` partially populated 2026-05-13 with "Hands-on lab platforms" section (Vulnhub, TryHackMe, HackTheBox, Kali, UTM); three placeholder pages remain.*
 - **Roadmap page polish** (flagged by Rob 2026-05-02 post-publish): "needs some work" — specifics TBD next session. Likely candidates worth raising: spacing/rhythm between cards, popup positioning on edge nodes, mobile single-column rail offset, in-progress glow intensity, contrast of dashed planned segments in light mode. Wait for Rob's specifics before changing anything.
+- **Browser-side verification of 2026-05-13 changes** still required per Quality Bars: open `learning-resources.html` in both themes, confirm mobile viewport (≤600px), tab through new section to verify keyboard navigation. Pushed before verification at Rob's explicit request — low risk (HTML-only, reuses existing CSS classes) but the rule isn't waived.
+- **`script.js` ESLint cleanup** (2026-05-13): `/* global Chart */` directive added at top of `script.js` to declare the Chart.js CDN global and resolve `no-undef` under `eslint:recommended`. Runtime behaviour unchanged. Pattern is standard for declaring known externals — leave in place even if a formal lint config is added later.
 
 ---
 
