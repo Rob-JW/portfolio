@@ -25,7 +25,7 @@
 ### Still outstanding (next session)
 - Item 2 remainder: real content for `projects.html`, `backlog.html`, `write-ups.html`. *`learning-resources.html` partially populated 2026-05-13 with "Hands-on lab platforms" section (Vulnhub, TryHackMe, HackTheBox, Kali, UTM); three placeholder pages remain.*
 - **Roadmap page polish** (flagged by Rob 2026-05-02 post-publish): "needs some work" — specifics TBD next session. Likely candidates worth raising: spacing/rhythm between cards, popup positioning on edge nodes, mobile single-column rail offset, in-progress glow intensity, contrast of dashed planned segments in light mode. Wait for Rob's specifics before changing anything.
-- **Browser-side verification of 2026-05-13 changes** still required per Quality Bars: open `learning-resources.html` in both themes, confirm mobile viewport (≤600px), tab through new section to verify keyboard navigation. Pushed before verification at Rob's explicit request — low risk (HTML-only, reuses existing CSS classes) but the rule isn't waived.
+- ~~Browser-side verification of 2026-05-13 changes~~ — **DONE 2026-05-27.** Rob confirmed all links work and scaling holds correctly across all aspect ratios. Pushed-before-verified gap now closed.
 - **`script.js` ESLint cleanup** (2026-05-13): `/* global Chart */` directive added at top of `script.js` to declare the Chart.js CDN global and resolve `no-undef` under `eslint:recommended`. Runtime behaviour unchanged. Pattern is standard for declaring known externals — leave in place even if a formal lint config is added later.
 
 ---
@@ -228,7 +228,104 @@ Single combined commit covering both passes:
 
 ---
 
+## Site-Wide Mono Font Pass (Active — 2026-05-27)
+
+Triggered by Rob 2026-05-27: "Change the font across the whole site to mono to look more like terminal text." Scope is intentionally everything — body, headings, nav, buttons, tables, cards. The terminal aesthetic only lands if it's consistent.
+
+### Decisions
+
+1. **Font stack:** System monospace — `ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, "Courier New", monospace`. Zero new CDN dependencies, native render on each OS, no FOUT (Flash of Unstyled Text). Honours project hard rule on minimal dependencies.
+2. **Scope:** Apply at `html, body` so the change cascades to every element on every page. No per-page override needed.
+3. **Logo and `code` blocks left as-is.** Both already use `"Courier New", Courier, monospace`. Leaving them gives the logo its distinct typewriter character against the slicker system mono in the body, and keeps inline `<code>` in the revision tables visually marked.
+
+### File touchpoints
+
+- `style.css` — single rule change at `html, body` (line ~62).
+
+### Risks
+
+- Monospace characters are wider than proportional → headings, nav labels, and button text may wrap differently. Need to check at multiple viewport widths.
+- Chart.js point-labels currently inherit nothing automatically — they may still render in Helvetica unless `script.js` reads the body font into the chart config. Out of scope this pass — flag for follow-up if visually jarring.
+
+### Verification
+
+- Refresh all sub-pages in browser. Confirm font has switched everywhere.
+- Tab through nav, buttons — confirm no overflow or wrap regressions.
+- Both themes — confirm legibility holds in light and dark.
+- Mobile (≤600px) — confirm no horizontal scroll introduced by wider mono characters.
+
+### Commit
+
+> `Switch site font to system monospace stack — terminal aesthetic`
+
+---
+
+## Roadmap Card Polish — Underline + Qualification Icons (Active — 2026-05-27)
+
+Triggered by Rob 2026-05-27 after roadmap page review. Two related changes bundled together because both touch `.node-card` markup and styles.
+
+### Decisions
+
+1. **Underline animation:** Port the nav-header underline (`style.css:233-257`) onto `.node-card`. Layer it on top of the existing hover state (lift + soft fill + cyan border swap) — does not replace.
+2. **Wipe direction mirrored.** Odd-numbered cards (left side, text-align: right) wipe from the right (`transform-origin: right`). Even-numbered cards (right side, text-align: left) wipe from the left (`transform-origin: left`). The underline starts at the same edge the text reads from.
+3. **Qualification icons:** Add a Font Awesome icon inside each station card, beside the title. Status marker on the rail (check / bolt / circle / star) stays — it does the at-a-glance status job. Icon inside the card represents what was earned.
+4. **Icon colour:** `--accent-2` (cyan) across the board. Status is conveyed by border + rail marker; icon represents the qualification itself, not its state.
+5. **Icon placement:** Outer edge of each card (opposite the rail). Odd cards: icon on left, text on right. Even cards: text on left, icon on right. Visually balances the zigzag.
+
+### Icon assignments
+
+| # | Station | Font Awesome class | Rationale |
+|---|---------|--------------------|-----------|
+| 1 | ISO 9001 Lead Auditor | `fa-solid fa-clipboard-check` | Audit / QMS checklist |
+| 2 | LEAN Six Sigma Green Belt | `fa-solid fa-chart-line` | Process improvement, statistical analysis |
+| 3 | City & Guilds Graduateship | `fa-solid fa-graduation-cap` | Degree-equivalent academic qualification |
+| 4 | CREST CPSA | `fa-solid fa-user-secret` | Penetration testing |
+| 5 | ISO 27001 Lead Implementer | `fa-solid fa-lock` | Information security / ISMS |
+| 6 | CompTIA CySA+ | `fa-solid fa-magnifying-glass-chart` | Threat hunting, log analysis |
+| 7 | OSCP | `fa-solid fa-terminal` | CLI-heavy hands-on offensive sec |
+| 8 | Endpoint (Consultant) | `fa-solid fa-star` (unchanged) | Destination marker, not a card |
+
+### File touchpoints
+
+- `style.css` — add `.node-card { display: flex; ... }`, `.node-card::after { ... }` underline pseudo, `.node-icon { ... }`, mirrored `transform-origin` and `flex-direction` rules for `:nth-child(odd|even)`.
+- `roadmap.html` — wrap each station's title+meta in `<div class="node-text">`, prepend the icon `<i>` element. 7 station cards touched. Endpoint untouched.
+
+### Verification
+
+- Refresh `roadmap.html` in browser.
+- Hover each card in turn — confirm underline wipes in from the correct edge per card position.
+- Hover-out — confirm underline wipes out smoothly.
+- Confirm new icons render beside each title, on the outer edge.
+- Tab through the cards — confirm `:focus-visible` triggers the underline (need to wire the focus state).
+- Both themes.
+- Mobile (≤700px) — at this breakpoint cards collapse to a single column with the rail on the left. Underline direction should remain consistent (all wipe from left, since `text-align` resets to left).
+- `prefers-reduced-motion` — confirm animation is disabled.
+
+### Commits
+
+Two logical commits:
+1. `Add qualification icons to roadmap station cards`
+2. `Port nav underline hover animation to roadmap cards`
+
+### Follow-up refinement (2026-05-27, same session)
+
+After initial implementation, Rob flagged two issues:
+
+1. **Underline was always green.** Should reflect status — green (`--accent`) for achieved goals, blue (`--accent-2`) for everything still to be earned (in-progress + planned).
+2. **Underline sat behind the card border**, making it hard to see. Decision: strip the card chrome entirely — no background, no border, no box-shadow. Hover state becomes underline-only, no lift, no fill, no border swap. Click-pulse `:active` rule removed too (it animated `box-shadow` back to `--shadow-pixel`, which would have re-introduced the pixel shadow on every click).
+3. The marker-lift companion (`.node-card:hover ~ .node-marker`) was also removed for consistency with "leaving just the underline animation effect on hover."
+
+Net result: each station card now reads as text + icon, with the wipe-in underline as the only hover affordance. Status is conveyed by:
+- The rail marker on the central rail (check / bolt / circle / star)
+- The underline colour (green for achieved, blue otherwise)
+- The dashed marker border on planned stations
+
+Folded into the same logical commit as the original hover-animation port — no separate commit.
+
+---
+
 ## Roadmap (Not This Session)
 
 - TryHackMe-style expansion: 4 career paths × 4 experience levels (Foundational / Security Analyst / Penetration Tester / Security Engineer × Entry / Junior / Mid / Senior). Adds a level dropdown overlaying a reference polygon for each level's expected skill profile. Significantly larger data model and UI work.
 - New pages: Qualifications, Projects, Write-ups, Blog, Roadmap, Resources (see `CLAUDE.md` → Vision).
+- Chart.js radar labels: pass body `font-family` into chart config so radar labels switch to mono with the site. Deferred from the 2026-05-27 mono pass — only worth doing if the Helvetica default looks visually jarring against the rest of the page.
