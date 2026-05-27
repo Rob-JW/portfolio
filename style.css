@@ -59,8 +59,10 @@ body {
 	padding: 0;
 	background: var(--bg-gradient);
 	color: var(--text-main);
-	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-		sans-serif;
+	/* System monospace stack — terminal aesthetic without a CDN font dependency.
+	 * Renders SF Mono on macOS/iOS, Cascadia Mono on Windows, Menlo as fallback. */
+	font-family: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas,
+		"Courier New", monospace;
 	scroll-behavior: smooth;
 }
 
