@@ -1037,26 +1037,44 @@ body {
 	width: 100%;
 }
 
-/* Node card — same hover language as .btn (180ms ease, lift, soft fill). */
+/* Node card — frameless. No background, border, or shadow: the row reads as
+ * text + icon, with the wipe-in underline ported from .main-nav a::after
+ * (200ms ease-out) as the only hover affordance. */
 .node-card {
-	display: block;
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
 	width: 100%;
 	text-align: left;
-	background: var(--bg-elevated);
-	border: 2px solid var(--border-strong);
+	background: none;
+	border: none;
 	color: var(--text-main);
 	padding: 0.85rem 1rem;
 	cursor: pointer;
-	box-shadow: var(--shadow-pixel);
-	transition: transform 180ms ease, border-color 180ms ease,
-		background 180ms ease, box-shadow 180ms ease;
 	font: inherit;
+	position: relative;
+	/* anchors the ::after underline */
 }
 
-.node-card:hover {
-	transform: translateY(-1px);
-	background: var(--accent-soft);
-	border-color: var(--accent-2);
+/* Wipe-in underline — mirrors .main-nav a::after but the origin is set per
+ * zigzag side below so the bar starts at the text-reading edge. */
+.node-card::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 2px;
+	background-color: var(--accent);
+	transform: scaleX(0);
+	transform-origin: left;
+	transition: transform 200ms ease-out;
+	pointer-events: none;
+}
+
+.node-card:hover::after,
+.node-card:focus-visible::after {
+	transform: scaleX(1);
 }
 
 .node-card:focus-visible {
@@ -1064,12 +1082,35 @@ body {
 	outline-offset: 4px;
 }
 
-.node-card:active {
-	animation: click-pulse 180ms ease-out;
-}
-
+/* Odd cards sit on the left of the zigzag with right-aligned text — icon goes
+ * on the outer (left) edge and the underline wipes from the right so it
+ * starts where the text starts. */
 .roadmap-node:nth-child(odd) .node-card {
 	text-align: right;
+}
+
+.roadmap-node:nth-child(odd) .node-card::after {
+	transform-origin: right;
+}
+
+/* Even cards sit on the right of the zigzag with left-aligned text — flex is
+ * reversed so the icon lands on the outer (right) edge. */
+.roadmap-node:nth-child(even) .node-card {
+	flex-direction: row-reverse;
+}
+
+/* Qualification icon inside the card — colour-uniform (--accent-2). Status is
+ * conveyed by the rail marker and the underline colour, not this icon. */
+.node-icon {
+	font-size: 1.75rem;
+	color: var(--accent-2);
+	flex-shrink: 0;
+	line-height: 1;
+}
+
+.node-text {
+	flex: 1;
+	min-width: 0;
 }
 
 .node-title {
@@ -1086,13 +1127,13 @@ body {
 	line-height: 1.4;
 }
 
-/* Status accents on the card border for at-a-glance reading. */
-.roadmap-node[data-status="achieved"] .node-card {
-	border-color: var(--accent);
-}
-
-.roadmap-node[data-status="in-progress"] .node-card {
-	border-color: var(--accent-2);
+/* Status accents on the underline — green (--accent) for achieved goals (the
+ * default), blue (--accent-2) for everything still to be earned. The rail
+ * marker continues to carry the at-a-glance status cue (check / bolt / circle
+ * / star) since the card itself is now frameless. */
+.roadmap-node[data-status="in-progress"] .node-card::after,
+.roadmap-node[data-status="planned"] .node-card::after {
+	background-color: var(--accent-2);
 }
 
 /* Marker — circular badge sitting on the rail. */
@@ -1129,10 +1170,6 @@ body {
 	border-color: var(--border-strong);
 	color: var(--text-muted);
 	border-style: dashed;
-}
-
-.node-card:hover ~ .node-marker {
-	transform: translateY(-1px);
 }
 
 /* Popup — visible on hover (desktop), keyboard focus, or aria-expanded (tap). */
@@ -1517,8 +1554,16 @@ body {
 	}
 
 	.roadmap-node .node-card,
-	.roadmap-node:nth-child(odd) .node-card {
+	.roadmap-node:nth-child(odd) .node-card,
+	.roadmap-node:nth-child(even) .node-card {
 		text-align: left;
+		flex-direction: row;
+	}
+
+	/* All cards left-align at this breakpoint, so the underline wipes from the
+	 * left regardless of zigzag parity in the desktop layout. */
+	.roadmap-node:nth-child(odd) .node-card::after {
+		transform-origin: left;
 	}
 
 	.roadmap-node:not(:last-child)::after {
