@@ -9,8 +9,12 @@
 		content="Rob Williams — qualifications and skills matrix. Cyber security, engineering, and leadership credentials." />
 
 	<link rel="stylesheet" href="style.css" />
+	<!-- Preconnect: opens the CDN connection while the HTML is still parsing -->
+	<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+	<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-		referrerpolicy="no-referrer" />
+		integrity="sha384-PPIZEGYM1v8zp5Py7UjFb79S58UeqCL9pYVnVPURKEqvioPROaVAJKKLzvH2rDnI"
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -170,9 +174,12 @@
 
 	<!-- Chart.js for the radar chart — version pinned so a future major
 	     release can't silently break the radar (project hard rule). -->
-	<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
-	<!-- Main script -->
-	<script src="script.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"
+		integrity="sha384-jb8JQMbMoBUzgWatfe6COACi2ljcDdZQ2OxczGA3bGNeWe+6DChMTBJemed7ZnvJ"
+		crossorigin="anonymous" defer></script>
+	<!-- Main script — deferred with Chart.js so document order (and thus the
+	     Chart global) is preserved when both execute. -->
+	<script src="script.js" defer></script>
 </body>
 
 </html>
