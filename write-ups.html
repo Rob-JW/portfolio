@@ -3,10 +3,10 @@
 
 <head>
 	<meta charset="UTF-8" />
-	<title>Write-ups — Rob Williams</title>
+	<title>Write-ups &amp; Blog — Rob Williams</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta name="description"
-		content="Rob Williams — lab notes, room walkthroughs, and lessons learned from cyber security training." />
+		content="Rob Williams — lab walkthroughs and an honest blog on studying for CPSA, transitioning from military engineering into cyber security, and building in public." />
 
 	<link rel="stylesheet" href="style.css" />
 	<!-- Preconnect: opens the CDN connection while the HTML is still parsing -->
@@ -40,7 +40,7 @@
 
 			<nav class="main-nav" id="site-nav">
 				<a href="index.html#about">About</a>
-				<a href="index.html#projects">Projects</a>
+				<a href="index.html#overview">Overview</a>
 				<a href="index.html#contact">Contact</a>
 			</nav>
 		</div>
@@ -48,21 +48,195 @@
 
 	<main id="main">
 		<section class="page-header">
-			<p class="eyebrow"><a href="index.html#projects">← Back to Overview</a></p>
-			<h1>Write-ups</h1>
+			<p class="eyebrow"><a href="index.html#overview">← Back to Overview</a></p>
+			<h1>Write-ups &amp; Blog</h1>
 		</section>
 
 		<section class="section">
+			<h2>Write-ups</h2>
 			<p>
-				Lab notes, TryHackMe and HackTheBox walkthroughs, and lessons learned
-				from the CPSA study journey. Each write-up follows a consistent
-				structure: objective, methodology, commands, findings, remediation —
-				the format expected of a professional pen test report.
+				TryHackMe and HackTheBox walkthroughs, written in the format expected
+				of a professional penetration test report: objective, methodology,
+				commands, findings, remediation. The first walkthroughs land after
+				the CPSA exam window — HackTheBox Blue is first in the queue.
 			</p>
+		</section>
+
+		<section id="blog" class="section">
+			<h2>Blog</h2>
 			<p>
-				<em>This page is under construction — published write-ups will be
-					listed here soon.</em>
+				Learning out loud — honest notes from the study desk and the career
+				transition. What worked, what didn't, and what I'd tell someone a
+				few months behind me on the same road.
 			</p>
+
+			<article class="blog-post">
+				<p class="post-meta">6 July 2026 · CPSA study</p>
+				<h3>Recognition is not recall</h3>
+				<p>
+					I scored 87% on a practice exam and it meant almost nothing.
+				</p>
+				<p>
+					It was my second run through the same question bank — same
+					questions, reshuffled. The score felt like progress. A week later I
+					sat a harder bank cold, questions I had never seen, and came in at
+					62%. That second number is the real one.
+				</p>
+				<p>
+					The difference is recognition versus recall. When you re-sit a bank
+					you've already seen, your brain doesn't retrieve the knowledge — it
+					recognises the shape of the question and remembers which answer felt
+					right last time. Under a real exam, with unfamiliar wording,
+					recognition has nothing to grip. Only recall survives contact.
+				</p>
+				<p>Three things I've changed because of this.</p>
+				<p>
+					<strong>The first cold pass is the diagnostic.</strong> Any score on
+					a repeated bank gets a mental asterisk now. It's warm-up, not
+					assessment. If I quote a mock score to myself as evidence I'm ready,
+					it has to come from questions I'd never seen before that sitting.
+				</p>
+				<p>
+					<strong>The re-test gets booked the day of the mock.</strong> I
+					learned this the hard way: one of my domains sat at 70% after a good
+					session, and six weeks later — with no re-test scheduled in
+					between — it had quietly decayed to 20%. Nothing warned me. The gap
+					between a cold first pass and a re-sit two or three weeks later is
+					the actual retention signal, and you only get it if you book the
+					re-sit.
+				</p>
+				<p>
+					<strong>Repeated errors are usually one error.</strong> Marking a
+					cold paper, I noticed I'd answered <code>dpkg -l</code> for a
+					Solaris question <em>and</em> a Red Hat question. That's not two
+					mistakes — it's one reflex: defaulting to the most familiar tool
+					name under uncertainty. One rule fixed the whole cluster: dpkg is
+					Debian, rpm is Red Hat, pkginfo is Solaris, pkg_info is BSD. When
+					your wrong answers share a shape, fix the shape, not the questions.
+				</p>
+				<p>
+					None of this is revolutionary. But nobody selling practice exams is
+					incentivised to tell you that your 87% might be recognition wearing
+					a recall costume. Sit the cold paper. Trust that number instead.
+				</p>
+			</article>
+
+			<article class="blog-post">
+				<p class="post-meta">6 July 2026 · CPSA study</p>
+				<h3>Theory needs something you can break</h3>
+				<p>
+					I once spent two evenings — about four hours — on firewall theory
+					and a virtual machine installer that refused to cooperate, and at
+					the end of it I had not written a single firewall rule.
+				</p>
+				<p>
+					Four hours in, I could describe a default-deny policy in exam-ready
+					language. I had not built one. The plan said pfSense lab; the
+					installer said no; and I kept pushing at it because the plan said
+					so. That was the mistake. Not the broken installer — the refusal to
+					pivot.
+				</p>
+				<p>
+					The reset took twenty minutes. I dropped the VM (virtual machine)
+					lab entirely and used iptables, already sitting on the Kali box: a
+					default-deny INPUT chain, allow rules for loopback, established
+					connections, and echo requests. Then I generated traffic and watched
+					the packet counter on rule 2 tick from 1 packet to 5, 76 bytes to
+					412. Four packets. Trivial. But those were <em>my</em> packets
+					hitting <em>my</em> rule, and the concept snapped into place in a
+					way four hours of theory never managed.
+				</p>
+				<p>
+					What I took from it, as someone doing a career transition without
+					daily hands-on exposure:
+				</p>
+				<p>
+					<strong>Every study session gets a practical that produces visible
+						output.</strong> A rule written, a counter incremented, scan
+					output parsed. Visible output is the session-completion
+					criterion — not "finished the reading."
+				</p>
+				<p>
+					<strong>The cheapest tool that demonstrates the concept
+						wins.</strong> A twenty-minute iptables exercise beat a
+					ninety-minute pfSense build that never got past the installer. The
+					polished lab can come later; the concept can't wait for it.
+				</p>
+				<p>
+					<strong>Thirty minutes with no output means pivot.</strong> That's
+					the tripwire I've set myself. If the planned practical has produced
+					nothing observable in half an hour, I ask one question — is there a
+					simpler tool that shows the same idea? — and the default answer is
+					yes.
+				</p>
+				<p>
+					In my old trade we'd never sign off a repair on theory alone; you
+					run the system and watch it function. Study is no different. If the
+					session ends and nothing moved, nothing incremented, and nothing
+					broke — I'm not sure the knowledge arrived either.
+				</p>
+			</article>
+
+			<article class="blog-post">
+				<p class="post-meta">6 July 2026 · Building in public</p>
+				<h3>What a no-build website forces you to learn</h3>
+				<p>
+					This site has one hard rule: a fresh clone must run from
+					<code>index.html</code> with zero commands. No build step, no
+					framework, no bundler. Vanilla HTML, CSS, and JavaScript, plus
+					exactly two CDN (Content Delivery Network) dependencies.
+				</p>
+				<p>
+					I set that constraint because I'm a beginner at front-end work and I
+					wanted to learn the actual platform, not a framework's opinion of
+					it. This week's full site audit showed me what that constraint
+					quietly teaches.
+				</p>
+				<p>
+					<strong>Accessibility is arithmetic, not vibes.</strong> The audit
+					found my light-theme green failed WCAG (Web Content Accessibility
+					Guidelines) contrast at roughly 3.8:1 against the page
+					background — the standard demands 4.5:1 for body text. It looked
+					fine to my eye. The fix was one shade darker, verified by
+					calculating relative luminance, not by squinting. A framework's
+					default theme would have hidden that lesson from me entirely.
+				</p>
+				<p>
+					<strong>Dependencies are a promise someone else can break.</strong>
+					My chart library was loaded from its CDN unpinned — whatever version
+					shipped next is what my site would have got. A future breaking
+					release would have silently killed the skills radar on the
+					qualifications page. It's pinned now, with an integrity hash, so the
+					browser refuses the file if the content ever changes out from under
+					me. For someone heading into security work, that one's a bit
+					embarrassing to have missed — supply-chain hygiene starts on your
+					own site.
+				</p>
+				<p>
+					<strong>Every choice is visible, so every choice teaches.</strong>
+					This week the site moved from all-monospace text to a hybrid:
+					monospace for headings, navigation, and labels — the terminal
+					character of the site — and a system sans-serif for paragraphs,
+					because monospace is measurably harder to read at length. In a
+					framework that's a theme toggle. In vanilla CSS it's a decision you
+					have to understand: two font stacks, custom properties, and a list
+					of which elements carry identity and which carry reading.
+				</p>
+				<p>
+					The transferable habit here isn't technical. It's inspection
+					culture — the audit found faults my eye had signed off. In
+					engineering we'd call that independent inspection, and no
+					serviceable-looking assembly escapes it. Websites deserve the same
+					suspicion.
+				</p>
+				<p>
+					The repo is public on my
+					<a href="https://github.com/Rob-JW/portfolio" target="_blank"
+						rel="noreferrer">GitHub</a>
+					if you want to see the working — mistakes, fixes, and commit
+					history included.
+				</p>
+			</article>
 		</section>
 
 		<section id="contact" class="section">
