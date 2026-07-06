@@ -6,7 +6,7 @@
 	<title>Projects — Rob Williams</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta name="description"
-		content="Rob Williams — projects. Automation, dashboards, and lab tooling built alongside cyber security training." />
+		content="Rob Williams — projects built in public. A hand-coded portfolio site live now, with a Python network scanner, automation utilities, and an Active Directory lab in the pipeline." />
 
 	<link rel="stylesheet" href="style.css" />
 	<!-- Preconnect: opens the CDN connection while the HTML is still parsing -->
@@ -40,7 +40,7 @@
 
 			<nav class="main-nav" id="site-nav">
 				<a href="index.html#about">About</a>
-				<a href="index.html#projects">Projects</a>
+				<a href="index.html#overview">Overview</a>
 				<a href="index.html#contact">Contact</a>
 			</nav>
 		</div>
@@ -48,21 +48,62 @@
 
 	<main id="main">
 		<section class="page-header">
-			<p class="eyebrow"><a href="index.html#projects">← Back to Overview</a></p>
+			<p class="eyebrow"><a href="index.html#overview">← Back to Overview</a></p>
 			<h1>Projects</h1>
 		</section>
 
 		<section class="section">
 			<p>
-				Automation scripts, dashboards, and lab tooling built alongside my
-				cyber security training. Each project is documented with its purpose,
-				the problem it solves, the tools involved, and what I learned from
-				building it.
+				Everything here follows one rule carried over from 24 years of
+				engineering: don't claim what you can't show. One project is live
+				and public; the rest are queued behind the CPSA exam on 25 July —
+				study holds priority until then.
 			</p>
+		</section>
+
+		<section class="section">
+			<h2>Live</h2>
+			<ul class="quals-list">
+				<li>
+					<strong>This site</strong> — a hand-coded portfolio with a
+					deliberate constraint: a fresh clone must run from
+					<code>index.html</code> with zero commands. No framework, no build
+					step. Vanilla HTML, CSS, and JavaScript; light/dark theming via CSS
+					custom properties; a Chart.js skills radar with keyboard-accessible
+					mode switching; WCAG AA contrast in both themes; and
+					integrity-pinned CDN dependencies — supply-chain hygiene starts at
+					home. The full working — mistakes, fixes, commit history — is
+					public on
+					<a href="https://github.com/Rob-JW/portfolio" target="_blank"
+						rel="noreferrer">GitHub</a>.
+				</li>
+			</ul>
+		</section>
+
+		<section class="section">
+			<h2>In the pipeline</h2>
 			<p>
-				<em>This page is under construction — individual project write-ups
-					will appear here as they are completed.</em>
+				Planned builds, in intended order. Each one lands here with a
+				write-up — purpose, tooling, and what building it taught me —
+				once there is real code to show.
 			</p>
+			<ul class="quals-list">
+				<li>
+					<strong>Network scanner (Python)</strong> — planned. A socket-level
+					TCP port scanner built from first principles before reaching for
+					Nmap: understanding what the tool does beats memorising its flags.
+				</li>
+				<li>
+					<strong>Python study utilities</strong> — planned. Small automation
+					scripts from my daily study workflow — question-bank drills and
+					revision tooling — cleaned up and published.
+				</li>
+				<li>
+					<strong>Active Directory lab</strong> — planned. A small
+					domain environment for attack and defence practice, feeding the
+					write-ups page as labs are completed.
+				</li>
+			</ul>
 		</section>
 
 		<section id="contact" class="section">
