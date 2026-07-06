@@ -39,9 +39,12 @@
 			#e5e7eb 100%);
 	--bg: #f3f4f6;
 	--bg-elevated: #ffffff;
-	--accent: #16a34a;
-	--accent-soft: rgba(22, 163, 74, 0.12);
-	--accent-2: #0284c7;
+	/* One shade darker than the dark-theme accents — the originals fell short
+	 * of WCAG AA 4.5:1 as text on the light backgrounds (green was ~3.8:1,
+	 * blue ~3.7:1). These hit ~4.6:1 and ~5.3:1 respectively. */
+	--accent: #15803d;
+	--accent-soft: rgba(21, 128, 61, 0.12);
+	--accent-2: #0369a1;
 	--text-main: #0f172a;
 	--text-muted: #4b5563;
 	--border-strong: #e5e7eb;
@@ -79,6 +82,24 @@ body {
 .hero,
 .section {
 	scroll-margin-top: 5rem;
+}
+
+/* Skip link — off-screen until keyboard focus lands on it, then drops in at
+ * the top-left so keyboard and screen-reader users can bypass the header. */
+.skip-link {
+	position: absolute;
+	top: -100%;
+	left: 0.75rem;
+	z-index: 100;
+	padding: 0.6rem 1rem;
+	background: var(--bg-elevated);
+	color: var(--accent);
+	border: 2px solid var(--accent);
+	text-decoration: none;
+}
+
+.skip-link:focus {
+	top: 0.75rem;
 }
 
 /* Visually hidden (for a11y labels) */
@@ -186,8 +207,9 @@ body {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: 2rem;
-	height: 2rem;
+	/* 44px — WCAG touch-target minimum */
+	width: 2.75rem;
+	height: 2.75rem;
 	padding: 0;
 	border-radius: 999px;
 	border: 1px solid rgba(148, 163, 184, 0.5);
@@ -261,6 +283,17 @@ body {
 	transform: scaleX(1);
 }
 
+/* Keyboard focus gets the same underline affordance as hover — focus parity. */
+.main-nav a:focus-visible {
+	color: var(--accent);
+	outline: 2px solid var(--accent-2);
+	outline-offset: 3px;
+}
+
+.main-nav a:focus-visible::after {
+	transform: scaleX(1);
+}
+
 /* Hamburger button */
 
 .menu-toggle {
@@ -269,8 +302,9 @@ body {
 	justify-content: center;
 	align-items: center;
 	gap: 4px;
-	width: 34px;
-	height: 32px;
+	/* 44px — WCAG touch-target minimum */
+	width: 44px;
+	height: 44px;
 	border-radius: 6px;
 	border: 1px solid rgba(148, 163, 184, 0.5);
 	background: transparent;
@@ -527,12 +561,13 @@ body {
 	display: inline-block;
 }
 
+/* Theme-driven so the swatches track the accent overrides in light mode. */
 .legend-item.current {
-	background: rgba(74, 222, 128, 0.8);
+	background: var(--accent);
 }
 
 .legend-item.target {
-	background: rgba(56, 189, 248, 0.8);
+	background: var(--accent-2);
 }
 
 /* Page header (sub-pages) */
@@ -749,8 +784,9 @@ body {
 }
 
 .contact-icon-link {
-	width: 2.5rem;
-	height: 2.5rem;
+	/* 44px — WCAG touch-target minimum */
+	width: 2.75rem;
+	height: 2.75rem;
 	border-radius: 999px;
 	border: 1px solid rgba(148, 163, 184, 0.4);
 	display: inline-flex;

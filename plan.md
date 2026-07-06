@@ -324,6 +324,35 @@ Folded into the same logical commit as the original hover-animation port — no 
 
 ---
 
+## Full Site Review & Content Build (Active — 2026-07-06)
+
+Triggered by Rob 2026-07-06: complete review of the portfolio codebase across errors, modern front-end practice, visual design, UX, typography/icons, and end-user copy — plus blog content.
+
+### Decisions agreed up front
+
+1. **Blog home:** `write-ups.html` becomes **"Write-ups & Blog"**. No new pages. Blog posts drafted from recent session history / logs, OPSEC-filtered per L014, and **reviewed by Rob before anything is committed or pushed** (default-deny publication rule).
+2. **Typography:** Hybrid. Monospace stays on headings, nav, labels, buttons, and code — terminal identity preserved. Body paragraphs move to a clean system sans-serif for long-form readability (About, blog, write-ups).
+3. **Placeholders:** `projects.html` gets real content drafted from actual work (Network Scanner, Python Utilities, AD lab, this site). `backlog.html` merges into `roadmap.html` and is removed; nav updated everywhere.
+4. **Blog Posts folder** in `1-Projects` is empty — all posts are fresh drafts.
+
+### Phases (each verified before the next begins)
+
+| # | Phase | Scope | Output |
+|---|-------|-------|--------|
+| 1 | **Audit** | Subagent review of all 8 pages + CSS + JS: errors, dead code, semantics, a11y, responsive, performance, copy | Findings report — Rob sees it before fixes start |
+| 2 | **Fix pass** | Errors + code quality + a11y + modern-CSS corrections from audit | One commit per logical fix group |
+| 3 | **Typography & visual pass** | Hybrid font stack, spacing rhythm, icon audit (Font Awesome relevance + trim), theme consistency | Commit |
+| 4 | **Copy pass** | All visible wording rewritten from the visitor's point of view — interesting, scannable, exploration-inviting. UK English. Facts per L003/L014 | Commit |
+| 5 | **Content build** | projects.html populated; backlog→roadmap merge + page removal; write-ups.html → Write-ups & Blog shell | Commit(s) |
+| 6 | **Blog drafts** | 2–3 posts drafted from recent work (CPSA study journey, EDC method, building this site). OPSEC filter applied. **Rob reviews each before inclusion** | Draft → Rob approval → commit |
+| 7 | **Final QA** | Browser verify: all pages, both themes, ≤600px viewport, keyboard nav, reduced-motion | Push to origin/main only after Rob's go |
+
+### Hard gates
+
+- Nothing pushed until Rob has reviewed the rendered result (L029 spirit: inspect before irreversible).
+- No clearance references anywhere public (L014).
+- No new dependencies without a recorded decision (project hard rule).
+
 ## Roadmap (Not This Session)
 
 - TryHackMe-style expansion: 4 career paths × 4 experience levels (Foundational / Security Analyst / Penetration Tester / Security Engineer × Entry / Junior / Mid / Senior). Adds a level dropdown overlaying a reference polygon for each level's expected skill profile. Significantly larger data model and UI work.
