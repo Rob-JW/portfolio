@@ -7,6 +7,14 @@
 }
 
 :root {
+	/* Hybrid type system — mono carries the terminal identity on headings,
+	 * nav, buttons, and labels; sans carries long-form reading comfort in
+	 * body copy. Both are system stacks: zero CDN font dependencies. */
+	--font-sans: system-ui, -apple-system, "Segoe UI", Roboto,
+		"Helvetica Neue", Arial, sans-serif;
+	--font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas,
+		"Courier New", monospace;
+
 	/* DARK THEME DEFAULT */
 	--bg-gradient: radial-gradient(circle at top,
 			#0b1120 0,
@@ -65,10 +73,8 @@ body {
 	padding: 0;
 	background: var(--bg-gradient);
 	color: var(--text-main);
-	/* System monospace stack — terminal aesthetic without a CDN font dependency.
-	 * Renders SF Mono on macOS/iOS, Cascadia Mono on Windows, Menlo as fallback. */
-	font-family: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas,
-		"Courier New", monospace;
+	/* Sans for body reading; identity elements opt back into mono below. */
+	font-family: var(--font-sans);
 	scroll-behavior: smooth;
 }
 
@@ -76,6 +82,31 @@ body {
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
+}
+
+/* Terminal identity — everything that labels rather than reads stays mono:
+ * headings, nav, buttons, eyebrows, tags, and inline code. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+code,
+.eyebrow,
+.main-nav a,
+.btn,
+.theme-label,
+.toggle-button,
+.card-title,
+.hero-focus,
+.popup-title,
+.rev-tag,
+.rev-q .q-num,
+.endpoint-title,
+.skip-link,
+.footer-dot {
+	font-family: var(--font-mono);
 }
 
 /* Improve anchor link behaviour with sticky header */
@@ -141,7 +172,7 @@ body {
 
 /* Logo – link to top, consistent accent green, proper hover + click feedback */
 .logo {
-	font-family: "Courier New", Courier, monospace;
+	font-family: var(--font-mono);
 	font-weight: 700;
 	letter-spacing: 0.08em;
 	font-size: 0.95rem;
@@ -1430,7 +1461,7 @@ body {
 }
 
 .rev-table code {
-	font-family: "Courier New", Courier, monospace;
+	font-family: var(--font-mono);
 	font-size: 0.85em;
 	background: var(--bg);
 	padding: 0.05rem 0.32rem;
