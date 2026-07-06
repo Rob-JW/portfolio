@@ -1332,6 +1332,46 @@ code,
 }
 
 /* ============================================================
+ * Blog — posts embedded on the Write-ups & Blog page. Mono
+ * date-line echoes the site's eyebrow idiom; body copy stays
+ * sans with a capped measure for comfortable long-form reading.
+ * ============================================================ */
+
+.blog-post {
+	margin: 2.25rem 0 0;
+	padding-top: 2.25rem;
+	border-top: 1px solid var(--border-strong);
+}
+
+.post-meta {
+	font-family: var(--font-mono);
+	font-size: 0.72rem;
+	text-transform: uppercase;
+	letter-spacing: 0.16em;
+	color: var(--accent-2);
+	margin: 0 0 0.35rem;
+}
+
+.blog-post h3 {
+	margin: 0 0 0.5rem;
+	font-size: 1.2rem;
+	line-height: 1.35;
+}
+
+.blog-post p {
+	max-width: 70ch;
+	line-height: 1.65;
+}
+
+.blog-post code {
+	font-size: 0.9em;
+	background: var(--bg);
+	padding: 0.05rem 0.32rem;
+	border: 1px solid var(--border-strong);
+	color: var(--accent);
+}
+
+/* ============================================================
  * Revision sheet — port and command reference tables, plus
  * single-answer recall questions. Matches site theme variables.
  * ============================================================ */
