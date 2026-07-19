@@ -74,50 +74,51 @@
 				<p class="post-meta">6 July 2026 · CPSA study</p>
 				<h3>Recognition is not recall</h3>
 				<p>
-					I scored 87% on a practice exam and it meant almost nothing.
+					I got 87% on a practice exam a while back and felt pretty good about
+					it. Second time through the same question bank, mind — same questions,
+					shuffled order. I did it in 29 minutes. The first run took me 44. That
+					should have told me something.
 				</p>
 				<p>
-					It was my second run through the same question bank — same
-					questions, reshuffled. The score felt like progress. A week later I
-					sat a harder bank cold, questions I had never seen, and came in at
-					62%. That second number is the real one.
+					A week or so later I sat a harder bank cold. Questions I'd never seen.
+					62%. That's the real number.
 				</p>
 				<p>
-					The difference is recognition versus recall. When you re-sit a bank
-					you've already seen, your brain doesn't retrieve the knowledge — it
-					recognises the shape of the question and remembers which answer felt
-					right last time. Under a real exam, with unfamiliar wording,
-					recognition has nothing to grip. Only recall survives contact.
-				</p>
-				<p>Three things I've changed because of this.</p>
-				<p>
-					<strong>The first cold pass is the diagnostic.</strong> Any score on
-					a repeated bank gets a mental asterisk now. It's warm-up, not
-					assessment. If I quote a mock score to myself as evidence I'm ready,
-					it has to come from questions I'd never seen before that sitting.
+					What happened on the first one is I wasn't remembering the material, I
+					was remembering the questions. You see the shape of one and you know
+					which answer felt right last time. It feels exactly like knowing the
+					subject. It isn't. In the real exam the wording will be new and
+					there's nothing to recognise, so the only thing that counts is what I
+					can pull out of my head cold.
 				</p>
 				<p>
-					<strong>The re-test gets booked the day of the mock.</strong> I
-					learned this the hard way: one of my domains sat at 70% after a good
-					session, and six weeks later — with no re-test scheduled in
-					between — it had quietly decayed to 20%. Nothing warned me. The gap
-					between a cold first pass and a re-sit two or three weeks later is
-					the actual retention signal, and you only get it if you book the
-					re-sit.
+					A few things I've changed since.
 				</p>
 				<p>
-					<strong>Repeated errors are usually one error.</strong> Marking a
-					cold paper, I noticed I'd answered <code>dpkg -l</code> for a
-					Solaris question <em>and</em> a Red Hat question. That's not two
-					mistakes — it's one reflex: defaulting to the most familiar tool
-					name under uncertainty. One rule fixed the whole cluster: dpkg is
-					Debian, rpm is Red Hat, pkginfo is Solaris, pkg_info is BSD. When
-					your wrong answers share a shape, fix the shape, not the questions.
+					I don't trust any score off a repeated bank now. It's a warm-up,
+					nothing more. If I'm quoting a mock score as evidence I'm ready, it
+					has to come from questions I'd never seen before that sitting.
 				</p>
 				<p>
-					None of this is revolutionary. But nobody selling practice exams is
-					incentivised to tell you that your 87% might be recognition wearing
-					a recall costume. Sit the cold paper. Trust that number instead.
+					I book the re-test on the day of the mock. Learned that one the hard
+					way. I had a topic at 70% after a good session and assumed it was
+					sorted. Six weeks later it was at 20%. Nothing warned me, because I
+					never scheduled anything to warn me. The gap between a cold first pass
+					and a re-sit a few weeks later is the only retention signal you get,
+					and you don't get it unless you actually book the re-sit.
+				</p>
+				<p>
+					And when I was marking the cold paper I noticed I'd put <code>dpkg
+					-l</code> down for a Solaris question and a Red Hat question. Two
+					wrong answers, one mistake: under pressure I default to the tool I
+					know best. One line sorted both. dpkg is Debian, rpm is Red Hat,
+					pkginfo is Solaris, pkg_info is BSD. Worth checking your own wrong
+					answers for that. If a few of them have the same cause, fix the cause.
+				</p>
+				<p>
+					None of this is new. But nobody selling practice exams is going to
+					tell you your 87% might be mostly memory of the questions. Sit a paper
+					you've never seen and trust that number instead.
 				</p>
 			</article>
 
@@ -125,55 +126,52 @@
 				<p class="post-meta">6 July 2026 · CPSA study</p>
 				<h3>Theory needs something you can break</h3>
 				<p>
-					I once spent two evenings — about four hours — on firewall theory
-					and a virtual machine installer that refused to cooperate, and at
-					the end of it I had not written a single firewall rule.
+					I spent two evenings, about four hours all in, on firewall theory and
+					a virtual machine installer that wouldn't play. At the end of it I
+					hadn't written a single firewall rule.
 				</p>
 				<p>
-					Four hours in, I could describe a default-deny policy in exam-ready
-					language. I had not built one. The plan said pfSense lab; the
-					installer said no; and I kept pushing at it because the plan said
-					so. That was the mistake. Not the broken installer — the refusal to
-					pivot.
+					By then I could describe a default-deny policy in exam-ready language.
+					I just hadn't built one. The plan said pfSense lab, the installer kept
+					failing, and I kept pushing at it because that was the plan. The
+					mistake wasn't the installer. It was me not changing course sooner.
 				</p>
 				<p>
-					The reset took twenty minutes. I dropped the VM (virtual machine)
-					lab entirely and used iptables, already sitting on the Kali box: a
-					default-deny INPUT chain, allow rules for loopback, established
-					connections, and echo requests. Then I generated traffic and watched
-					the packet counter on rule 2 tick from 1 packet to 5, 76 bytes to
-					412. Four packets. Trivial. But those were <em>my</em> packets
-					hitting <em>my</em> rule, and the concept snapped into place in a
-					way four hours of theory never managed.
+					The reset took twenty minutes. I binned the VM (virtual machine) lab
+					and used iptables instead, which was already sitting on my Kali box.
+					Default-deny on the INPUT chain, then allow rules for loopback,
+					established connections and pings. Generated some traffic and watched
+					the packet counter on rule 2 tick up. 1 packet to 5, 76 bytes to 412.
+					Four packets, hardly anything. But they were my packets hitting my
+					rule, and the concept landed in a way four hours of reading never
+					managed.
 				</p>
 				<p>
-					What I took from it, as someone doing a career transition without
-					daily hands-on exposure:
+					I'm doing this as a career changer, so I don't get hands-on exposure
+					at work. It has to come from study time, which means study time can't
+					be all reading. What I've changed:
 				</p>
 				<p>
-					<strong>Every study session gets a practical that produces visible
-						output.</strong> A rule written, a counter incremented, scan
-					output parsed. Visible output is the session-completion
-					criterion — not "finished the reading."
+					Every session now has to produce something I can see. A rule written,
+					a counter going up, scan output on the screen. If nothing visible
+					happened, the session isn't done, whatever I've read.
 				</p>
 				<p>
-					<strong>The cheapest tool that demonstrates the concept
-						wins.</strong> A twenty-minute iptables exercise beat a
-					ninety-minute pfSense build that never got past the installer. The
-					polished lab can come later; the concept can't wait for it.
+					The cheapest tool that shows the concept wins. Twenty minutes of
+					iptables beat a ninety-minute pfSense build that never got past the
+					installer. The proper lab can come later. The concept can't wait for
+					it.
 				</p>
 				<p>
-					<strong>Thirty minutes with no output means pivot.</strong> That's
-					the tripwire I've set myself. If the planned practical has produced
-					nothing observable in half an hour, I ask one question — is there a
-					simpler tool that shows the same idea? — and the default answer is
-					yes.
+					And I've set myself a tripwire. Thirty minutes with nothing to show,
+					stop and ask whether a simpler tool shows the same idea. So far the
+					answer has always been yes.
 				</p>
 				<p>
-					In my old trade we'd never sign off a repair on theory alone; you
-					run the system and watch it function. Study is no different. If the
-					session ends and nothing moved, nothing incremented, and nothing
-					broke — I'm not sure the knowledge arrived either.
+					In my old trade we'd never sign off a repair on theory alone. You run
+					the system and watch it work. Study is no different. If nothing moved,
+					nothing counted up and nothing broke, I'm not convinced the knowledge
+					went in either.
 				</p>
 			</article>
 
@@ -181,60 +179,57 @@
 				<p class="post-meta">6 July 2026 · Building in public</p>
 				<h3>What a no-build website forces you to learn</h3>
 				<p>
-					This site has one hard rule: a fresh clone must run from
-					<code>index.html</code> with zero commands. No build step, no
-					framework, no bundler. Vanilla HTML, CSS, and JavaScript, plus
-					exactly two CDN (Content Delivery Network) dependencies.
+					My site has one hard rule: clone it, open <code>index.html</code>, and
+					it runs. No build step, no framework, no bundler. Plain HTML, CSS and
+					JavaScript, plus two CDN (Content Delivery Network) dependencies, and
+					that's it.
 				</p>
 				<p>
-					I set that constraint because I'm a beginner at front-end work and I
-					wanted to learn the actual platform, not a framework's opinion of
-					it. This week's full site audit showed me what that constraint
-					quietly teaches.
+					I set the rule because I'm a beginner at front-end and I wanted to
+					learn the platform itself, not a framework's version of it. This week
+					I ran a full audit of the site, and the results showed me what that
+					rule has actually been teaching me.
 				</p>
 				<p>
-					<strong>Accessibility is arithmetic, not vibes.</strong> The audit
-					found my light-theme green failed WCAG (Web Content Accessibility
-					Guidelines) contrast at roughly 3.8:1 against the page
-					background — the standard demands 4.5:1 for body text. It looked
-					fine to my eye. The fix was one shade darker, verified by
-					calculating relative luminance, not by squinting. A framework's
-					default theme would have hidden that lesson from me entirely.
+					The contrast finding stung a bit. My light-theme green measured
+					roughly 3.8:1 against the page background, and the WCAG (Web Content
+					Accessibility Guidelines) standard wants 4.5:1 for body text. It
+					looked fine to me. That's the point though. My eye signed it off and
+					my eye was wrong. The fix was one shade darker, checked with the
+					actual luminance maths rather than by squinting at the screen. A
+					framework theme would have handled all that for me, and I'd never have
+					learned it was a thing you check.
 				</p>
 				<p>
-					<strong>Dependencies are a promise someone else can break.</strong>
-					My chart library was loaded from its CDN unpinned — whatever version
-					shipped next is what my site would have got. A future breaking
-					release would have silently killed the skills radar on the
-					qualifications page. It's pinned now, with an integrity hash, so the
-					browser refuses the file if the content ever changes out from under
-					me. For someone heading into security work, that one's a bit
-					embarrassing to have missed — supply-chain hygiene starts on your
-					own site.
+					The one that bothered me more: my chart library was loading from its
+					CDN unpinned. Whatever version they shipped next is what my site would
+					have got, and a breaking release would have quietly killed the skills
+					chart on my qualifications page. It's pinned now, with an integrity
+					hash, so the browser refuses the file if it ever changes underneath
+					me. For someone heading into security work that's a bit embarrassing
+					to have missed. Supply-chain hygiene starts on your own site.
 				</p>
 				<p>
-					<strong>Every choice is visible, so every choice teaches.</strong>
-					This week the site moved from all-monospace text to a hybrid:
-					monospace for headings, navigation, and labels — the terminal
-					character of the site — and a system sans-serif for paragraphs,
-					because monospace is measurably harder to read at length. In a
-					framework that's a theme toggle. In vanilla CSS it's a decision you
-					have to understand: two font stacks, custom properties, and a list
-					of which elements carry identity and which carry reading.
+					Smaller one, but it taught me something too. The site was all-
+					monospace, everywhere, because that was the terminal look I wanted.
+					Turns out monospace is measurably harder to read at length, so I've
+					moved to a split: monospace for headings, navigation and labels, where
+					the character of the site lives, and a normal system font for
+					paragraphs, where the reading happens. On a framework that's a theme
+					toggle. In plain CSS I had to understand the decision: two font
+					stacks, custom properties, and a call on which elements carry identity
+					and which carry reading.
 				</p>
 				<p>
-					The transferable habit here isn't technical. It's inspection
-					culture — the audit found faults my eye had signed off. In
-					engineering we'd call that independent inspection, and no
-					serviceable-looking assembly escapes it. Websites deserve the same
-					suspicion.
+					The habit underneath all of this isn't technical. In my old trade,
+					nothing got signed off just because it looked right. Someone
+					independent inspects it, every time, and the audit caught exactly the
+					faults my own eye had passed. Websites deserve the same suspicion.
 				</p>
 				<p>
-					The repo is public on my
-					<a href="https://github.com/Rob-JW/portfolio" target="_blank"
-						rel="noreferrer">GitHub</a>
-					if you want to see the working — mistakes, fixes, and commit
-					history included.
+					The repo is public on my <a href="https://github.com/Rob-JW/portfolio"
+					target="_blank" rel="noreferrer">GitHub</a> if you want to see the
+					working. Mistakes, fixes and commit history included.
 				</p>
 			</article>
 		</section>
