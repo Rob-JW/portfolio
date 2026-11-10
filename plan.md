@@ -372,3 +372,146 @@ Triggered by Rob 2026-07-06: complete review of the portfolio codebase across er
 - TryHackMe-style expansion: 4 career paths × 4 experience levels (Foundational / Security Analyst / Penetration Tester / Security Engineer × Entry / Junior / Mid / Senior). Adds a level dropdown overlaying a reference polygon for each level's expected skill profile. Significantly larger data model and UI work.
 - New pages: Qualifications, Projects, Write-ups, Blog, Roadmap, Resources (see `CLAUDE.md` → Vision).
 - Chart.js radar labels: pass body `font-family` into chart config so radar labels switch to mono with the site. Deferred from the 2026-05-27 mono pass — only worth doing if the Helvetica default looks visually jarring against the rest of the page.
+
+---
+
+## CPSA Content Removal (Active — 2026-11-09)
+
+Triggered by the 2026-11-09 Markdown-library audit: CPSA was **sat and failed** (43%, 25 Jul 2026), retake deferred, and omitted from the CV. The live site still advertised CPSA as a booked/in-progress July 2026 credential — stale and misleading to recruiters. Rob's decision: **omit CPSA as a claimed credential/booking; re-add once the qualification is actually held.**
+
+Scope: remove CPSA *credential/booking claims only*. Keep the learning-in-public content — `cpsa-revision.html`, the index "CPSA Revision" card, the `learning-resources.html` CPSA references, and the dated July 2026 blog posts. Studying in public is honest; claiming the cert is not.
+
+### Changes
+- `index.html` — About para: drop "booked to sit the CREST CPSA exam in July 2026". Qualifications hover-card: remove "CPSA (booked Jul 2026)".
+- `qualifications.html` — remove the CREST CPSA `<li>` from the credentials list.
+- `projects.html` — reword "queued behind the CPSA exam on 25 July" to CPSA-free phrasing.
+- `roadmap.html` — remove the CREST CPSA station (node 4); the zigzag rail reflows via nth-child; renumber station comments.
+
+### Verify (before commit)
+- Browser render: index (About + cards), qualifications (list), projects (intro), roadmap (rail reflow), both themes, ≤600px.
+- No broken links to removed anchors.
+
+### Commit & push
+- One commit: "Remove CPSA credential claims from public site (failed/deferred; re-add when held)".
+- **PUSH ONLY on Rob's review of the rendered result** (public-content gate).
+
+---
+
+## Site Refresh — Content + Interaction (Active — 2026-11-09)
+
+Batch from Rob; decisions captured one at a time.
+
+### Done (working tree, uncommitted — push on Rob's review)
+- **Membership number removed** — IET Member No. redacted from `qualifications.html` (OPSEC: a public identifier). NB still in git history + live site until push; history scrub is a separate decision.
+- **Blog posts 1 & 2 deleted** (the two CPSA-study posts); "What a no-build website forces you to learn" kept.
+
+### To build
+- **Change 1 — Blog accordion.** Collapse each post under its header, expand on click. Newest expanded by default; **independent toggles** (not strict accordion). Keyboard-accessible (`<button>` header + `aria-expanded`), `prefers-reduced-motion` safe. One post today — pattern future-proofs the page.
+- **Change 2 — Nav link highlight sweep.** On hover/focus, the link word's colour sweeps left→right in lockstep with the existing underline (200ms ease-out, origin left), replacing the instant colour flip. Focus parity + reduced-motion (end state only).
+- **Change 3 — Overview tile tilt.** Extend the existing cursor-tracking (`--mouse-x/y`) to add a ~8° 3D tilt that leans toward the cursor + a slight lift/deeper shadow; keep the glow; smooth settle on leave; tilt disabled under reduced-motion (static lift fallback).
+
+### Pending / separate
+- **Issue 2 — Padding.** PARKED (Rob benchmarking other sites). No code bug found; aesthetic only.
+- **Issue 3 — Wording vs STE.** Scope: STE *spirit* on descriptive/UI copy only (blog voice untouched). Present before/after for sign-off before applying.
+- **Git history scrub** of the membership number — separate irreversible op; Rob to decide.
+
+### Verify + commit
+- Browser-verify each effect (both themes, ≤600px, keyboard, reduced-motion) before commit.
+- Logical commits (content vs each effect). PUSH ONLY on Rob's rendered review.
+
+### Status — 2026-11-10 (session end, UNCOMMITTED)
+
+All changes are in the working tree, **not committed** (project rule: verify in browser before commit; Rob reviews before any push to the public site).
+
+Built this session: CPSA credential claims removed; IET membership number removed; 2 CPSA blog posts deleted; blog accordion; overview-tile 3D tilt+lift; theme before-paint (FOUC) script on all 7 pages.
+
+Review round (Rob tested on `file://`): fixed — nav underline (reverted the `background-clip:text` colour-sweep, Change 2 now **not delivered**); blog-heading hover affordance (title+chevron → accent); dark-mode card shadow rebalanced to an even halo. Diagnosed the "theme doesn't persist" as a `file://` localStorage limitation (not a bug) — serve via localhost to test.
+
+**Resume next session with:**
+1. Rob verifies on **http://localhost:8000** (`python3 -m http.server` in this dir): nav clean, theme persists across sub-pages, blog heading reads clickable, dark-mode shadow balanced.
+2. Decide Change 2 (nav colour-sweep): re-attempt with a render loop, or leave the nav as-is.
+3. Issue 3 (wording vs STE) — still owed: STE *spirit* on descriptive copy, before/after for sign-off.
+4. On Rob's OK: logical commits + push to origin/main.
+5. Open decision: scrub the membership number from git history (filter-repo/BFG + force-push).
+
+## Overview Tile Glow — Spotlight Per Tile (Applied — 2026-11-10)
+
+Rob's report: the spotlight glow spills across tiles. Diagnosis (Rob): the spotlight lights every tile whenever the cursor is anywhere in the Overview grid, not just over the tile it is on.
+
+### Cause
+- `.cards-matrix:hover>.hover-card::after` (style.css ~l.763) set `opacity: 1` on all tiles while the grid was hovered.
+
+### Change (applied, uncommitted)
+- Replaced the grid-level rule with `.hover-card:hover::after { opacity: 1; }`, so the spotlight shows only on the tile under the cursor.
+- Reverted the earlier inset-glow edit (outer glow, `z-index: 4` and reduced-motion halo restored to their previous values).
+- `script.js` unchanged: positions still update for all tiles, but only the hovered tile displays the spotlight.
+
+### Verify before commit
+- Hover each Overview tile at desktop width: spotlight shows only on that tile; other tiles stay dark.
+- Both themes; ≤600px mobile; keyboard focus visible; reduced-motion path.
+- Test via http://localhost:8000 (not file://).
+
+### Status
+- Applied to style.css. Browser verification pending Rob's local check.
+
+## Round 2 — Light Spotlight, Theme Sync, Blog, Nav + Heading Hover (Proposed — 2026-11-10)
+
+Five changes from Rob. Code audited; nothing edited yet.
+
+### 1. Spotlight colour inverted in light mode
+- Current: `.hover-card::after` is hardcoded sky blue `rgba(56, 189, 248, 0.99)` with no light-mode override (style.css ~l.775).
+- Proposed: add `:root[data-theme="light"] .hover-card::after` with a dark slate spotlight (inverse of the blue-on-dark), e.g. `rgba(15, 23, 42, 0.85)`. Colour values to be confirmed by Rob before applying.
+
+### 2. Theme consistent across all pages
+- Audit: all 7 pages carry the same pre-paint theme script, the `theme-toggle` button and `script.js`. Theme key is `theme-preference` in every page.
+- Likely cause if it differs: testing on `file://` (localStorage not shared across file paths). Verify on http://localhost:8000 navigating between pages; fix only if a real mismatch is found (e.g. a page-specific light override).
+
+### 3. Blog collapses under its header
+- Markup, JS (`initBlog`, `setBlogState`) and grid-rows collapse CSS (`.blog-post.collapsed .blog-body`) already exist.
+- Verify on localhost first. If it does not collapse, debug the state toggle; no new markup expected.
+
+### 4. Nav text fades in/out like the underline
+- Current: `.main-nav a:hover` / `:focus-visible` change colour instantly.
+- Proposed: add `transition: color 200ms ease-out` to `.main-nav a` (matches the underline's 200ms ease-out). `prefers-reduced-motion`: no transition.
+
+### 5. Blog heading shows it is clickable
+- Current: title + chevron turn accent on hover/focus (`.blog-toggle:hover .blog-title-text`, ~l.1451).
+- Proposed: add the same underline wipe used on the nav (`::after`, 2px accent bar, `scaleX` from left, 200ms) to `.blog-title-text`, keeping the colour change. Reduced motion: end state only. Focus parity.
+
+### Verify before commit
+- Each change in both themes, desktop and ≤600px, keyboard, reduced-motion.
+- Test on http://localhost:8000 (not file://).
+
+### Status
+- Approved 2026-11-10. Applied to style.css (uncommitted):
+  - Item 1: light-mode spotlight `rgba(15, 23, 42, 0.85)` (default chosen; Rob to confirm colour).
+  - Item 2: audit found no markup mismatch; no change made. Browser check pending.
+  - Item 3: no change made; collapse code already present. Browser check pending.
+  - Item 4: `.main-nav a` colour fade 200ms ease-out; reduced-motion disabled.
+  - Item 5: `.blog-title-text::after` underline wipe, matching the nav.
+
+## CPSA Revision — Sticky Contents (Proposed — 2026-11-10)
+
+Rob's request: the Contents on the CPSA Revision page stays at the top of the page while scrolling.
+
+### Cause
+- The Contents heading and `.rev-toc` list are inside `<section class="section">` (cpsa-revision.html ~l.85–93). `position: sticky` only sticks within its parent, so it would scroll away with that section.
+
+### Change (proposed)
+- Move the Contents heading and `<ul class="rev-toc">` into a `<nav aria-label="Contents" class="rev-contents">` that is a direct child of `<main>`, so its containing block spans the whole page.
+- `.rev-contents { position: sticky; top: <site-header height>; z-index: below header (<20); background: var(--bg) so content does not show through; }`.
+- Header height: measure the rendered `.site-header` and set `top` to match, so the Contents sits just below the sticky header, not under it.
+- Keep the existing `.rev-toc` link styles and hover/focus states unchanged. Keep the anchor targets (`#ports-top20` etc.) unchanged.
+
+### Open question for Rob
+- On a phone (≤600px) the four links stack and take up a lot of the screen when pinned. Options: (a) keep pinned, compact padding; (b) pin on desktop only and let it scroll on mobile. Default if no answer: (a), pinned at all widths with reduced padding.
+
+### Verify before commit
+- Scroll the full page on desktop and mobile: Contents stays visible below the header and does not overlap content or the header.
+- Both themes; keyboard tab order (nav is reached in a sensible order); each link scrolls to its section and is not hidden behind the sticky header (use `scroll-margin-top`).
+- Test on http://localhost:8000 (not file://).
+
+### Status
+- Approved 2026-11-10. Mobile: Rob gave no answer, so default (a) applied: pinned at all widths, compact 2-column links on ≤600px.
+- Applied (uncommitted): Contents moved to `<nav class="section rev-contents">` directly under `<main>` (cpsa-revision.html); `.rev-contents` sticky at `top: 85px` (header measured 85px at desktop and phone widths); anchor `scroll-margin-top: 14rem` on the four section ids.
+- Browser check pending on localhost.
