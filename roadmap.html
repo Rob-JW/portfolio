@@ -5,6 +5,16 @@
 	<meta charset="UTF-8" />
 	<title>Road Map — Rob Williams</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<!-- Apply the saved theme before first paint, so navigating between pages
+	     doesn't flash the wrong theme (FOUC). -->
+	<script>
+		(function () {
+			try {
+				var t = localStorage.getItem("theme-preference");
+				document.documentElement.setAttribute("data-theme", t === "light" ? "light" : "dark");
+			} catch (e) {}
+		})();
+	</script>
 	<meta name="description"
 		content="Rob Williams — the road map ahead. Next certifications, skills, and milestones on the path into cyber security, plus ideas parked for future cycles." />
 
@@ -143,34 +153,7 @@
 					</span>
 				</li>
 
-				<!-- 4 — CREST CPSA (In Progress) -->
-				<li class="roadmap-node" data-status="in-progress">
-					<div class="node-card-wrap">
-						<button class="node-card" type="button" aria-expanded="false"
-							aria-controls="popup-cpsa">
-							<i class="fa-solid fa-user-secret node-icon" aria-hidden="true"></i>
-							<div class="node-text">
-								<h3 class="node-title">CREST CPSA</h3>
-								<p class="node-meta">Practitioner Security Analyst · Jul 2026</p>
-							</div>
-						</button>
-						<div class="node-popup" id="popup-cpsa">
-							<h4 class="popup-title">Tools, resources &amp; standards</h4>
-							<ul class="popup-list">
-								<li>Nmap, dig, dnsenum, theHarvester, Wireshark</li>
-								<li>Burp Suite, Metasploit, Hydra</li>
-								<li>HackTheBox &amp; TryHackMe practical labs</li>
-								<li>CREST CPSA Technical Syllabus V2.5</li>
-								<li>Cyber Academy CPSA course materials</li>
-							</ul>
-						</div>
-					</div>
-					<span class="node-marker" aria-hidden="true">
-						<i class="fa-solid fa-bolt"></i>
-					</span>
-				</li>
-
-				<!-- 5 — ISO 27001 Lead Implementer (Planned) -->
+				<!-- 4 — ISO 27001 Lead Implementer (Planned) -->
 				<li class="roadmap-node" data-status="planned">
 					<div class="node-card-wrap">
 						<button class="node-card" type="button" aria-expanded="false"
@@ -197,7 +180,7 @@
 					</span>
 				</li>
 
-				<!-- 6 — CompTIA CySA+ (Planned) -->
+				<!-- 5 — CompTIA CySA+ (Planned) -->
 				<li class="roadmap-node" data-status="planned">
 					<div class="node-card-wrap">
 						<button class="node-card" type="button" aria-expanded="false"
@@ -224,7 +207,7 @@
 					</span>
 				</li>
 
-				<!-- 7 — OSCP (Planned) -->
+				<!-- 6 — OSCP (Planned) -->
 				<li class="roadmap-node" data-status="planned">
 					<div class="node-card-wrap">
 						<button class="node-card" type="button" aria-expanded="false"
@@ -251,7 +234,7 @@
 					</span>
 				</li>
 
-				<!-- 8 — Endpoint: Technical Security Consultant -->
+				<!-- 7 — Endpoint: Technical Security Consultant -->
 				<li class="roadmap-node roadmap-endpoint" data-status="endpoint">
 					<div class="endpoint-content">
 						<p class="endpoint-title">Technical Security Consultant</p>

@@ -5,6 +5,16 @@
 	<meta charset="UTF-8" />
 	<title>Learning Resources — Rob Williams</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<!-- Apply the saved theme before first paint, so navigating between pages
+	     doesn't flash the wrong theme (FOUC). -->
+	<script>
+		(function () {
+			try {
+				var t = localStorage.getItem("theme-preference");
+				document.documentElement.setAttribute("data-theme", t === "light" ? "light" : "dark");
+			} catch (e) {}
+		})();
+	</script>
 	<meta name="description"
 		content="Rob Williams — curated learning resources bridging engineering and cyber security." />
 

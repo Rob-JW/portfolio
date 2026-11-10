@@ -5,6 +5,16 @@
 	<meta charset="UTF-8" />
 	<title>Write-ups &amp; Blog — Rob Williams</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<!-- Apply the saved theme before first paint, so navigating between pages
+	     doesn't flash the wrong theme (FOUC). -->
+	<script>
+		(function () {
+			try {
+				var t = localStorage.getItem("theme-preference");
+				document.documentElement.setAttribute("data-theme", t === "light" ? "light" : "dark");
+			} catch (e) {}
+		})();
+	</script>
 	<meta name="description"
 		content="Rob Williams — lab walkthroughs and an honest blog on studying for CPSA, transitioning from military engineering into cyber security, and building in public." />
 
@@ -71,113 +81,17 @@
 			</p>
 
 			<article class="blog-post">
-				<p class="post-meta">6 July 2026 · CPSA study</p>
-				<h3>Recognition is not recall</h3>
-				<p>
-					I got 87% on a practice exam a while back and felt pretty good about
-					it. Second time through the same question bank, mind — same questions,
-					shuffled order. I did it in 29 minutes. The first run took me 44. That
-					should have told me something.
-				</p>
-				<p>
-					A week or so later I sat a harder bank cold. Questions I'd never seen.
-					62%. That's the real number.
-				</p>
-				<p>
-					What happened on the first one is I wasn't remembering the material, I
-					was remembering the questions. You see the shape of one and you know
-					which answer felt right last time. It feels exactly like knowing the
-					subject. It isn't. In the real exam the wording will be new and
-					there's nothing to recognise, so the only thing that counts is what I
-					can pull out of my head cold.
-				</p>
-				<p>
-					A few things I've changed since.
-				</p>
-				<p>
-					I don't trust any score off a repeated bank now. It's a warm-up,
-					nothing more. If I'm quoting a mock score as evidence I'm ready, it
-					has to come from questions I'd never seen before that sitting.
-				</p>
-				<p>
-					I book the re-test on the day of the mock. Learned that one the hard
-					way. I had a topic at 70% after a good session and assumed it was
-					sorted. Six weeks later it was at 20%. Nothing warned me, because I
-					never scheduled anything to warn me. The gap between a cold first pass
-					and a re-sit a few weeks later is the only retention signal you get,
-					and you don't get it unless you actually book the re-sit.
-				</p>
-				<p>
-					And when I was marking the cold paper I noticed I'd put <code>dpkg
-					-l</code> down for a Solaris question and a Red Hat question. Two
-					wrong answers, one mistake: under pressure I default to the tool I
-					know best. One line sorted both. dpkg is Debian, rpm is Red Hat,
-					pkginfo is Solaris, pkg_info is BSD. Worth checking your own wrong
-					answers for that. If a few of them have the same cause, fix the cause.
-				</p>
-				<p>
-					None of this is new. But nobody selling practice exams is going to
-					tell you your 87% might be mostly memory of the questions. Sit a paper
-					you've never seen and trust that number instead.
-				</p>
-			</article>
-
-			<article class="blog-post">
-				<p class="post-meta">6 July 2026 · CPSA study</p>
-				<h3>Theory needs something you can break</h3>
-				<p>
-					I spent two evenings, about four hours all in, on firewall theory and
-					a virtual machine installer that wouldn't play. At the end of it I
-					hadn't written a single firewall rule.
-				</p>
-				<p>
-					By then I could describe a default-deny policy in exam-ready language.
-					I just hadn't built one. The plan said pfSense lab, the installer kept
-					failing, and I kept pushing at it because that was the plan. The
-					mistake wasn't the installer. It was me not changing course sooner.
-				</p>
-				<p>
-					The reset took twenty minutes. I binned the VM (virtual machine) lab
-					and used iptables instead, which was already sitting on my Kali box.
-					Default-deny on the INPUT chain, then allow rules for loopback,
-					established connections and pings. Generated some traffic and watched
-					the packet counter on rule 2 tick up. 1 packet to 5, 76 bytes to 412.
-					Four packets, hardly anything. But they were my packets hitting my
-					rule, and the concept landed in a way four hours of reading never
-					managed.
-				</p>
-				<p>
-					I'm doing this as a career changer, so I don't get hands-on exposure
-					at work. It has to come from study time, which means study time can't
-					be all reading. What I've changed:
-				</p>
-				<p>
-					Every session now has to produce something I can see. A rule written,
-					a counter going up, scan output on the screen. If nothing visible
-					happened, the session isn't done, whatever I've read.
-				</p>
-				<p>
-					The cheapest tool that shows the concept wins. Twenty minutes of
-					iptables beat a ninety-minute pfSense build that never got past the
-					installer. The proper lab can come later. The concept can't wait for
-					it.
-				</p>
-				<p>
-					And I've set myself a tripwire. Thirty minutes with nothing to show,
-					stop and ask whether a simpler tool shows the same idea. So far the
-					answer has always been yes.
-				</p>
-				<p>
-					In my old trade we'd never sign off a repair on theory alone. You run
-					the system and watch it work. Study is no different. If nothing moved,
-					nothing counted up and nothing broke, I'm not convinced the knowledge
-					went in either.
-				</p>
-			</article>
-
-			<article class="blog-post">
-				<p class="post-meta">6 July 2026 · Building in public</p>
-				<h3>What a no-build website forces you to learn</h3>
+				<h3 class="blog-post-title">
+					<button class="blog-toggle" type="button" aria-expanded="true" aria-controls="post-nobuild">
+						<span class="blog-toggle-text">
+							<span class="post-meta">6 July 2026 · Building in public</span>
+							<span class="blog-title-text">What a no-build website forces you to learn</span>
+						</span>
+						<span class="blog-chevron" aria-hidden="true"><i class="fa-solid fa-chevron-down"></i></span>
+					</button>
+				</h3>
+				<div class="blog-body" id="post-nobuild">
+					<div class="blog-body-inner">
 				<p>
 					My site has one hard rule: clone it, open <code>index.html</code>, and
 					it runs. No build step, no framework, no bundler. Plain HTML, CSS and
@@ -231,6 +145,8 @@
 					target="_blank" rel="noreferrer">GitHub</a> if you want to see the
 					working. Mistakes, fixes and commit history included.
 				</p>
+					</div>
+				</div>
 			</article>
 		</section>
 

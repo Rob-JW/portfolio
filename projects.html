@@ -5,6 +5,16 @@
 	<meta charset="UTF-8" />
 	<title>Projects — Rob Williams</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<!-- Apply the saved theme before first paint, so navigating between pages
+	     doesn't flash the wrong theme (FOUC). -->
+	<script>
+		(function () {
+			try {
+				var t = localStorage.getItem("theme-preference");
+				document.documentElement.setAttribute("data-theme", t === "light" ? "light" : "dark");
+			} catch (e) {}
+		})();
+	</script>
 	<meta name="description"
 		content="Rob Williams — projects built in public. A hand-coded portfolio site live now, with a Python network scanner, automation utilities, and an Active Directory lab in the pipeline." />
 
@@ -56,8 +66,8 @@
 			<p>
 				Everything here follows one rule carried over from 24 years of
 				engineering: don't claim what you can't show. One project is live
-				and public; the rest are queued behind the CPSA exam on 25 July —
-				study holds priority until then.
+				and public; the rest are queued behind ongoing study — study holds
+				priority for now.
 			</p>
 		</section>
 

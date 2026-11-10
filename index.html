@@ -5,6 +5,16 @@
 	<meta charset="UTF-8" />
 	<title>Rob Williams | Cyber & Engineering</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<!-- Apply the saved theme before first paint, so navigating between pages
+	     doesn't flash the wrong theme (FOUC). -->
+	<script>
+		(function () {
+			try {
+				var t = localStorage.getItem("theme-preference");
+				document.documentElement.setAttribute("data-theme", t === "light" ? "light" : "dark");
+			} catch (e) {}
+		})();
+	</script>
 	<meta name="description"
 		content="Portfolio of Rob Williams — British Army Warrant Officer (REME) transitioning into cyber security. Qualifications, projects, write-ups, and the road from engineering to cyber." />
 
@@ -86,8 +96,7 @@
 			</p>
 			<p>
 				I hold CompTIA Security+, ISO 9001:2015 Lead Auditor, and Lean
-				Six Sigma Green Belt, and I’m booked to sit the CREST CPSA exam
-				in July 2026. This site is my first step in building a portfolio
+				Six Sigma Green Belt. This site is my first step in building a portfolio
 				of labs, write-ups, and small tools that bridge engineering and
 				cyber.
 			</p>
@@ -165,7 +174,7 @@
 							<div class="hover-card-info">
 								<div class="hover-card-info-title">
 									<h3>Qualifications</h3>
-									<h4>Security+, ISO 9001 Lead Auditor, LSS Green Belt, CPSA (booked Jul 2026).</h4>
+									<h4>Security+, ISO 9001 Lead Auditor, LSS Green Belt, City &amp; Guilds Graduateship.</h4>
 								</div>
 							</div>
 						</div>

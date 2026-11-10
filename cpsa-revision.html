@@ -5,6 +5,16 @@
 	<meta charset="UTF-8" />
 	<title>CPSA Revision — Ports & Commands — Rob Williams</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<!-- Apply the saved theme before first paint, so navigating between pages
+	     doesn't flash the wrong theme (FOUC). -->
+	<script>
+		(function () {
+			try {
+				var t = localStorage.getItem("theme-preference");
+				document.documentElement.setAttribute("data-theme", t === "light" ? "light" : "dark");
+			} catch (e) {}
+		})();
+	</script>
 	<meta name="description"
 		content="CPSA (CREST Practitioner Security Analyst) revision sheet — top 50 ports and every Windows / Linux command tested in the question bank, with mnemonics and recall questions." />
 
@@ -72,6 +82,9 @@
 				</ul>
 			</div>
 
+		</section>
+
+		<nav class="section rev-contents" aria-label="Contents">
 			<h3>Contents</h3>
 			<ul class="rev-toc">
 				<li><a href="#ports-top20">Ports 1–20 — must-know</a></li>
@@ -79,7 +92,7 @@
 				<li><a href="#linux-commands">Linux / Unix commands</a></li>
 				<li><a href="#windows-commands">Windows commands</a></li>
 			</ul>
-		</section>
+		</nav>
 
 		<section id="ports-top20" class="section">
 			<div class="rev-section-title">
