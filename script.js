@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	initRadarChart();
 	initHoverCards();
 	initRoadmap();
+	initBlog();
 });
 
 /**
@@ -399,10 +400,24 @@ function initRoadmap() {
 
 /**
  * HOVER CARD MOUSE-EFFECT
+ *
+ * Two effects driven by the same cursor position:
+ *  - spotlight glow: every card tracks the cursor via --mouse-x / --mouse-y
+ *    (CSS radial-gradient), so the group lights up together.
+ *  - 3D tilt + lift: only the card the cursor is over tilts, leaning toward
+ *    the cursor (~8deg) and rising slightly. Disabled under reduced-motion.
  */
 function initHoverCards() {
 	const container = document.getElementById("cards-matrix");
 	if (!container) return;
+
+	const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+	const MAX_TILT = 8; // degrees of lean at the card edge
+
+	function resetTilt(card) {
+		card.style.transform = "";
+		card.classList.remove("is-tilting");
+	}
 
 	container.addEventListener("mousemove", (e) => {
 		const cards = container.getElementsByClassName("hover-card");
@@ -410,8 +425,66 @@ function initHoverCards() {
 			const rect = card.getBoundingClientRect();
 			const x = e.clientX - rect.left;
 			const y = e.clientY - rect.top;
+
+			// Spotlight glow — all cards track the cursor.
 			card.style.setProperty("--mouse-x", `${x}px`);
 			card.style.setProperty("--mouse-y", `${y}px`);
+
+			if (reduceMotion.matches) continue;
+
+			// 3D tilt — only the card the cursor is actually over.
+			const inside = x >= 0 && y >= 0 && x <= rect.width && y <= rect.height;
+			if (inside) {
+				const px = x / rect.width - 0.5; // -0.5 (left) .. 0.5 (right)
+				const py = y / rect.height - 0.5; // -0.5 (top) .. 0.5 (bottom)
+				const rotateX = (py * MAX_TILT * 2).toFixed(2); // cursor side leans forward
+				const rotateY = (-px * MAX_TILT * 2).toFixed(2);
+				card.style.transform =
+					`perspective(800px) rotateX(${rotateX}deg) ` +
+					`rotateY(${rotateY}deg) translateZ(10px)`;
+				card.classList.add("is-tilting");
+			} else {
+				resetTilt(card);
+			}
 		}
 	});
+
+	// Settle every card flat when the cursor leaves the grid.
+	container.addEventListener("mouseleave", () => {
+		const cards = container.getElementsByClassName("hover-card");
+		for (const card of cards) resetTilt(card);
+	});
+}
+
+/**
+ * BLOG ACCORDION
+ *
+ * Each post collapses under its header and expands on click. The newest
+ * post (first in the DOM) starts expanded; the rest start collapsed.
+ * Toggles are independent — opening one does not close the others.
+ * The header is a <button aria-expanded> inside the <h3> (WAI-ARIA pattern),
+ * so it is fully keyboard-accessible. The collapse animation is CSS; this
+ * only flips state.
+ */
+function initBlog() {
+	const posts = document.querySelectorAll(".blog-post");
+	if (!posts.length) return;
+
+	posts.forEach((post, index) => {
+		const btn = post.querySelector(".blog-toggle");
+		if (!btn) return;
+
+		// Newest post expanded, the rest collapsed.
+		setBlogState(post, btn, index === 0);
+
+		btn.addEventListener("click", () => {
+			const open = btn.getAttribute("aria-expanded") === "true";
+			setBlogState(post, btn, !open); // independent toggle
+		});
+	});
+}
+
+function setBlogState(post, btn, open) {
+	btn.setAttribute("aria-expanded", String(open));
+	post.classList.toggle("collapsed", !open);
 }

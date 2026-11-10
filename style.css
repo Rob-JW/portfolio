@@ -286,6 +286,7 @@ code,
 	padding-bottom: 0.25rem;
 	border-bottom: 1px solid transparent;
 	/* fallback */
+	transition: color 200ms ease-out;
 }
 
 /* Underline base (hidden) – sized to the text itself */
@@ -323,6 +324,14 @@ code,
 
 .main-nav a:focus-visible::after {
 	transform: scaleX(1);
+}
+
+/* Reduced-motion: the nav underline snaps to its end state, no wipe */
+@media (prefers-reduced-motion: reduce) {
+	.main-nav a,
+	.main-nav a::after {
+		transition: none;
+	}
 }
 
 /* Hamburger button */
@@ -700,6 +709,39 @@ code,
 	overflow: hidden;
 	text-decoration: none;
 	color: inherit;
+	/* 3D tilt (transform set per-cursor in script.js) + smooth settle to flat */
+	transition: transform 120ms ease-out, box-shadow 200ms ease-out;
+	transform-style: preserve-3d;
+	will-change: transform;
+}
+
+/* Deeper shadow + raise while a card is actively tilting under the cursor */
+.hover-card.is-tilting {
+	/* Dark mode (default): an even halo (0 offset) so the lift reads balanced,
+	 * not bottom-heavy, and stays even as the card tilts */
+	box-shadow: 0 0 36px rgba(148, 163, 184, 0.32);
+	z-index: 4;
+}
+
+/* Light mode: the directional drop shadow (reads well on the light page) */
+:root[data-theme="light"] .hover-card.is-tilting {
+	box-shadow: 0 18px 40px rgba(2, 6, 23, 0.45);
+}
+
+/* Reduced-motion: no 3D tilt; keep a simple static lift on hover instead */
+@media (prefers-reduced-motion: reduce) {
+	.hover-card {
+		transition: box-shadow 200ms ease-out;
+	}
+
+	.hover-card:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 0 28px rgba(148, 163, 184, 0.3);
+	}
+
+	:root[data-theme="light"] .hover-card:hover {
+		box-shadow: 0 14px 30px rgba(2, 6, 23, 0.4);
+	}
 }
 
 .hover-card:focus-visible {
@@ -720,7 +762,8 @@ code,
 	width: 100%;
 }
 
-.cards-matrix:hover>.hover-card::after {
+/* Spotlight shows only on the tile the cursor is over */
+.hover-card:hover::after {
 	opacity: 1;
 }
 
@@ -737,6 +780,13 @@ code,
 			rgba(56, 189, 248, 0.99),
 			transparent 50%);
 	z-index: 1;
+}
+
+/* Light mode: inverted spotlight — a dark glow reads on the light tiles */
+:root[data-theme="light"] .hover-card::after {
+	background: radial-gradient(520px circle at var(--mouse-x) var(--mouse-y),
+			rgba(15, 23, 42, 0.85),
+			transparent 50%);
 }
 
 .hover-card-content {
@@ -1371,6 +1421,119 @@ code,
 	color: var(--accent);
 }
 
+/* Blog accordion — each post collapses under its header, expands on click.
+ * State lives on .blog-post.collapsed; the body animates via the grid-rows
+ * 1fr <-> 0fr technique (needs the inner wrapper for overflow:hidden). */
+.blog-post-title {
+	margin: 0;
+}
+
+.blog-toggle {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	width: 100%;
+	padding: 0;
+	background: none;
+	border: none;
+	font: inherit;
+	color: inherit;
+	text-align: left;
+	cursor: pointer;
+}
+
+.blog-toggle .post-meta {
+	display: block;
+}
+
+.blog-title-text {
+	position: relative;
+	display: inline-block;
+	font-size: 1.2rem;
+	line-height: 1.35;
+	font-weight: 600;
+	transition: color 200ms ease-out;
+}
+
+/* Blog heading highlight — title + chevron turn accent on hover/focus so the
+ * header clearly reads as clickable. */
+.blog-toggle:hover .blog-title-text,
+.blog-toggle:focus-visible .blog-title-text {
+	color: var(--accent);
+}
+
+.blog-toggle:hover .blog-chevron,
+.blog-toggle:focus-visible .blog-chevron {
+	color: var(--accent);
+}
+
+/* Underline wipe on the heading, mirroring the nav underline */
+.blog-title-text::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: -0.2rem;
+	height: 2px;
+	width: 100%;
+	background-color: var(--accent);
+	transform: scaleX(0);
+	transform-origin: left;
+	transition: transform 200ms ease-out;
+}
+
+.blog-toggle:hover .blog-title-text::after,
+.blog-toggle:focus-visible .blog-title-text::after {
+	transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.blog-title-text,
+	.blog-title-text::after {
+		transition: none;
+	}
+}
+
+.blog-chevron {
+	flex: 0 0 auto;
+	color: var(--accent-2);
+	transition: transform 300ms ease;
+}
+
+.blog-post.collapsed .blog-chevron {
+	transform: rotate(-90deg);
+}
+
+.blog-toggle:focus-visible {
+	outline: 2px solid var(--accent-2);
+	outline-offset: 4px;
+	border-radius: 4px;
+}
+
+/* Collapsible body: grid-rows animates between full height (1fr) and 0fr */
+.blog-body {
+	display: grid;
+	grid-template-rows: 1fr;
+	transition: grid-template-rows 320ms ease;
+}
+
+.blog-body-inner {
+	min-height: 0;
+	overflow: hidden;
+}
+
+.blog-post.collapsed .blog-body {
+	grid-template-rows: 0fr;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.blog-body,
+	.blog-chevron {
+		transition: none;
+	}
+}
+
 /* ============================================================
  * Revision sheet — port and command reference tables, plus
  * single-answer recall questions. Matches site theme variables.
@@ -1410,6 +1573,46 @@ code,
 	background: var(--accent-soft);
 	color: var(--accent);
 	outline: none;
+}
+
+/* Pinned contents: sits just under the 85px sticky site header while the page scrolls */
+.rev-contents {
+	position: sticky;
+	top: 85px; /* matches .site-header height at all widths */
+	z-index: 10;
+	background: var(--bg);
+	padding-top: 0.75rem;
+	padding-bottom: 0.75rem;
+	border-bottom: 1px solid var(--border-strong);
+}
+
+.rev-contents h3 {
+	margin: 0 0 0.25rem;
+}
+
+.rev-contents .rev-toc {
+	margin: 0;
+}
+
+/* Keep the pinned block compact on phones */
+@media (max-width: 600px) {
+	.rev-contents .rev-toc {
+		grid-template-columns: 1fr 1fr;
+		gap: 0.35rem;
+	}
+
+	.rev-contents .rev-toc a {
+		padding: 0.4rem 0.5rem;
+		font-size: 0.75rem;
+	}
+}
+
+/* Section jumps land below the pinned header and contents, not under them */
+#ports-top20,
+#ports-21-50,
+#linux-commands,
+#windows-commands {
+	scroll-margin-top: 14rem;
 }
 
 .rev-method {
