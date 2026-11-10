@@ -515,3 +515,19 @@ Rob's request: the Contents on the CPSA Revision page stays at the top of the pa
 - Approved 2026-11-10. Mobile: Rob gave no answer, so default (a) applied: pinned at all widths, compact 2-column links on ≤600px.
 - Applied (uncommitted): Contents moved to `<nav class="section rev-contents">` directly under `<main>` (cpsa-revision.html); `.rev-contents` sticky at `top: 85px` (header measured 85px at desktop and phone widths); anchor `scroll-margin-top: 14rem` on the four section ids.
 - Browser check pending on localhost.
+
+### Session end — 2026-11-10 (live on main)
+
+Pushed to `main` (`e1badb7`, `d90c3b7`, `b62f2a6`) and confirmed live after a browser cache clear.
+
+Done this session:
+- Overview tiles: spotlight shows only on the tile under the cursor; light-mode spotlight inverted (dark slate, default colour — Rob to confirm); tilt glow reverted.
+- Nav links: colour fades 200ms to match the underline; reduced-motion respected.
+- Blog heading: underline wipe on hover/focus, matching the nav.
+- CPSA Revision: Contents pinned under the header while scrolling (desktop and phone).
+
+Open:
+- Confirm the light-mode spotlight colour.
+- Blog collapse and theme-across-pages were checked by code review only; confirm on the live site.
+- Membership number is removed from the current files but remains in git history. Scrub is a separate decision for Rob.
+- Brave forces nav underlines (browser setting, not site code).
