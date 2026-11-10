@@ -278,24 +278,28 @@ code,
 
 .main-nav a {
 	position: relative;
-	isolation: isolate;
 	color: var(--text-muted);
 	text-decoration: none;
 	text-transform: uppercase;
 	letter-spacing: 0.14em;
 	font-size: 0.75rem;
-	padding: 0.25rem 0.4rem;
+	padding-bottom: 0.25rem;
+	border-bottom: 1px solid transparent;
+	/* fallback */
 }
 
-/* Highlight wipe behind the word (replaces the old underline); isolation on
-   the link keeps it behind the text. Same 200ms ease-out as before. */
+/* Underline base (hidden) – sized to the text itself */
 .main-nav a::after {
 	content: "";
 	position: absolute;
-	inset: 0;
-	z-index: -1;
-	background-color: var(--accent-soft);
+	left: 0;
+	bottom: 0;
+	height: 2px;
+	background-color: var(--accent);
+	width: 100%;
+	/* only as wide as the text content */
 	transform: scaleX(0);
+	/* animate in from left */
 	transform-origin: left;
 	transition: transform 200ms ease-out;
 }
@@ -303,13 +307,14 @@ code,
 /* Hover state */
 .main-nav a:hover {
 	color: var(--accent);
+	border-bottom-color: transparent;
 }
 
 .main-nav a:hover::after {
 	transform: scaleX(1);
 }
 
-/* Keyboard focus gets the same highlight as hover — focus parity. */
+/* Keyboard focus gets the same underline affordance as hover — focus parity. */
 .main-nav a:focus-visible {
 	color: var(--accent);
 	outline: 2px solid var(--accent-2);
