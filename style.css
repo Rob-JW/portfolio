@@ -802,8 +802,9 @@ code,
 	border: 1px solid rgba(148, 163, 184, 0.3);
 }
 
+/* Light mode: a see-through panel so the inverted spotlight shows through the card */
 :root[data-theme="light"] .hover-card-content {
-	background-color: rgba(255, 255, 255, 0.96);
+	background-color: rgba(255, 255, 255, 0.72);
 }
 
 /* Hover card inner content */
