@@ -130,7 +130,7 @@ No commit until the change has been verified in a browser. That means:
 ### Commit discipline
 - One commit per logical change. No kitchen-sink commits.
 - Commit messages: imperative mood, summary line ≤70 chars, body explaining *why* when not obvious.
-- Always push immediately after commit — local-only commits are not backed up.
+- Commit after browser verification. Push only after Rob has reviewed the rendered result (public-content gate). Local-only commits are not backed up, so remind Rob at session end if commits are waiting.
 - Never force push to `main`.
 
 ### Session end
