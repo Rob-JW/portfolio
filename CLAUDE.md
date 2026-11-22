@@ -121,7 +121,7 @@ Any non-trivial change (anything beyond a typo or a one-line fix) gets a short b
 
 ### Verify before committing
 No commit until the change has been verified in a browser. That means:
-- `open index.html` in Safari or Chrome
+- Serve the site locally: run `python3 -m http.server 8000`, then open `http://localhost:8000` in Safari or Chrome. Do not open the file with `file://` — Chrome isolates `localStorage` on `file://`, which breaks theme saving and creates phantom bugs that do not exist on the deployed site.
 - Test the specific behaviour changed
 - Test at least one mobile viewport (≤600px)
 - Switch themes and confirm the change holds in both
