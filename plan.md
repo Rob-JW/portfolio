@@ -531,3 +531,18 @@ Open:
 - Blog collapse and theme-across-pages were checked by code review only; confirm on the live site.
 - Membership number is removed from the current files but remains in git history. Scrub is a separate decision for Rob.
 - Brave forces nav underlines (browser setting, not site code).
+
+### Session end — 2026-11-22 (workflow + repo hygiene)
+
+Two CLAUDE.md commits, both pushed to `main`:
+- `462c3a3` — push-after-review rule: commit after browser verification; push only after Rob reviews the rendered result (public-content gate).
+- `e51c8a4` — verify step corrected from `open index.html` (`file://`) to a localhost server (`python3 -m http.server 8000`, `http://localhost:8000`), because Chrome isolates `localStorage` on `file://` (L059).
+
+Repo hygiene:
+- `portfolio-change-workflow-SKILL.md` added to `.git/info/exclude` (never tracked, never pushed — no history scrub needed).
+- Remote switched from HTTPS to SSH (`git@github.com:Rob-JW/portfolio.git`); HTTPS had no stored credential. Future pushes use the SSH key (L061).
+- Secret-key audit across all four local repos: clean. No private keys, tokens, or `.env` files in any history.
+
+Open:
+- Rob to save the portfolio change workflow as a Claude skill (the only remaining ◐ item on the AIOS map for this project).
+- Membership number still in git history (prior session) — scrub remains a separate decision.
